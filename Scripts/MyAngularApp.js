@@ -23,7 +23,7 @@ var defaultClient = {
     name: 'PatientFHIR',
     clientId: "c45f46c7-66cb-4ac5-b8d0-d66f5260e419",
     //clientId: "6c3586a3-a669-4944-aab1-ad5234348f56",
-    redirectUri: "https://peixianli.github.io/FhirChecker/",
+    redirectUri: "https://pftechsln.github.io/",
 }
 
 // Constants: Epic Client
@@ -31,7 +31,7 @@ var epicClient = {
     name: 'Epic Client',
     //clientId: "6c12dff4-24e7-4475-a742-b08972c4ea27",
     clientId: "682f041d-5ed1-4d1b-a8c4-08653678e7ca",
-    redirectUri: "https://peixianli.github.io/FhirChecker/",
+    redirectUri: "https://pftechsln.github.io/",
 }
 
 // Constants : FHIR Organization URLs (will read from a file or
