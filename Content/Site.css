@@ -1,0 +1,59 @@
+﻿
+body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #b6dff1;
+
+}
+
+.jumbotron {
+    color: orange;
+    background-image: url(../Images/background.png);
+    background-color: #43addb;
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+    
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 450px}
+    
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+    
+    /* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+    background-image: url(../Images/background.png);
+}
+
+.box {
+    background-color: aliceblue;
+    padding: 15px;
+    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
+    margin: 10px 0px 10px 0px;
+}
+
+th {
+    text-align:  left;
+    
+}
+
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }

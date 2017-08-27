@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -8,22 +8,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     
-    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap: CSS, Themes, Javascripts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
+    <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     
-    <link rel="stylesheet" href="/FhirChecker/Content/Site.css" />
-    <script type="text/javascript" src="/Scripts/MyAngularApp.js"></script>
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="./Content/Site.css" />
+
+    <!-- Site AngularJS -->
+    <script type="text/javascript" src="./Scripts/MyAngularApp.js"></script>
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
+    
+    <!-- Top Navigator Bar -->
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -48,8 +53,8 @@
         </div>
     </nav>
 
+    <!-- Jumbotron Box -->
     <div class="box jumbotron">
-    <!--<div class="jumbotron box" style="background-color: rgba(0,0,0, 0.75); color: #E41B17">-->
         <div class="row">
 
             <div class="col-sm-2"></div>
@@ -60,36 +65,35 @@
 
             </div>
             <div class="col-sm-4 text-left">
-                <img src="/FhirChecker/Images/fhir.png" />
+                <img src="./Images/fhir.png" />
             </div>
         </div>
 
     </div>
     
-    <div class="container-fluid text-left">
-        
+    <!-- Content Container -->
+    <div class="container-fluid text-left" id="contentContainer">
 
-        <div class="row" id="emrLogin">
-            <div class="col-sm-12">                
-                <div class="box">
-
-                    <div class="text-center">
-                        <h3>Please log into your EMR and grant access to your patient data.</h3>
-                        <button class="btn-danger btn-lg" ng-click="testCase('epic')">Epic Sandbox</button>
-                        <button class="btn-info btn-lg" ng-click="testCase('ohmcExt')">OHMC External</button>
-                        <button class="btn-primary btn-lg" ng-click="testCase('ohmcInt')">OHMC Internal</button>
-                        <p></p>
-                        <select ng-model="fhirEndpointUrl" ng-change="updateSettings()">
-                            <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
-                        </select>
-                        <strong><a href="#" ng-click="oauthLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
-                    </div>
-
+        <!-- EMR Login -->
+        <div class="row" id="emrLogin" style="background-image: url(./Images/myChart2.png); background-position:left; background-size:cover; background-repeat: no-repeat;  min-height: 475px">
+            <div class="col-md-6 col-lg-8"></div>
+            <div class="col-sm-12 col-md-6 col-lg-4" style="height: 100%">
+                <div class="text-center box" style="min-height: 450px">
+                    <h3>Please log into your EMR and grant access to your patient data.</h3>
+                    <select ng-model="fhirEndpointUrl" ng-change="updateSettings()">
+                        <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
+                    </select>
+                    <strong><a href="#" ng-click="oauthLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
                     <p></p>
+                    <button class="btn-danger btn-lg" ng-click="testCase('epic')">Epic Sandbox</button>
+                    <p></p>
+                    <button class="btn-info btn-lg" ng-click="testCase('ohmcExt')">OHMC External</button>
+                    <p></p>
+                    <button class="btn-primary btn-lg" ng-click="testCase('ohmcInt')">OHMC Internal</button>
                     
-                    
-                    <hr />
+                </div>
 
+                <div id="debugBox" class="box hidden">
                     <div class="">
                         <pre id="txtStatus">{{statusText}}</pre>
                         <dl class="dl-horizontal">
@@ -123,6 +127,7 @@
         </div>
 
 
+        <!-- EMR Data -->
         <div class="row collapse" id="emrData">
 
             <div class="col-sm-10">                
@@ -253,15 +258,13 @@
 
     </div>
 
-    <!--<footer class="container-fluid text-center">
-        <p>Footer Text</p>
-    </footer>-->
+    <!-- Footer -->
+    <footer class="container-fluid text-center box">
+        <p>&copy; 2017 Pftech Solutions</p>
+    </footer>
 
 
 </body>
 </html>
 
-    Contact GitHub API Training Shop Blog About 
-
-    © 2017 GitHub, Inc. Terms Privacy Security Status Help 
 
