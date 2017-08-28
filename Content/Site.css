@@ -48,6 +48,9 @@ th {
     
 }
 
+.navbar-toggle .icon-bar {
+    background-color: #428bca;
+}
 
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
