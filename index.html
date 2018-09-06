@@ -218,10 +218,21 @@
                     </div>
                     
                     <div id="lab" class="tab-pane fade">
-                       <ul class="nav nav-tabs-justified">
-
+                        <!-- 7/24/17 -->
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="(key, value) in labs[0]">{{key}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in labs track by $index">
+                                    <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="nav nav-tabs-justified">
                             <li class="active" data-toggle="collapse" data-target="#dataObservation"><a href="#">Full result in Json</a></li>
-
                         </ul>   
                         <div><pre id="dataObservation" class="json"></pre></div>
                     </div>

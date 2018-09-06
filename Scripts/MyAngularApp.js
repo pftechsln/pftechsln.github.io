@@ -294,6 +294,10 @@ function displayData(resource, data, $scope) {
     else if (resource.name === "MedicationOrder") {
         extractMedication(data, $scope);
     }
+    //*RLI 7/24/17
+    else if (resource.name === "Observation") {
+        extractLab(data, $scope);
+    }
     else{}
         
 
@@ -455,6 +459,67 @@ function extractImmunization(data, $scope) {
     $scope.immunizations = immunizations;
 }
 
+//*RLI 7/24/17
+function extractLab(data, $scope) {
+
+    var tmpEntry;
+    var tmpStr = "";
+    var unit = "";
+
+
+    if (data.total < 1) { return; }
+
+    var labs = new Array(data.total);
+
+    try {
+        for (ln = 0; ln < data.total; ln++) {
+
+            tmpEntry = data.entry[ln].resource;
+            if (tmpEntry.resourceType === "Observation") {
+
+                var oneLab = {
+                    "Test": "",
+                    "Date": "",
+                    "Status": "",
+                    "Result Value": "",
+                    "Reference Range": "",
+                    "Unit": ""
+                };
+                labs[ln] = oneLab;
+
+                oneLab["Test"] = tmpEntry.code.text;
+                oneLab["Date"] = tmpEntry.effectiveDateTime.split("T")[0];
+                oneLab["Status"] = tmpEntry.status;
+
+                tmpStr = "";
+                unit = "";
+                if (typeof tmpEntry["valueQuantity"] != 'undefined') {
+                    tmpStr = tmpEntry.valueQuantity.value;
+                    unit = tmpEntry.valueQuantity.unit;
+                } else if (typeof tmpEntry["valueRatio"] != 'undefined') {
+                    tmpStr = tmpEntry.valueRatio.denominator.value + "/" + tmpEntry.valueRatio.numerator.value;
+                } else { }
+                oneLab["Result Value"] = tmpStr;
+
+                tmpStr = ""
+                if (typeof tmpEntry["referenceRange"] == 'undefined') {
+                    tmpStr = "";
+                } else {
+                    tmpStr = tmpEntry.referenceRange[0].text;
+                    tmpStr = tmpStr.split(unit)[0];
+                }
+                oneLab["Reference Range"] = tmpStr;
+                oneLab["Unit"] = unit;
+            }
+        }
+    }
+    catch (error) {
+        alert(error);
+    };
+
+    $scope.labs = labs;
+}
+
 
 function extractMedication(data, $scope) {
 
@@ -525,6 +590,11 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.testCase = function (caseName) {
         testCase(caseName, $scope);
     };
+
+    //*RLI 7/24/17
+    $scope.getAccessToken = function () {
+        getAccessToken($scope, $http);
+    }
 
     // Udate settings from the Data URL
     $scope.updateSettings = function () {
