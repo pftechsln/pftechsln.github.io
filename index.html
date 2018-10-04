@@ -74,7 +74,202 @@
     <!-- Content Container -->
     <div class="container-fluid" id="contentContainer">
 
-        This is a Proof of Concept app that is to test your FHIR setups. This app does not store your health data on your device or on the server. This app does not share your health data to anyone else. The web browser could cache the data being retrieved and displayed, and you can save the data as a web page, but these are not features provided by the app.
+        <!-- EMR Login -->
+        <div class="row" id="emrLogin">
+            <!--<div class="col-md-6 col-lg-8" style="background-image: url(./Images/myChart2.png); background-position:left; background-size:cover; background-repeat: no-repeat; height: 100%">
+                
+            </div>-->
+            <div class="col-sm-0 col-md-3 col-lg-4"></div>
+            <div class="col-sm-12 col-md-6 col-lg-4" style="height: 100%;">
+                <div class="text-center box" style="min-height: 450px">
+                    <h3>Please log into your EMR and grant access to your patient data.</h3>
+                    <select ng-model="fhirEndpointUrl" ng-change="updateSettings()">
+                        <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
+                    </select>
+                    <strong><a href="#" ng-click="oauthLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
+                    <p></p>
+                    <button class="btn-danger btn-lg btn-block" ng-click="testCase('epic')">Epic Sandbox</button>
+                    <p></p>
+                    <button class="btn-info btn-lg btn-block" ng-click="testCase('ohmcExt')">OHMC External</button>
+                    <p></p>
+                    <button class="btn-primary btn-lg btn-block" ng-click="testCase('ohmcInt')">OHMC Internal</button>
+                    
+                </div>
+
+                <div id="debugBox" class="box hidden">
+                    <div class="">
+                        <pre id="txtStatus">{{statusText}}</pre>
+                        <dl class="dl-horizontal">
+                            <dt>FHIR Base URL</dt>
+                            <dd>{{fhirBaseUrl}}</dd>
+
+                            <dt>FHIR Authorize Url</dt>
+                            <dd>{{fhirAuthUrl}}</dd>
+
+                            <dt>FHIR Token Url</dt>
+                            <dd>{{fhirTokenUrl}}</dd>
+
+                            <dt>FHIR Endpoint Url</dt>
+                            <dd>{{fhirEndpointUrl}}</dd>
+
+                            <dt>Client ID</dt>
+                            <dd>{{clientId}}</dd>
+
+                            <dt>Authorization Code</dt>
+                            <dd>{{oauthCode}}</dd>
+
+                            <dt>Access Token</dt>
+                            <dd>{{accessToken}}</dd>
+
+                            <dt>Patient ID</dt>
+                            <dd>{{patient}}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-0 col-md-3 col-lg-4"></div>
+        </div>
+
+
+        <!-- EMR Data -->
+        <div class="row collapse" id="emrData">
+
+            <div class="col-sm-10">                
+                <div class="box tab-content" id="tabContent">
+                    
+                    <div id="demographic" class="tab-pane fade in active">
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
+                            <tbody>
+                                <tr ng-repeat="(key,value) in patientDemo">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                        <ul class="nav nav-tabs-justified">
+                            <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
+                        </ul>    
+                        <div><pre id="dataPatient" class="json collapse"></pre></div>
+                    </div>
+
+                    
+                    <div id="allergy" class="tab-pane fade">
+                        
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="(key, value) in allergies[0]">{{key}}</th>
+                                </tr>                             
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in allergies track by $index">                                    
+                                    <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <ul class="nav nav-tabs-justified">
+                            <li class="active" data-toggle="collapse" data-target="#dataAllergyIntolerance"><a href="#">Full result in Json</a></li>
+                        </ul>    
+                        <div><pre id="dataAllergyIntolerance" class="json collapse"></pre></div>
+                    </div>
+
+                    <div id="immunization" class="tab-pane fade">
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-info">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="(key, value) in immunizations[0]">{{key}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in immunizations track by $index">
+                                    <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <ul class="nav nav-tabs-justified">
+                            <li class="active" data-toggle="collapse" data-target="#dataImmunization"><a href="#">Full result in Json</a></li>
+                        </ul>   
+
+                        <div><pre id="dataImmunization" class="json collapse"></pre></div>
+                    </div>
+
+                    <div id="medication" class="tab-pane fade">
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="(key, value) in medications[0]">{{key}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in medications track by $index">
+                                    <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <ul class="nav nav-tabs-justified">
+
+                            <li class="active" data-toggle="collapse" data-target="#dataMedicationOrder"><a href="#">Full result in Json</a></li>
+
+                        </ul>   
+
+                        <div><pre id="dataMedicationOrder" class="json collapse"></pre></div>
+                    </div>
+                    
+                    <div id="lab" class="tab-pane fade">
+                        <!-- 7/24/17 -->
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="(key, value) in labs[0]">{{key}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in labs track by $index">
+                                    <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="nav nav-tabs-justified">
+                            <li class="active" data-toggle="collapse" data-target="#dataObservation"><a href="#">Full result in Json</a></li>
+                        </ul>   
+                        <div><pre id="dataObservation" class="json"></pre></div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="col-sm-2" >                
+                <div class="box text-right" id="tabTitles">
+                    <button class="btn btn-default btn-block text-center" ng-click="loadFhirData()">Reload Data</button>
+                    <hr />
+                    <div class="container-fluid text-left" style="padding: 0">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sideNavbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="sideNavbar" style="padding: 0">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active"><a data-toggle="pill" href="#demographic">Demographics<span class="badge bg-primary" id="cntPatient"></span></a></li>
+                                <li><a data-toggle="pill" href="#allergy">Allergies<span class="badge bg-info" id="cntAllergyIntolerance"></span></a></li>
+                                <li><a data-toggle="pill" href="#immunization">Immunizations<span class="badge bg-info" id="cntImmunization"></span></a></li>
+                                <li><a data-toggle="pill" href="#medication">Medications<span class="badge bg-info" id="cntMedicationOrder"></span></a></li>
+                                <li><a data-toggle="pill" href="#lab">Lab Observations<span class="badge bg-info" id="cntObservation"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+           
 
     </div>
 
