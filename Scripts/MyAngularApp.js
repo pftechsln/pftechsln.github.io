@@ -155,9 +155,18 @@ function setFhirSettings($scope, endpointUrl, testClient) {
     sessionStorage.setItem('fhirEndpointUrl', endpointUrl);
     sessionStorage.setItem('client', testClient.clientId);
     sessionStorage.setItem('redirectUri', testClient.redirectUri);
+
+    // save off last login in cookie
+    console.log($scope.rememberLastLogin);
+    if ($scope.rememberLastLogin == true) {
+        document.cookie = "lastLogin=" + $scope.clientId;
+        console.log(document.cookie);
+    }
 }
 
 function testCase(caseName, $scope) {
+
+
     switch (caseName) {
         case 'epic':
             setFhirSettings($scope, "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/", epicClient);

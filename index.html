@@ -26,25 +26,29 @@
     <script type="text/javascript" src="./Scripts/MyAngularApp.js"></script>
 </head>
 
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="myCtrl" id="page-top">
     
     <!-- Top Navigator Bar -->
-    <nav class="navbar">
+    <nav class="navbar navbar-default fixed-bottom">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-expanded="true" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="https://pftechsln.github.io/">FHIR Checker</a>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <span>My</span>
+                    <img alt="FHIR" src="./Images/fhir.png" width="60" height="30" style="display: inline-block; vertical-align: bottom"/> 
+                    <span>Health Data</span>
+                </a>
             </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+            <div class="collapse navbar-collapse navbar-ex1-collapse" id="myNavbar" aria-expanded="true" style="">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li></li>
                 </ul>     
                 <ul class="nav navbar-nav navbar-right hidden" id="btnLogin">                    
                     <li><a href="#" ng-click="reLogin()"><span class="glyphicon glyphicon-log-in"></span> Change Patient or EMR</a></li>
@@ -54,7 +58,7 @@
     </nav>
 
     <!-- Jumbotron Box -->
-    <div class="box jumbotron">
+   <!-- <div class="box jumbotron">
         <div class="row">
 
             <div class="col-sm-2"></div>
@@ -70,7 +74,8 @@
         </div>
 
     </div>
-    
+    -->
+
     <!-- Content Container -->
     <div class="container-fluid" id="contentContainer">
 
@@ -82,18 +87,28 @@
             <div class="col-sm-0 col-md-3 col-lg-4"></div>
             <div class="col-sm-12 col-md-6 col-lg-4" style="height: 100%;">
                 <div class="text-center box" style="min-height: 450px">
-                    <h3>Please log into your EMR and grant access to your patient data.</h3>
+                    <div class="row" id="about" ></div>
+                    <p>Please log into your EMR and grant access to retrieve your patient data.</p>
+
                     <select ng-model="fhirEndpointUrl" ng-change="updateSettings()">
                         <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
                     </select>
-                    <strong><a href="#" ng-click="oauthLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
+                    <strong><a href="#" ng-click="oauthLogin()">
+                    <span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
+                    
                     <p></p>
+                    <p></p>
+                    <hr />
+                    <p></p>
+                    <p></p>
+
+                    <p> -OR- </p>
                     <button class="btn-danger btn-lg btn-block" ng-click="testCase('epic')">Epic Sandbox</button>
                     <p></p>
-                    <button class="btn-info btn-lg btn-block" ng-click="testCase('ohmcExt')">OHMC External</button>
-                    <p></p>
-                    <button class="btn-primary btn-lg btn-block" ng-click="testCase('ohmcInt')">OHMC Internal</button>
+                    <button class="btn-info btn-lg btn-block" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
                     
+                    <p></p>
+                    <input type="checkbox" ng-model="lastLogin"/> Remember your last selection
                 </div>
 
                 <div id="debugBox" class="box hidden">
@@ -156,15 +171,20 @@
                     
                     <div id="allergy" class="tab-pane fade">
                         
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
-                            <thead>
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success" ng-repeat="t in allergies track by $index">
+                            <!--<thead>
                                 <tr>
                                     <th ng-repeat="(key, value) in allergies[0]">{{key}}</th>
                                 </tr>                             
-                            </thead>
+                            </thead>-->
                             <tbody>
-                                <tr ng-repeat="t in allergies track by $index">                                    
+                                <!--<tr ng-repeat="t in allergies track by $index">                                    
                                     <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>-->
+                                
+                                <tr ng-repeat="(key,value) in t">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -274,10 +294,11 @@
     </div>
 
     <!-- Footer -->
-    <footer class="container-fluid text-center box">
+    <!--<footer class="container-fluid text-center box">
         <p>&copy; 2017 Pftech Healthcare Solutions</p>
-    </footer>
+    </footer>-->
 
+    
 
 </body>
 </html>
