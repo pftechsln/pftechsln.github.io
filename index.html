@@ -196,15 +196,19 @@
                     </div>
 
                     <div id="immunization" class="tab-pane fade">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-info">
-                            <thead>
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-info" ng-repeat="t in immunizations track by $index">
+                            <!--<thead>
                                 <tr>
                                     <th ng-repeat="(key, value) in immunizations[0]">{{key}}</th>
                                 </tr>
-                            </thead>
+                            </thead>-->
                             <tbody>
-                                <tr ng-repeat="t in immunizations track by $index">
+                                <!--<tr ng-repeat="t in immunizations track by $index">
                                     <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>-->
+                                <tr ng-repeat="(key,value) in t">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -217,15 +221,19 @@
                     </div>
 
                     <div id="medication" class="tab-pane fade">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning">
-                            <thead>
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in medications track by $index">
+                            <!--<thead>
                                 <tr>
                                     <th ng-repeat="(key, value) in medications[0]">{{key}}</th>
                                 </tr>
-                            </thead>
+                            </thead>-->
                             <tbody>
-                                <tr ng-repeat="t in medications track by $index">
+                                <!--<tr ng-repeat="t in medications track by $index">
                                     <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>-->
+                                <tr ng-repeat="(key,value) in t">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -241,15 +249,19 @@
                     
                     <div id="lab" class="tab-pane fade">
                         <!-- 7/24/17 -->
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning">
-                            <thead>
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in labs track by $index">
+                            <!--<thead>
                                 <tr>
                                     <th ng-repeat="(key, value) in labs[0]">{{key}}</th>
                                 </tr>
-                            </thead>
+                            </thead>-->
                             <tbody>
-                                <tr ng-repeat="t in labs track by $index">
+                                <!--<tr ng-repeat="t in labs track by $index">
                                     <td ng-repeat="(key, value) in t">{{value}}</td>
+                                </tr>-->
+                                <tr ng-repeat="(key,value) in t">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
                                 </tr>
                             </tbody>
                         </table>
