@@ -7,15 +7,13 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    
-    <!-- Bootstrap: CSS, Themes, Javascripts -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
+       
+    <!-- Bootstrap: CSS, Themes, Javascripts, JQuery -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     
@@ -29,33 +27,35 @@
 <body ng-app="myApp" ng-controller="myCtrl" id="page-top">
     
     <!-- Top Navigator Bar -->
-    <nav class="navbar navbar-default fixed-bottom">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-expanded="true" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <span>My</span>
-                    <img alt="FHIR" src="./Images/fhir.png" width="60" height="30" style="display: inline-block; vertical-align: bottom"/> 
-                    <span>Health Data</span>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse" id="myNavbar" aria-expanded="true" style="">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li></li>
-                </ul>     
-                <ul class="nav navbar-nav navbar-right hidden" id="btnLogin">                    
-                    <li><a href="#" ng-click="reLogin()"><span class="glyphicon glyphicon-log-in"></span> Change Patient or EMR</a></li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#page-top">
+            <span>My</span>
+            <img alt="FHIR" src="./Images/fhir.png" width="60" height="30" class="d-inline-block align-text-bottom" />
+            <span>Health Data</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Disabled</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right hidden" id="btnLogin">
+                <li><a href="#" ng-click="reLogin()"><span class="glyphicon glyphicon-log-in"></span> Change Patient or EMR</a></li>
+            </ul>
         </div>
     </nav>
+        
 
     <!-- Jumbotron Box -->
    <!-- <div class="box jumbotron">
@@ -90,13 +90,17 @@
                     <div class="row" id="about" ></div>
                     <p>Please log into your EMR and grant access to retrieve your patient data.</p>
 
-                    <select ng-model="fhirEndpointUrl" ng-change="updateSettings()">
-                        <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
-                    </select>
-                    <strong><a href="#" ng-click="oauthLogin()">
-                    <span class="glyphicon glyphicon-log-in"></span> Login</a></strong>
                     
-                    <p></p>
+                    <div class="input-group">
+                        <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">       
+                            <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" ng-click="oauthLogin()">Login</button>
+                        </div>
+                    </div>
+
+                   <p></p>
                     <p></p>
                     <hr />
                     <p></p>
@@ -105,13 +109,13 @@
                     <p> -OR- </p>
                     <button class="btn-danger btn-lg btn-block" ng-click="testCase('epic')">Epic Sandbox</button>
                     <p></p>
-                    <button class="btn-info btn-lg btn-block" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
+                    <button class="btn-primary btn-lg btn-block" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
                     
                     <p></p>
                     <input type="checkbox" ng-model="lastLogin"/> Remember your last selection
                 </div>
 
-                <div id="debugBox" class="box hidden">
+                <div id="debugBox" class="box sr-only">
                     <div class="">
                         <pre id="txtStatus">{{statusText}}</pre>
                         <dl class="dl-horizontal">
@@ -268,7 +272,7 @@
                         <ul class="nav nav-tabs-justified">
                             <li class="active" data-toggle="collapse" data-target="#dataObservation"><a href="#">Full result in Json</a></li>
                         </ul>   
-                        <div><pre id="dataObservation" class="json"></pre></div>
+                        <div><pre id="dataObservation" class="json collapse"></pre></div>
                     </div>
                 </div>                
             </div>
