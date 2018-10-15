@@ -592,7 +592,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
-        window.location.replace($scope.fhirAuthUrl);
+        window.location = $scope.fhirAuthUrl;
     };
 
     // Quick fill in for test cases
