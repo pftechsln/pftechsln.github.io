@@ -13,6 +13,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <!-- Front Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -28,30 +31,31 @@
     
     <!-- Top Navigator Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#page-top">
-            <span>My</span>
-            <img alt="FHIR" src="./Images/fhir.png" width="60" height="30" class="d-inline-block align-text-bottom" />
-            <span>Health Data</span>
-        </a>
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <a class="navbar-brand" href="#page-top">
+            <span>Health on</span>
+            <img alt="FHIR" src="./Images/fhir.png" width="60" height="30" class="d-inline-block align-text-bottom" />
+        </a>
+
+        <a href="#" class="btn btn-md" ng-click="reLogin()">
+            <span class="fa fa-user"></span>
+        </a>
+
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
                 </li>
                 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Disabled</a>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden" id="btnLogin">
-                <li><a href="#" ng-click="reLogin()"><span class="glyphicon glyphicon-log-in"></span> Change Patient or EMR</a></li>
+                <li><a href="#" ng-click="reLogin()"><span class="fa fa-log-in"></span> Change Patient or EMR</a></li>
             </ul>
         </div>
     </nav>
@@ -84,9 +88,9 @@
             <!--<div class="col-md-6 col-lg-8" style="background-image: url(./Images/myChart2.png); background-position:left; background-size:cover; background-repeat: no-repeat; height: 100%">
                 
             </div>-->
-            <div class="col-sm-0 col-md-3 col-lg-4"></div>
-            <div class="col-sm-12 col-md-6 col-lg-4" style="height: 100%;">
-                <div class="text-center box" style="min-height: 450px">
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-lg-6" style="height: 100%;">
+                <div class="text-center box" style="min-height: 450px; max-width: 500px; min-width: 400px; margin: auto">
                     <div class="row" id="about" ></div>
                     <p>Please log into your EMR and grant access to retrieve your patient data.</p>
 
@@ -112,7 +116,7 @@
                     <button class="btn-primary btn-lg btn-block" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
                     
                     <p></p>
-                    <input type="checkbox" ng-model="lastLogin"/> Remember your last selection
+                    <div hidden><input type="checkbox" ng-model="lastLogin" checked/> Remember your last selection</div>
                 </div>
 
                 <div id="debugBox" class="box sr-only">
@@ -146,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-0 col-md-3 col-lg-4"></div>
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
         </div>
 
 
