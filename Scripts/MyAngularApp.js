@@ -173,15 +173,14 @@ function testCase(caseName, $scope) {
             break;
 
         case 'ohmcExt':
-            setFhirSettings($scope, "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/");
+            setFhirSettings($scope, "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/", defaultClient);
             break;
 
-        case 'ohmcInt':
         default:
-            setFhirSettings($scope, "https://epicic.ohmc.org/Interconnect-FHIR/api/FHIR/DSTU2/")
-            
+            setFhirSettings($scope, "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/", epicClient);
     }
-    
+   
+    console.log(caseName);
     $scope.oauthLogin()
 }
 
@@ -593,6 +592,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
         window.location.href = $scope.fhirAuthUrl;
+        console.log($scope.fhirAuthUrl);
     };
 
     // Quick fill in for test cases

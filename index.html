@@ -54,9 +54,6 @@
                 </li>
                 
             </ul>
-            <ul class="nav navbar-nav navbar-right hidden" id="btnLogin">
-                <li><a href="#" ng-click="reLogin()"><span class="fa fa-log-in"></span> Change Patient or EMR</a></li>
-            </ul>
         </div>
     </nav>
         
@@ -90,7 +87,7 @@
             </div>-->
             <div class="col-sm-0 col-md-2 col-lg-3"></div>
             <div class="col-sm-12 col-md-8 col-lg-6" style="height: 100%;">
-                <div class="text-center box" style="min-height: 450px; max-width: 500px; min-width: 400px; margin: auto">
+                <div class="text-center box" style="min-height: 350px; max-width: 500px; min-width: 300px; margin: auto">
                     <div class="row" id="about" ></div>
                     <p>Please log into your EMR and grant access to retrieve your patient data.</p>
 
@@ -283,8 +280,7 @@
 
             <div class="col-sm-2" >                
                 <nav class="navbar navbar-light bg-light">
-                    <button class="btn btn-default btn-block text-center" ng-click="loadFhirData()">Reload Data</button>
-                    <hr />
+                    <button class="btn btn-default btn-block text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
