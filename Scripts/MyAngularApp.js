@@ -237,7 +237,8 @@ function loadFhirData($scope, $http) {
 
     $('#emrLogin').addClass('collapse');
     $('#emrData').removeClass('collapse');
-    $('#btnLogin').removeClass('hidden');
+    $('#btnLogin').removeClass('disable');
+    $('#bottomNavbar').removeClass('collapse');
     //$scope.statusText = "";
 
 }
@@ -613,7 +614,8 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.reLogin = function () {
         $('#emrLogin').removeClass('collapse');
         //$('#emrData').addClass('collapse');
-        $('#btnLogin').addClass('hidden');
+        $('#btnLogin').addClass('disable');
+        $('#emrData').addClass('collapse');
     }
 
     $scope.loadFhirData = function () {
