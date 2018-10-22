@@ -616,6 +616,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
         //$('#emrData').addClass('collapse');
         $('#btnLogin').addClass('disable');
         $('#emrData').addClass('collapse');
+        $('#bottomNavbar').addClass('collapse');
     }
 
     $scope.loadFhirData = function () {
