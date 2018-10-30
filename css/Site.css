@@ -6,11 +6,7 @@ body {
 }
 
 .jumbotron {
-    color: orange;
-    background-image: url(../Images/background.png);
-    background-color: #43addb;
-    position: relative;
-    top: 50px
+    box-shadow: 1px 0px 0px 0px rgba(0,0,0,.26), 1px 0px 0px 0px rgba(0,0,0,.16);
 }
 
 /* Remove the navbar's default margin-bottom and rounded borders */
@@ -28,6 +24,10 @@ body {
     height: 100%;
 }
     
+#navbarTop {
+    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
+}
+
     /* Set black background color, white text and some padding */
 footer {
     background-color: #555;
@@ -66,4 +66,22 @@ th {
 
 #contentContainer {
     max-width: 950px;
+}
+
+.navbar-custom {
+    background-color: lightgray;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: red;
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.5);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
 }

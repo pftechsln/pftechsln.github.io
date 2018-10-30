@@ -26,61 +26,65 @@
 
 </head>
 
-<body ng-app="myApp" ng-controller="myCtrl" id="page-top">
+<body ng-app="myApp" ng-controller="myCtrl" id="pageTop">
     
     <!-- Top Navigator Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <a class="navbar-brand" href="#page-top">
+    <nav class="navbar navbar-expand-md navbar-light bg-light" id="navbarTop">
+        
+        <!-- Brand Name -->
+        <a class="navbar-brand" href="#">
             <span>Health on</span>
-            <img alt="FHIR" src="/assets/fhir.png" width="80" height="40" class="d-inline-block align-text-bottom" />
+            <img alt="FHIR" src="assets/fhir.png" width="80" height="40" class="d-inline-block align-text-bottom" />
         </a>
 
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="navbar-nav mr-auto">
+        <!-- Menu Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar Menu -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
-                </li>
-                
+                </li>  
+                <li class="nav-item">
+                    <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnLogin">
+                        <span class="fa fa-sign-in"></span>
+                    </a>
+                </li>              
             </ul>
         </div>
-
-        <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnLogin">
-            <span class="fa fa-sign-in"></span>
-        </a>
     </nav>
         
 
     <!-- Jumbotron Box -->
-   <!-- <div class="box jumbotron">
+<!--    <div class="jumbotron box">
         <div class="row">
 
             <div class="col-sm-2"></div>
-            <div class="container text-left col-sm-6">
+            <div class="text-left col-sm-6">
 
                 <h1>Check your FHIR<sup>&reg;</sup></h1>
-                <p style="color: white; font-size: medium">A proof of concept app that checks if your FHIR web services are ready. Patient date retrieved will never be stored anywhere.</p>
+                <p style="font-size: medium">A proof of concept app that checks if your FHIR web services are ready. Patient date retrieved will never be stored anywhere.</p>
 
             </div>
             <div class="col-sm-4 text-left">
-                <img src="./Images/fhir.png" />
+                <img src="assets/fhir.png" />
             </div>
         </div>
 
-    </div>
-    -->
+    </div> -->
+    
 
     <!-- Content Container -->
-    <div class="container-fluid" id="contentContainer">
+    <!-- <div class="container-fluid" id="contentContainer"> -->
 
         <!-- EMR Login -->
-        <div class="row pt-5" id="emrLogin">
+        <div class="row m-auto" id="emrLogin">
             <!--<div class="col-md-6 col-lg-8" style="background-image: url(./Images/myChart2.png); background-position:left; background-size:cover; background-repeat: no-repeat; height: 100%">
                 
             </div>-->
@@ -275,7 +279,7 @@
                     </div>
                 </div>                
             </div>
-    </div>
+    <!-- </div> -->
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar">
         <button class="btn btn-default btn-block text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
