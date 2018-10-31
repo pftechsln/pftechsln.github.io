@@ -10,9 +10,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
-    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.1/css/all.css' integrity='sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz' crossorigin='anonymous'>
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/Site.css" />
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
@@ -81,13 +80,10 @@
     
 
     <!-- Content Container -->
-    <!-- <div class="container-fluid" id="contentContainer"> -->
+    <div class="container-fluid h-100 d-flex justify-content-center" id="contentContainer">
 
         <!-- EMR Login -->
-        <div class="row pt-5" id="emrLogin">
-            <!--<div class="col-md-6 col-lg-8" style="background-image: url(./Images/myChart2.png); background-position:left; background-size:cover; background-repeat: no-repeat; height: 100%">
-                
-            </div>-->
+        <div class="row mx-auto my-5 p-auto" id="emrLogin">
             <div class="col-sm-0 col-md-2 col-lg-3"></div>
             <div class="col-sm-12 col-md-8 col-lg-6" style="height: 100%;">
                 <div class="text-center box" style="min-height: 350px; max-width: 500px; min-width: 300px; margin: auto">
@@ -155,12 +151,15 @@
 
 
         <!-- EMR Data -->
-        <div class="row collapse col-sm-12 col-md-10 col-lg-8" id="emrData" style="margin: auto">
+        <div class="row collapse col-sm-12 col-md-10 col-lg-8" id="emrData" style="margin: auto">            
+            <div class="box tab-content" id="tabContent">
+                <div class="card-columns">
+                     <div class="card bg-primary">
+                            <div class="card-header">Header</div>
+                            <div class="card-body">Content</div> 
+                            <div class="card-footer">Footer</div>
 
-                      
-                <div class="box tab-content" id="tabContent">
-                    
-                    <div id="demographic" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
+<!--                     <div id="demographic" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
                             <tbody>
                                 <tr ng-repeat="(key,value) in patientDemo">
@@ -174,21 +173,34 @@
                             <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
                         </ul>    
                         <div><pre id="dataPatient" class="json collapse"></pre></div>
-                    </div>
+                    </div> -->
                     
+                    <div id="demographic" class="card bg-light tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
+                        <div class="card-header">
+                            {{patientDemo.name}}
+                        </div>
+                        <div class="card-body"></div>
+                            <table class="table table-bordered table-hover table-responsive table-condensed">
+                                <tbody>
+                                    <tr ng-repeat="(key,value) in patientDemo">
+                                        <th scope="row">{{key}}</th>
+                                        <td>{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">   
+                            <ul class="nav nav-tabs-justified">
+                                <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
+                            </ul>    
+                            <div><pre id="dataPatient" class="json collapse"></pre></div>
+                        </div>
+                    </div>
+                        
                     <div id="allergy" class="tab-pane fade" role="tabpanel" aria-labelledby="tabAllergy">
                         
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success" ng-repeat="t in allergies track by $index">
-                            <!--<thead>
-                                <tr>
-                                    <th ng-repeat="(key, value) in allergies[0]">{{key}}</th>
-                                </tr>                             
-                            </thead>-->
-                            <tbody>
-                                <!--<tr ng-repeat="t in allergies track by $index">                                    
-                                    <td ng-repeat="(key, value) in t">{{value}}</td>
-                                </tr>-->
-                                
+                            <tbody>                                
                                 <tr ng-repeat="(key,value) in t">
                                     <th scope="row">{{key}}</th>
                                     <td>{{value}}</td>
@@ -204,15 +216,7 @@
 
                     <div id="immunization" class="tab-pane fade" role="tabpanel" aria-labelledby="tabImmunization">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-info" ng-repeat="t in immunizations track by $index">
-                            <!--<thead>
-                                <tr>
-                                    <th ng-repeat="(key, value) in immunizations[0]">{{key}}</th>
-                                </tr>
-                            </thead>-->
                             <tbody>
-                                <!--<tr ng-repeat="t in immunizations track by $index">
-                                    <td ng-repeat="(key, value) in t">{{value}}</td>
-                                </tr>-->
                                 <tr ng-repeat="(key,value) in t">
                                     <th scope="row">{{key}}</th>
                                     <td>{{value}}</td>
@@ -229,15 +233,7 @@
 
                     <div id="medication" class="tab-pane fade" role="tabpanel" aria-labelledby="tabMedication">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in medications track by $index">
-                            <!--<thead>
-                                <tr>
-                                    <th ng-repeat="(key, value) in medications[0]">{{key}}</th>
-                                </tr>
-                            </thead>-->
                             <tbody>
-                                <!--<tr ng-repeat="t in medications track by $index">
-                                    <td ng-repeat="(key, value) in t">{{value}}</td>
-                                </tr>-->
                                 <tr ng-repeat="(key,value) in t">
                                     <th scope="row">{{key}}</th>
                                     <td>{{value}}</td>
@@ -255,17 +251,8 @@
                     </div>
                     
                     <div id="lab" class="tab-pane fade" role="tabpanel" aria-labelledby="tabLab">
-                        <!-- 7/24/17 -->
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in labs track by $index">
-                            <!--<thead>
-                                <tr>
-                                    <th ng-repeat="(key, value) in labs[0]">{{key}}</th>
-                                </tr>
-                            </thead>-->
                             <tbody>
-                                <!--<tr ng-repeat="t in labs track by $index">
-                                    <td ng-repeat="(key, value) in t">{{value}}</td>
-                                </tr>-->
                                 <tr ng-repeat="(key,value) in t">
                                     <th scope="row">{{key}}</th>
                                     <td>{{value}}</td>
@@ -277,9 +264,11 @@
                         </ul>   
                         <div><pre id="dataObservation" class="json collapse"></pre></div>
                     </div>
-                </div>                
-            </div>
-    <!-- </div> -->
+                </div>
+            </div>                
+        </div>
+
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar">
         <button class="btn btn-default text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
@@ -307,29 +296,15 @@
         </div>
     </nav>
 
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" hidden>
-        <li class="nav-item">
-            <a class="nav-link active" id="tabDemographic" data-toggle="pill" href="#demographic" role="tab" aria-controls="pills-home" aria-selected="true">Demographics<span class="badge bg-primary" id="cntPatient"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tabAllergy" data-toggle="pill" href="#allergy" role="tab" aria-controls="pills-home" aria-selected="false">Allergies<span class="badge bg-info" id="cntAllergyIntolerance"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tabImmunization" data-toggle="pill" href="#immunization" role="tab" aria-controls="pills-home" aria-selected="false">Immunizations<span class="badge bg-info" id="cntImmunization"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tabMedication" data-toggle="pill" href="#medication" role="tab" aria-controls="pills-home" aria-selected="false">Medications<span class="badge bg-info" id="cntMedicationOrder"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tabLab" data-toggle="pill" href="#lab" role="tab" aria-controls="pills-home" aria-selected="false">Lab Observations<span class="badge bg-info" id="cntObservation"></span></a>
-        </li>
-    </ul>
-
-
     <!-- Footer -->
-    <!--<footer class="container-fluid text-center box">
-        <p>&copy; 2017 Pftech Healthcare Solutions</p>
-    </footer>-->
+    <footer class="footer fixed-bottom bg-light py-2">
+        <div class="container text-center text-muted px-auto">
+            <span>&copy; 2017-2018 Pftech Healthcare Solutions   </span>
+            <a href="mailto:pftechsln@gmail.com" id="email">
+                <i class="far fa-envelope" aria-hidden="true"></i>
+            </a>
+        </div>
+    </footer>
 
 </body>
 </html>

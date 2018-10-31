@@ -30,8 +30,7 @@ body {
 
     /* Set black background color, white text and some padding */
 footer {
-    background-color: #555;
-    padding: 15px;
+    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
     /* background-image: url(../Images/background.png); */
 }
 
