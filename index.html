@@ -156,7 +156,7 @@
                 <div class="card-columns">                    
                     <div id="demographicCard" class="card bg-light">
                         <div class="card-header">
-                            {{patientDemo.name}}
+                            Demographics: {{patientDemo["Name"]}}
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-hover table-responsive table-condensed">
@@ -177,7 +177,7 @@
 
                     </div>    
 
-                    <div id="demographic" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
+                    <div id="demographic" class="tab-pane fade" role="tabpanel" aria-labelledby="tabDemographic">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
                             <tbody>
                                 <tr ng-repeat="(key,value) in patientDemo">
@@ -266,7 +266,7 @@
 
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar" hidden>
         <button class="btn btn-default text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNavbar" aria-controls="sideNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
