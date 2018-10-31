@@ -155,31 +155,12 @@
             <div class="box tab-content" id="tabContent">
                 <div class="card-columns">
                      <div class="card bg-primary">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">Content</div> 
-                            <div class="card-footer">Footer</div>
-
-<!--                     <div id="demographic" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
-                            <tbody>
-                                <tr ng-repeat="(key,value) in patientDemo">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                       
-                        <ul class="nav nav-tabs-justified">
-                            <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
-                        </ul>    
-                        <div><pre id="dataPatient" class="json collapse"></pre></div>
-                    </div> -->
                     
-                    <div id="demographic" class="card bg-light tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
+                    <div id="demographicCard" class="card bg-light">
                         <div class="card-header">
                             {{patientDemo.name}}
                         </div>
-                        <div class="card-body"></div>
+                        <div class="card-body">
                             <table class="table table-bordered table-hover table-responsive table-condensed">
                                 <tbody>
                                     <tr ng-repeat="(key,value) in patientDemo">
@@ -197,6 +178,23 @@
                         </div>
                     </div>
                         
+
+                     <div id="demographic" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tabDemographic">
+                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
+                            <tbody>
+                                <tr ng-repeat="(key,value) in patientDemo">
+                                    <th scope="row">{{key}}</th>
+                                    <td>{{value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                        <ul class="nav nav-tabs-justified">
+                            <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
+                        </ul>    
+                        <div><pre id="dataPatient" class="json collapse"></pre></div>
+                    </div>
+
                     <div id="allergy" class="tab-pane fade" role="tabpanel" aria-labelledby="tabAllergy">
                         
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success" ng-repeat="t in allergies track by $index">
