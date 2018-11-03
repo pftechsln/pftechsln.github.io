@@ -3,6 +3,10 @@ body {
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: white /* #b6dff1 */;
+    background-image: url("../assets/fire-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    display: block;
 }
 
 .jumbotron {
