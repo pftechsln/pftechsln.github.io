@@ -663,7 +663,6 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
     launch($scope, $http);
 
-    
 
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
