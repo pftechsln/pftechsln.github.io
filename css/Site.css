@@ -52,6 +52,7 @@ th {
     
 }
 
+
 .card-header {
     font-size: medium;
     font-weight: bold;
@@ -68,13 +69,6 @@ th {
     background-color: #428bca;
 }
 
-.card-body .table {
-    width: 100%;
-}
-
-.card-body .table .tbody {
-    width: 100%;
-}
 
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
