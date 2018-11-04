@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>FHIR Checker</title>
+    <title>Health on FHIR</title>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
         
         <!-- Brand Name -->
         <a class="navbar-brand" href="#">
-            <span>Health on</span>
+            <span style="color:red;">Health on</span>
             <img alt="FHIR" src="assets/fhir.png" width="80" height="40" class="d-inline-block align-text-bottom" />
         </a>
 
@@ -48,7 +48,7 @@
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="#">About</a>
                 </li>  
                 <li class="nav-item">
                     <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnLogin">
@@ -84,9 +84,8 @@
 
         <!-- EMR Login -->
         <div class="row mx-auto my-5 p-auto" id="emrLogin">
-            <div class="col-sm-0 col-md-2 col-lg-3"></div>
-            <div class="col-sm-12 col-md-8 col-lg-6" style="height: 100%;">
-                <div class="text-center box" style="min-height: 350px; max-width: 500px; min-width: 300px; margin: auto">
+            <div class="col-sm-12" style="height: 100%;">
+                <div class="text-center box" style="min-height: 400px; max-width: 500px; min-width: 400px; margin: auto">
                     <div class="row" id="about" ></div>
                     <p>Please log into your EMR and grant access to retrieve your patient data.</p>
 
@@ -107,15 +106,17 @@
                     <p></p>
 
                     <p> -OR- </p>
+                    <button class="btn-info btn-lg btn-block" ng-click="displaySampleData()">View Sample Data</button>
+                    <p></p>
                     <button class="btn-danger btn-lg btn-block" ng-click="testCase('epic')">Epic Sandbox</button>
                     <p></p>
                     <button class="btn-primary btn-lg btn-block" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
                     
                     <p></p>
-                    <div hidden><input type="checkbox" ng-model="lastLogin" checked/> Remember your last selection</div>
+                    <div><input type="checkbox" ng-model="lastLogin" checked/> Remember my selection</div>
                 </div>
 
-                <div id="debugBox" class="box sr-only">
+                <div id="debugBox" class="box" hidden>
                     <div class="">
                         <pre id="txtStatus">{{statusText}}</pre>
                         <dl class="dl-horizontal">
@@ -146,20 +147,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-0 col-md-2 col-lg-3"></div>
         </div>
 
 
         <!-- EMR Data -->
-        <div class="row collapse col-sm-12 col-md-10 col-lg-8" id="emrData" style="margin: auto">            
-            <div class="box tab-content" id="tabContent">
-                <div class="card-columns">                    
+        <div class="row collapse col-sm-12" id="emrData" style="margin: auto">            
+
+                <div class="card-columns ">                    
                     <div id="demographicCard" class="card bg-light">
-                        <div class="card-header">
+                        <div class="card-header bg-info">
                             Demographics: {{patientDemo["Name"]}}
                         </div>
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover table-responsive table-condensed">
+                        <div class="card-body p-1">
+                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
                                 <tbody>
                                     <tr ng-repeat="(key,value) in patientDemo">
                                         <th scope="row">{{key}}</th>
@@ -168,15 +168,26 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-footer">   
-                            <ul class="nav nav-tabs-justified">
-                                <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
-                            </ul>    
-                            <div><pre id="dataPatient" class="json collapse"></pre></div>
+                    </div>   
+                    <div id="allergy" class="card bg-light" ng-repeat="t in allergies track by $index">
+                        <div class="card-header bg-success">
+                            Allergy: {{t.Substance}}
                         </div>
+                        <div class="card-body p-1">
+                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                <tbody>                                
+                                    <tr ng-repeat="(key,value) in t">
+                                        <th scope="row">{{key}}</th>
+                                        <td>{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                    </div>    
+                </div>
 
+                <div class="box tab-content" id="tabContent">
                     <div id="demographic" class="tab-pane fade" role="tabpanel" aria-labelledby="tabDemographic">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
                             <tbody>
@@ -260,8 +271,7 @@
                         </ul>   
                         <div><pre id="dataObservation" class="json collapse"></pre></div>
                     </div>
-                </div>
-            </div>                
+                </div>               
         </div>
 
     </div>

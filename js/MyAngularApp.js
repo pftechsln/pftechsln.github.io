@@ -94,27 +94,6 @@ function launch($scope, $http) {
     //}
     //$scope.patient = patient;
 
-    //var allergies = [
-    //{
-    //    "Substance": "PENICILLIN G",
-    //    "Status": "confirmed",
-    //    "Recorded Date": "2015-08-24",
-    //    "Reaction": "Hives",
-    //    "Note": "Severity low enough to be prescribed if needed.",
-    //},
-    //{
-    //    "Substance": "SHELLFISH-DERIVED PRODUCTS",
-    //    "Status": "confirmed",
-    //    "Recorded Date": "2015-11-07",
-    //    "Reaction": "Itching",
-    //    "Note": "",
-    //}
-    //];
-
-
-
-    //$scope.allergies = allergies;
-
 }
 
 function loadFhirOrg($scope, $http) {    
@@ -239,7 +218,7 @@ function loadFhirData($scope, $http) {
     $('#emrData').removeClass('collapse');
     $('#btnLogin').removeClass('disable');
     $('#bottomNavbar').removeClass('collapse');
-    //$scope.statusText = "";
+    $scope.statusText = "";
 
 }
 
@@ -580,6 +559,48 @@ function extractMedication(data, $scope) {
     $scope.medications = medications;
 }
 
+function loadSampleData($scope) {
+
+    var patient = {
+        "Name": "Jason Fhir",
+        "FHIR ID": "abcdefghijklmnopqrstuvwxyz0123456789",
+        "Gender": "Male",
+        "Date of Birth": "01/01/1988",
+        "Address": "1234 Main Streat, Seattle, WA 98001",
+        "Home Phone": "206-234-5678",
+        "Work Phone": "405-123-4567",
+        "Mobile Phone": "918-987-6543",
+        "Email": "jason.fhir@healthonfhir.com"
+    }
+
+    var allergies = [
+    {
+       "Substance": "PENICILLIN G",
+       "Status": "confirmed",
+       "Recorded Date": "2015-08-24",
+       "Reaction": "Hives",
+       "Note": "Severity low enough to be prescribed if needed.",
+    },
+    {
+       "Substance": "SHELLFISH-DERIVED PRODUCTS",
+       "Status": "confirmed",
+       "Recorded Date": "2015-11-07",
+       "Reaction": "Itching",
+       "Note": "",
+    },
+    {
+        "Substance": "UNKONW",
+        "Status": "confirmed",
+        "Recorded Date": "2019-11-07",
+        "Reaction": "Vomit",
+        "Note": "It's serious. Patient needs to be very careful about it.",
+     }
+    ];
+
+    $scope.patientDemo = patient;
+    $scope.allergies = allergies;
+}
+
 var app = angular.module('myApp', []);
 app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
@@ -621,5 +642,14 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.loadFhirData = function () {
         loadFhirData($scope, $http);
+    }
+
+    $scope.displaySampleData = function() {
+        loadSampleData($scope);
+
+        $('#emrLogin').addClass('collapse');
+        $('#emrData').removeClass('collapse');
+        $('#btnLogin').removeClass('disable');
+        $('#bottomNavbar').removeClass('collapse');
     }
 }]);
