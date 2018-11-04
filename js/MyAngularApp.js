@@ -597,8 +597,62 @@ function loadSampleData($scope) {
      }
     ];
 
+    var medications = [
+    {
+        "Medication": "Amoxillian",
+        "Date": "2017-10-10",
+        "Status": "Active",
+        "Prescriber": "Dr. Andrew Wong",
+        "Dosage Instruction": "Take 1 pill every 6 hours."
+    },
+    {
+        "Medication": "Advil",
+        "Date": "2018-10-20",
+        "Status": "Active",
+        "Prescriber": "Dr. Andrew Wong",
+        "Dosage Instruction": "Take 1 pill every 4 hours. No more than 4 pills in 24 hours period."
+    }
+    ];
+
+    var immunizations = [
+    {
+        "Vaccine": "Chicken Pot",
+        "Date": "1978-10-23",
+        "Site": "Right Arm",
+        "Route": "Shot",
+    },
+    {
+        "Vaccine": "Hapties B",
+        "Date": "2000-01-01",
+        "Site": "Thing",
+        "Route": "Shot",
+    }
+    ];
+
+    var labs = [
+    {
+        "Test": "Test A",
+        "Date": "1999-10-23",
+        "Status": "completed",
+        "Result Value": "234.23",
+        "Reference Range": "100-500",
+        "Unit": "ml"
+    },
+    {
+        "Test": "Test B",
+        "Date": "2018-10-23",
+        "Status": "Pending",
+        "Result Value": "34",
+        "Reference Range": "30-5-",
+        "Unit": "bp"
+    }
+    ];
+
     $scope.patientDemo = patient;
     $scope.allergies = allergies;
+    $scope.medications = medications;
+    $scope.immunizations = immunizations;
+    $scope.labs = labs;
 }
 
 var app = angular.module('myApp', []);

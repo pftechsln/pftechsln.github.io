@@ -59,7 +59,7 @@
         </div>
     </nav>    
 
-    <div class="container">
+    <div class="container-fluid">
         <!-- EMR Login -->
         <div class="mx-auto my-5" id="emrLogin">
             <div class="text-center box" style="max-width: 500px; min-width: 300px; margin: auto">
@@ -131,7 +131,7 @@
                 <div class="card-columns collapse mx-auto" id="emrData">                    
                     <div id="demographicCard" class="card bg-light">
                         <div class="card-header bg-info">
-                            Patient: {{patientDemo["Name"]}}
+                            Demographics: {{patientDemo["Name"]}}
                         </div>
                         <div class="card-body p-1">
                             <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
@@ -144,8 +144,9 @@
                             </table>
                         </div>
                     </div>   
-                    <div id="allergy" class="card bg-light" ng-repeat="t in allergies track by $index">
-                        <div class="card-header bg-success">
+
+                    <div id="allergyCard" class="card bg-light" ng-repeat="t in allergies track by $index">
+                        <div class="card-header bg-danger">
                             Allergy: {{t.Substance}}
                         </div>
                         <div class="card-body p-1">
@@ -158,6 +159,54 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div id="immunizationCard" class="card bg-light" ng-repeat="t in immunizations track by $index">
+                            <div class="card-header bg-success">
+                                Immunization: {{t.Vaccine}}
+                            </div>
+                            <div class="card-body p-1">
+                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                    <tbody>                                
+                                        <tr ng-repeat="(key,value) in t">
+                                            <th scope="row">{{key}}</th>
+                                            <td>{{value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+
+                    <div id="medicationCard" class="card bg-light" ng-repeat="t in medications track by $index">
+                            <div class="card-header bg-primary">
+                                Medication: {{t.Medication}}
+                            </div>
+                            <div class="card-body p-1">
+                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                    <tbody>                                
+                                        <tr ng-repeat="(key,value) in t">
+                                            <th scope="row">{{key}}</th>
+                                            <td>{{value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+
+                    <div id="labCard" class="card bg-light" ng-repeat="t in labs track by $index">
+                            <div class="card-header bg-warning">
+                                Lab Test: {{t.Test}}
+                            </div>
+                            <div class="card-body p-1">
+                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                    <tbody>                                
+                                        <tr ng-repeat="(key,value) in t">
+                                            <th scope="row">{{key}}</th>
+                                            <td>{{value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
 
                 </div>
