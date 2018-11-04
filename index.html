@@ -28,18 +28,18 @@
 <body ng-app="myApp" ng-controller="myCtrl" id="pageTop">  
     
     <!-- Top Navigator Bar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light" id="navbarTop">
+    <nav class="navbar navbar-expand-md navbar-light bg-light py-1" id="navbarTop">
         
         <!-- Brand Name -->
-        <a class="navbar-brand" href="#">
-            <span style="color:red;">Health on</span>
+        <a class="navbar-brand justify-content-center py-1" href="#">
+            <span class="">Health on </span>       
             <img alt="FHIR" src="assets/fhir.png" width="80" height="40" class="d-inline-block align-text-bottom" />
         </a>
 
         <!-- Menu Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> 
     
         <!-- Navbar Menu -->
         <div class="collapse navbar-collapse" id="navbarMenu">
@@ -57,35 +57,12 @@
                 </li>              
             </ul>
         </div>
-    </nav>
-        
+    </nav>    
 
-    <!-- Jumbotron Box -->
-<!--    <div class="jumbotron box">
-        <div class="row">
-
-            <div class="col-sm-2"></div>
-            <div class="text-left col-sm-6">
-
-                <h1>Check your FHIR<sup>&reg;</sup></h1>
-                <p style="font-size: medium">A proof of concept app that checks if your FHIR web services are ready. Patient date retrieved will never be stored anywhere.</p>
-
-            </div>
-            <div class="col-sm-4 text-left">
-                <img src="assets/fhir.png" />
-            </div>
-        </div>
-
-    </div> -->
-    
-
-    <!-- Content Container -->
-    <div class="container-fluid h-100 d-flex justify-content-center" id="contentContainer">
-
+    <div class="container">
         <!-- EMR Login -->
-        <div class="row mx-auto my-5 p-auto" id="emrLogin">
-            <div class="col-sm-12" style="height: 100%;">
-                <div class="text-center box" style="min-height: 400px; max-width: 500px; min-width: 400px; margin: auto">
+        <div class="mx-2 my-5 px-1" id="emrLogin">
+            <div class="text-center box" style="min-height: 400px; max-width: 500px; min-width: 400px; margin: auto">
                     <div class="row" id="about" ></div>
                     <p>Please log into your EMR and grant access to retrieve your patient data.</p>
 
@@ -146,17 +123,15 @@
                         </dl>
                     </div>
                 </div>
-            </div>
         </div>
 
 
-        <!-- EMR Data -->
-        <div class="row collapse col-sm-12" id="emrData" style="margin: auto">            
+    <!-- EMR Data -->        
 
-                <div class="card-columns ">                    
+                <div class="card-columns collapse mx-auto" id="emrData">                    
                     <div id="demographicCard" class="card bg-light">
                         <div class="card-header bg-info">
-                            Demographics: {{patientDemo["Name"]}}
+                            Patient: {{patientDemo["Name"]}}
                         </div>
                         <div class="card-body p-1">
                             <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
@@ -187,7 +162,7 @@
 
                 </div>
 
-                <div class="box tab-content" id="tabContent">
+                <div class="box tab-content collapse" id="tabContent">
                     <div id="demographic" class="tab-pane fade" role="tabpanel" aria-labelledby="tabDemographic">
                         <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
                             <tbody>
@@ -272,10 +247,8 @@
                         <div><pre id="dataObservation" class="json collapse"></pre></div>
                     </div>
                 </div>               
-        </div>
 
     </div>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar" hidden>
         <button class="btn btn-default text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNavbar" aria-controls="sideNavbar" aria-expanded="false" aria-label="Toggle navigation">
