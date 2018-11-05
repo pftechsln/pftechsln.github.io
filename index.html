@@ -124,25 +124,128 @@
                     </div>
                 </div>
         </div>
+    </div>
 
+    <!-- EMR Data -->             
+    <div class="container-fluid collapse" id="emrData">
 
-    <!-- EMR Data -->        
+        	<div class="row">
+                    <div class="MultiCarousel" data-items="1,1,2,3" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                        <div class="MultiCarousel-inner">
 
-                <div class="card-columns collapse mx-auto" id="emrData">                    
+                            <div class="item">
+                                <div id="demographicCard" class="card bg-light">
+                                        <div class="card-header bg-info">
+                                            Demographics: {{patientDemo["Name"]}}
+                                        </div>
+                                        <div class="card-body p-1">
+                                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                                <tbody>
+                                                    <tr ng-repeat="(key,value) in patientDemo">
+                                                        <th scope="row">{{key}}</th>
+                                                        <td>{{value}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>   
+                            </div>
+
+                            <div class="item" ng-repeat="t in allergies track by $index">
+                                <div id="allergyCard" class="card bg-light">
+                                        <div class="card-header bg-danger">
+                                            Allergy: {{t.Substance}}
+                                        </div>
+                                        <div class="card-body p-1">
+                                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                                <tbody>                                
+                                                    <tr ng-repeat="(key,value) in t">
+                                                        <th scope="row">{{key}}</th>
+                                                        <td>{{value}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="item" ng-repeat="t in immunizations track by $index">
+                                <div id="immunizationCard" class="card bg-light">
+                                    <div class="card-header bg-success">
+                                        Immunization: {{t.Vaccine}}
+                                    </div>
+                                    <div class="card-body p-1">
+                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                            <tbody>                                
+                                                <tr ng-repeat="(key,value) in t">
+                                                    <th scope="row">{{key}}</th>
+                                                    <td>{{value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="item" ng-repeat="t in medications track by $index">
+                                <div id="medicationCard" class="card bg-light">
+                                    <div class="card-header bg-primary">
+                                        Medication: {{t.Medication}}
+                                    </div>
+                                    <div class="card-body p-1">
+                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                            <tbody>                                
+                                                <tr ng-repeat="(key,value) in t">
+                                                    <th scope="row">{{key}}</th>
+                                                    <td>{{value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="item" ng-repeat="t in labs track by $index">
+                                <div id="labCard" class="card bg-light">
+                                    <div class="card-header bg-warning">
+                                        Lab Test: {{t.Test}}
+                                    </div>
+                                    <div class="card-body p-1">
+                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                            <tbody>                                
+                                                <tr ng-repeat="(key,value) in t">
+                                                    <th scope="row">{{key}}</th>
+                                                    <td>{{value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+        
+                        </div>
+
+                        <button class="btn btn-primary leftLst"><</button>
+                        <button class="btn btn-primary rightLst">></button>
+                    </div>
+            </div>
+
+            <div class="card-columns mx-auto" hidden>
                     <div id="demographicCard" class="card bg-light">
-                        <div class="card-header bg-info">
-                            Demographics: {{patientDemo["Name"]}}
-                        </div>
-                        <div class="card-body p-1">
-                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                <tbody>
-                                    <tr ng-repeat="(key,value) in patientDemo">
-                                        <th scope="row">{{key}}</th>
-                                        <td>{{value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <div class="card-header bg-info">
+                                Demographics: {{patientDemo["Name"]}}
+                            </div>
+                            <div class="card-body p-1">
+                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
+                                    <tbody>
+                                        <tr ng-repeat="(key,value) in patientDemo">
+                                            <th scope="row">{{key}}</th>
+                                            <td>{{value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>   
 
                     <div id="allergyCard" class="card bg-light" ng-repeat="t in allergies track by $index">
@@ -209,95 +312,10 @@
                             </div>
                     </div>
 
-                </div>
-
-                <div class="box tab-content collapse" id="tabContent">
-                    <div id="demographic" class="tab-pane fade" role="tabpanel" aria-labelledby="tabDemographic">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success">
-                            <tbody>
-                                <tr ng-repeat="(key,value) in patientDemo">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                       
-                        <ul class="nav nav-tabs-justified">
-                            <li class="active" data-toggle="collapse" data-target="#dataPatient"><a href="#">Full result in Json</a></li>
-                        </ul>    
-                        <div><pre id="dataPatient" class="json collapse"></pre></div>
-                    </div>
-
-                    <div id="allergy" class="tab-pane fade" role="tabpanel" aria-labelledby="tabAllergy">
-                        
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-success" ng-repeat="t in allergies track by $index">
-                            <tbody>                                
-                                <tr ng-repeat="(key,value) in t">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <ul class="nav nav-tabs-justified">
-                            <li class="active" data-toggle="collapse" data-target="#dataAllergyIntolerance"><a href="#">Full result in Json</a></li>
-                        </ul>    
-                        <div><pre id="dataAllergyIntolerance" class="json collapse"></pre></div>
-                    </div>
-
-                    <div id="immunization" class="tab-pane fade" role="tabpanel" aria-labelledby="tabImmunization">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-info" ng-repeat="t in immunizations track by $index">
-                            <tbody>
-                                <tr ng-repeat="(key,value) in t">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <ul class="nav nav-tabs-justified">
-                            <li class="active" data-toggle="collapse" data-target="#dataImmunization"><a href="#">Full result in Json</a></li>
-                        </ul>   
-
-                        <div><pre id="dataImmunization" class="json collapse"></pre></div>
-                    </div>
-
-                    <div id="medication" class="tab-pane fade" role="tabpanel" aria-labelledby="tabMedication">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in medications track by $index">
-                            <tbody>
-                                <tr ng-repeat="(key,value) in t">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <ul class="nav nav-tabs-justified">
-
-                            <li class="active" data-toggle="collapse" data-target="#dataMedicationOrder"><a href="#">Full result in Json</a></li>
-
-                        </ul>   
-
-                        <div><pre id="dataMedicationOrder" class="json collapse"></pre></div>
-                    </div>
-                    
-                    <div id="lab" class="tab-pane fade" role="tabpanel" aria-labelledby="tabLab">
-                        <table class="table table-bordered table-hover table-responsive table-condensed bg-warning" ng-repeat="t in labs track by $index">
-                            <tbody>
-                                <tr ng-repeat="(key,value) in t">
-                                    <th scope="row">{{key}}</th>
-                                    <td>{{value}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <ul class="nav nav-tabs-justified">
-                            <li class="active" data-toggle="collapse" data-target="#dataObservation"><a href="#">Full result in Json</a></li>
-                        </ul>   
-                        <div><pre id="dataObservation" class="json collapse"></pre></div>
-                    </div>
-                </div>               
+                </div>             
 
     </div>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom collapse" id="bottomNavbar" hidden>
         <button class="btn btn-default text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNavbar" aria-controls="sideNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -334,6 +352,116 @@
         </div>
     </footer>
 
+    <script>
+    $(document).ready(function () {
+    var itemsMainDiv = ('.MultiCarousel');
+    var itemsDiv = ('.MultiCarousel-inner');
+    var itemWidth = "";
+
+    ResCarouselSize();
+    $('.leftLst, .rightLst').click(function () {
+        var condition = $(this).hasClass("leftLst");
+        if (condition)
+            click(0, this);
+        else
+            click(1, this);
+    }
+    );
+
+    ResCarouselSize();
+
+
+
+
+    $(window).resize(function () {
+        ResCarouselSize();
+    });
+
+    //this function define the size of the items
+    function ResCarouselSize() {
+        var incno = 0;
+        var dataItems = ("data-items");
+        var itemClass = ('.item');
+        var id = 0;
+        var btnParentSb = '';
+        var itemsSplit = '';
+        var sampwidth = $(itemsMainDiv).width();
+        var bodyWidth = $('body').width();
+        $(itemsDiv).each(function () {
+            id = id + 1;
+            var itemNumbers = $(this).find(itemClass).length;
+            btnParentSb = $(this).parent().attr(dataItems);
+            itemsSplit = btnParentSb.split(',');
+            $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+            if (bodyWidth >= 1200) {
+                incno = itemsSplit[3];
+                itemWidth = sampwidth / incno;
+            }
+            else if (bodyWidth >= 992) {
+                incno = itemsSplit[2];
+                itemWidth = sampwidth / incno;
+            }
+            else if (bodyWidth >= 768) {
+                incno = itemsSplit[1];
+                itemWidth = sampwidth / incno;
+            }
+            else {
+                incno = itemsSplit[0];
+                itemWidth = sampwidth / incno;
+            }
+            $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+            $(this).find(itemClass).each(function () {
+                $(this).outerWidth(itemWidth);
+            });
+
+            $(".leftLst").addClass("over");
+            $(".rightLst").removeClass("over");
+
+        });
+    }
+
+
+    //this function used to move the items
+    function ResCarousel(e, el, s) {
+        var leftBtn = ('.leftLst');
+        var rightBtn = ('.rightLst');
+        var translateXval = '';
+        var divStyle = $(el + ' ' + itemsDiv).css('transform');
+        var values = divStyle.match(/-?[\d\.]+/g);
+        var xds = Math.abs(values[4]);
+        if (e == 0) {
+            translateXval = parseInt(xds) - parseInt(itemWidth * s);
+            $(el + ' ' + rightBtn).removeClass("over");
+
+            if (translateXval <= itemWidth / 2) {
+                translateXval = 0;
+                $(el + ' ' + leftBtn).addClass("over");
+            }
+        }
+        else if (e == 1) {
+            var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+            translateXval = parseInt(xds) + parseInt(itemWidth * s);
+            $(el + ' ' + leftBtn).removeClass("over");
+
+            if (translateXval >= itemsCondition - itemWidth / 2) {
+                translateXval = itemsCondition;
+                $(el + ' ' + rightBtn).addClass("over");
+            }
+        }
+        $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+    }
+
+    //It is used to get some elements from btn
+    function click(ell, ee) {
+        var Parent = "#" + $(ee).parent().attr("id");
+        var slide = $(Parent).attr("data-slide");
+        ResCarousel(ell, Parent, slide);
+    }
+
+});
+</script>
 </body>
 </html>
 
