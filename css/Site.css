@@ -82,7 +82,7 @@ th {
       .row.content {height:auto;} 
     }
     
-    @media (max-width: 48em) {
+    @media (max-width: 1200px) {
         .card-columns {
             -webkit-column-count: 1;
             -moz-column-count: 1;
@@ -90,7 +90,7 @@ th {
         }
     }
 
-    @media (min-width: 48em) {
+    @media (min-width: 1200px) {
         .card-columns {
             -webkit-column-count: 2;
             -moz-column-count: 2;
@@ -98,7 +98,7 @@ th {
         }
     }
 
-    @media (min-width: 62em) {
+    @media (min-width: 1600px) {
         .card-columns {
             -webkit-column-count: 3;
             -moz-column-count: 3;
@@ -108,6 +108,29 @@ th {
 
 .navbar-custom {
     background-color: whitesmoke;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: orangered;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: red;
 }
 
 /* change the brand and text color */
