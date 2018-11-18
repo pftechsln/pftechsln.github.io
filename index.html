@@ -65,19 +65,20 @@
     <div class="container-fluid">
         <!-- EMR Login -->
         <div class="mx-auto my-5" id="emrLogin">
-            <div class="text-center box m-auto" style="max-width: 500px; min-width: 300px; background: white">
-                <div class="row m-auto" id="about" >
+            <div class="text-center m-auto p-1" style="max-width: 500px; min-width: 300px; background: white">
+                <div class="row m-auto p-2" id="about" >
                     <img src="/assets/fhir.png" width="80" height="45" class="d-inline-block align-text-bottom m-auto" />
                     <p>This is a prototype app that uses the SMART<sup>&reg;</sup> on FHIR<sup>&reg;</sup> technology to retrieve patient data from EHR systems.</p>
                 </div>
                 
-                <div class="box m-auto" id="loginOptions" style="background: whitesmoke">
-                    <button class="btn-info btn-md btn-block my-2" ng-click="displaySampleData()">View Sample Data</button>
-                    <button class="btn-danger btn-md btn-block my-2" ng-click="testCase('epic')">Epic Sandbox</button>
-                    <button class="btn-primary btn-md btn-block my-2" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
+                <div class="box mx-1 my-2" id="loginOptions" style="background: whitesmoke">
+                    <button class="btn-info btn-lg btn-block my-2" ng-click="displaySampleData()">View Sample Data</button>
+                    <button class="btn-danger btn-lg btn-block my-2" ng-click="testCase('epic')">Epic Sandbox</button>
+                    <button class="btn-primary btn-lg btn-block my-2" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
 
                     <hr />
-                    <div class="input-group">
+
+                    <div class="input-group my-2">
                         <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">                           
                             <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
                             <option selected>Choose an EHR to log in...</option>
@@ -85,9 +86,8 @@
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" ng-click="oauthLogin()">Login</button>
                         </div>
-                    </div>                 
-                    
-                    
+                    </div>          
+                        
                     <div><input type="checkbox" ng-model="lastLogin" checked/> Remember my selection</div>
 
                 </div>
