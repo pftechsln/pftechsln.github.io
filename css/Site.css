@@ -3,7 +3,7 @@ body {
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: black /* #b6dff1 */;
-    background-image: url("../assets/fire-bg2.jpg");
+    background-image: url("../assets/fire-bg2-lt.jpg");
     background-repeat: repeat-y;
     background-size: 100vw;
     background-position-y: 30%;
@@ -18,11 +18,11 @@ body {
 .navbar {
     margin-bottom: 1em;
 }
-    
+
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {height: 450px}
-    
+
 /* Set gray background color and 100% height */
 .sidenav {
     padding-top: 20px;
@@ -51,7 +51,7 @@ footer {
 
 th {
     text-align:  left;
-    
+
 }
 
 
@@ -79,9 +79,9 @@ th {
         height: auto;
         padding: 15px;
       }
-      .row.content {height:auto;} 
+      .row.content {height:auto;}
     }
-    
+
     @media (max-width: 1200px) {
         .card-columns {
             -webkit-column-count: 1;
@@ -136,7 +136,7 @@ th {
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
-    color: #d9534f;;
+    color: #d9534f;
 }
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
@@ -147,15 +147,6 @@ th {
     color: #428bca;;
 }
 
-
-
-.MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
-    .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
-        .MultiCarousel .MultiCarousel-inner .item { float: left;}
-        .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:10px; margin:10px; background:#f1f1f1; color:#666;}
-    .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
-    .MultiCarousel .leftLst { left:0; }
-    .MultiCarousel .rightLst { right:0; }
-    
-        .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
-        
+.navbar-custom {
+    background: whitesmoke;
+}
