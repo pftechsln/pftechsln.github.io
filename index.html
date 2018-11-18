@@ -54,7 +54,7 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnLogin">
+                    <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
                         <span class="fa fa-sign-in"></span>
                     </a>
                 </li>
@@ -80,15 +80,14 @@
 
                     <div class="input-group my-2">
                         <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">    
-                            <option selected>Choose an EHR to log in...</option>                       
+                            <option selected value="0">Choose data provider...</option>                       
                             <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
                         </select>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" ng-click="oauthLogin()">Login</button>
+                            <button id="btnLogin" class="btn btn-primary" type="button" ng-click="oauthLogin()" disabled>Login</button>
                         </div>
                     </div>          
-                        
-                    <div><input type="checkbox" ng-model="lastLogin" checked/> Remember my selection</div>
+                    <div><input type="checkbox" ng-model="rememberLastLogin" checked value="true"/> Remember my selection</div>
 
                 </div>
 
