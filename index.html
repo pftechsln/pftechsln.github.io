@@ -79,9 +79,9 @@
                     <hr />
 
                     <div class="input-group my-2">
-                        <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">                           
+                        <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">    
+                            <option selected>Choose an EHR to log in...</option>                       
                             <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
-                            <option selected>Choose an EHR to log in...</option>
                         </select>
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" ng-click="oauthLogin()">Login</button>
