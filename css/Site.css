@@ -3,7 +3,7 @@ body {
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: black /* #b6dff1 */;
-    background-image: url("../assets/fire-bg2-lt.jpg");
+    background-image: url("../assets/fire-bg2.jpg");
     background-repeat: repeat-y;
     background-size: 100vw;
     background-position-y: 30%;
@@ -38,7 +38,10 @@ body {
 
     /* Set black background color, white text and some padding */
 footer {
-    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
+    width: 100%;
+    margin: 0;
+
+    /* box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26); */
     /* background-image: url(../Images/background.png); */
 }
 
