@@ -7,12 +7,8 @@ function loadFhirData($scope, $http) {
     getPatData({ name: 'Immunization' }, $scope, $http);
     getPatData({ name: 'MedicationOrder' }, $scope, $http);
     getPatData({ name: 'Observation', queryFilter: 'category=laboratory', displayOverride: 'Observation-laboratory', }, $scope, $http);
-
-
-    $('#emrLogin').addClass('collapse');
-    $('#emrData').removeClass('collapse');
+    
     $('#btnLogin').removeClass('disable');
-    $('#bottomNavbar').removeClass('collapse');
     $scope.statusText = "";
 
 }
@@ -143,6 +139,7 @@ function displayAllergy(data, $scope) {
 
     var tmpEntry;
     var tmpStr = "";
+    var fhirRsr;
 
 
     if (data.total < 1) { return; }
@@ -186,11 +183,22 @@ function displayAllergy(data, $scope) {
                 oneAllergy["Note"] = tmpEntry.note.text;
             }
             //allergies[ln] = oneAllergy;
+
+            fhirRsr = {
+                "Type": "Allergy",
+                "Name": oneAllergy.Substance,
+                "Resource": oneAllergy,
+                "Source": $scope.fhirEndpointUrl,
+                "FhirURL": tmpEntry.fhirURL;
+                "Full_Resource": data.entry[ln];
+            }
+            $scope.fhirRsrList.push(fhirRsr);
+            console.log(fhirRsr);
         };
     }
     catch (error) { /* ignore */ };
 
-    $scope.allergies = allergies;
+    //$scope.allergies = allergies;
 }
 
 
@@ -345,11 +353,21 @@ function extractMedication(data, $scope) {
                     oneMed["Dosage Instruction"] = tmpEntry.dosageInstruction[0].text;
                 }
 
+                fhirRsr = {
+                    "Type": "Medication",
+                    "Name": oneMed.Medication,
+                    "Resource": oneMed,
+                    "Source": $scope.fhirEndpointUrl,
+                    "FhirURL": oneMed.fhirURL;
+                    "Full_Resource": data.entry[ln];
+                  }
+                $scope.fhirRsrList.push(fhirRsr);
+                console.log(fhirRsr);
             }
         }
     }
     catch (error) {
     };
 
-    $scope.medications = medications;
+    //$scope.medications = medications;
 }
