@@ -22,8 +22,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <!-- Site AngularJS -->
-    <script type="text/javascript" src="/js/loadSampleFhirData.js"></script>
-    <script type="text/javascript" src="/js/fhirData.js"></script>
     <script type="text/javascript" src="/js/myAngularApp.js"></script>
 
 
@@ -38,14 +36,18 @@
         <a class="navbar-brand justify-content-center py-1" href="#">
             <span class="fa fa-fire"> Health on FHIR<sup>&reg;</sup></span>
         </a>
-
+        
+        <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
+            <span class="fas fa-sign-in-alt"></span>
+        </a>
+        
         <!-- Menu Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+<!--         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
 
         <!-- Navbar Menu -->
-        <div class="collapse navbar-collapse" id="navbarMenu">
+<!--         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="index.html">Home</a>
@@ -59,273 +61,79 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </nav>
+      
+    <!-- EMR Login -->
+    <div class="container-fluid mx-auto mt-4 mb-5" id="emrLogin">
+        <div class="text-center m-auto p-1" style="max-width: 500px; min-width: 300px; background: white">
+            <div class="row mx-1 my-auto p-2" id="about" >
+                <img src="/assets/fhir.png" width="80" height="45" class="d-inline-block align-text-bottom m-auto" />
+                <p>This is a prototype app that uses the SMART<sup>&reg;</sup> on FHIR<sup>&reg;</sup> technology to retrieve patient data from EHR systems.</p>
+            </div>
+            
+            <div class="box mx-1 my-2" id="loginOptions" style="background: whitesmoke">
+                <button class="btn-info btn-lg btn-block my-2" ng-click="displaySampleData()">View Sample Data</button>
+                <button class="btn-danger btn-lg btn-block my-2" ng-click="testCase('epic')">Epic Sandbox</button>
+                <button class="btn-primary btn-lg btn-block my-2" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
 
+                <hr />
 
-        
-        <!-- EMR Login -->
-        <div class="container-fluid mx-auto my-4" id="emrLogin">
-            <div class="text-center m-auto p-1" style="max-width: 500px; min-width: 300px; background: white">
-                <div class="row mx-1 my-auto p-2" id="about" >
-                    <img src="/assets/fhir.png" width="80" height="45" class="d-inline-block align-text-bottom m-auto" />
-                    <p>This is a prototype app that uses the SMART<sup>&reg;</sup> on FHIR<sup>&reg;</sup> technology to retrieve patient data from EHR systems.</p>
-                </div>
-                
-                <div class="box mx-1 my-2" id="loginOptions" style="background: whitesmoke">
-                    <button class="btn-info btn-lg btn-block my-2" ng-click="displaySampleData()">View Sample Data</button>
-                    <button class="btn-danger btn-lg btn-block my-2" ng-click="testCase('epic')">Epic Sandbox</button>
-                    <button class="btn-primary btn-lg btn-block my-2" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
-
-                    <hr />
-
-                    <div class="input-group my-2">
-                        <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">    
-                            <option selected value="0">Choose data provider...</option>                       
-                            <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
-                        </select>
-                        <div class="input-group-append">
-                            <button id="btnLogin" class="btn btn-primary" type="button" ng-click="oauthLogin()" disabled>Login</button>
-                        </div>
-                    </div>          
-                    <div><input type="checkbox" ng-model="rememberLastLogin" checked value="true"/> Remember my selection</div>
-
-                </div>
-
-                <div id="debugBox" class="box" hidden>
-                    <div class="">
-                        <pre id="txtStatus">{{statusText}}</pre>
-                        <dl class="dl-horizontal">
-                            <dt>FHIR Base URL</dt>
-                            <dd>{{fhirBaseUrl}}</dd>
-
-                            <dt>FHIR Authorize Url</dt>
-                            <dd>{{fhirAuthUrl}}</dd>
-
-                            <dt>FHIR Token Url</dt>
-                            <dd>{{fhirTokenUrl}}</dd>
-
-                            <dt>FHIR Endpoint Url</dt>
-                            <dd>{{fhirEndpointUrl}}</dd>
-
-                            <dt>Client ID</dt>
-                            <dd>{{clientId}}</dd>
-
-                            <dt>Authorization Code</dt>
-                            <dd>{{oauthCode}}</dd>
-
-                            <dt>Access Token</dt>
-                            <dd>{{accessToken}}</dd>
-
-                            <dt>Patient ID</dt>
-                            <dd>{{patient}}</dd>
-                        </dl>
+                <div class="input-group my-2">
+                    <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">    
+                        <option selected value="0">Choose data source...</option>                       
+                        <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button id="btnLogin" class="btn btn-primary" type="button" ng-click="oauthLogin()" disabled>Login</button>
                     </div>
+                </div>          
+                <div><input type="checkbox" ng-model="rememberLastLogin" checked value="true"/> Remember my selection</div>
+
+            </div>
+
+            <div id="debugBox" class="box" hidden>
+                <div class="">
+                    <pre id="txtStatus">{{statusText}}</pre>
+                    <dl class="dl-horizontal">
+                        <dt>FHIR Base URL</dt>
+                        <dd>{{fhirBaseUrl}}</dd>
+
+                        <dt>FHIR Authorize Url</dt>
+                        <dd>{{fhirAuthUrl}}</dd>
+
+                        <dt>FHIR Token Url</dt>
+                        <dd>{{fhirTokenUrl}}</dd>
+
+                        <dt>FHIR Endpoint Url</dt>
+                        <dd>{{fhirEndpointUrl}}</dd>
+
+                        <dt>Client ID</dt>
+                        <dd>{{clientId}}</dd>
+
+                        <dt>Authorization Code</dt>
+                        <dd>{{oauthCode}}</dd>
+
+                        <dt>Access Token</dt>
+                        <dd>{{accessToken}}</dd>
+
+                        <dt>Patient ID</dt>
+                        <dd>{{patient}}</dd>
+                    </dl>
                 </div>
             </div>
         </div>
-    
-
-    <!-- EMR Data -->
-    <div class="container-fluid collapse col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-1" id="emrData">
-
-<!--         	<div class="row" hidden>
-                    <div class="MultiCarousel" data-items="1,1,2,3" data-slide="1" id="MultiCarousel"  data-interval="1000">
-                        <div class="MultiCarousel-inner">
-
-                            <div class="item">
-                                <div id="demographicCard" class="card bg-light">
-                                        <div class="card-header bg-info">
-                                            Demographics: {{patientDemo["Name"]}}
-                                        </div>
-                                        <div class="card-body p-1">
-                                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                                <tbody>
-                                                    <tr ng-repeat="(key,value) in patientDemo">
-                                                        <th scope="row">{{key}}</th>
-                                                        <td>{{value}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                </div>
-                            </div>
-
-                            <div class="item" ng-repeat="t in allergies track by $index">
-                                <div id="allergyCard" class="card bg-light">
-                                        <div class="card-header bg-danger">
-                                            Allergy: {{t.Substance}}
-                                        </div>
-                                        <div class="card-body p-1">
-                                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                                <tbody>
-                                                    <tr ng-repeat="(key,value) in t">
-                                                        <th scope="row">{{key}}</th>
-                                                        <td>{{value}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                </div>
-                            </div>
-
-
-                            <div class="item" ng-repeat="t in immunizations track by $index">
-                                <div id="immunizationCard" class="card bg-light">
-                                    <div class="card-header bg-success">
-                                        Immunization: {{t.Vaccine}}
-                                    </div>
-                                    <div class="card-body p-1">
-                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                            <tbody>
-                                                <tr ng-repeat="(key,value) in t">
-                                                    <th scope="row">{{key}}</th>
-                                                    <td>{{value}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item" ng-repeat="t in medications track by $index">
-                                <div id="medicationCard" class="card bg-light">
-                                    <div class="card-header bg-primary">
-                                        Medication: {{t.Medication}}
-                                    </div>
-                                    <div class="card-body p-1">
-                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                            <tbody>
-                                                <tr ng-repeat="(key,value) in t">
-                                                    <th scope="row">{{key}}</th>
-                                                    <td>{{value}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item" ng-repeat="t in labs track by $index">
-                                <div id="labCard" class="card bg-light">
-                                    <div class="card-header bg-warning">
-                                        Lab Test: {{t.Test}}
-                                    </div>
-                                    <div class="card-body p-1">
-                                        <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                            <tbody>
-                                                <tr ng-repeat="(key,value) in t">
-                                                    <th scope="row">{{key}}</th>
-                                                    <td>{{value}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <button class="btn btn-primary leftLst"><</button>
-                        <button class="btn btn-primary rightLst">></button>
-                    </div>
-            </div> -->
-
-            <div class="card-columns mx-auto">
-                    <div id="demographicCard" class="card bg-light">
-                            <div class="card-header bg-info">
-                                Demographics: {{patientDemo["Name"]}}
-                            </div>
-                            <div class="card-body p-1">
-                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                    <tbody>
-                                        <tr ng-repeat="(key,value) in patientDemo">
-                                            <th scope="row">{{key}}</th>
-                                            <td>{{value}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                    </div>
-
-                    <div id="allergyCard" class="card bg-light" ng-repeat="t in allergies track by $index">
-                        <div class="card-header bg-danger">
-                            Allergy: {{t.Substance}}
-                        </div>
-                        <div class="card-body p-1">
-                            <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                <tbody>
-                                    <tr ng-repeat="(key,value) in t">
-                                        <th scope="row">{{key}}</th>
-                                        <td>{{value}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div id="immunizationCard" class="card bg-light" ng-repeat="t in immunizations track by $index">
-                            <div class="card-header bg-success">
-                                Immunization: {{t.Vaccine}}
-                            </div>
-                            <div class="card-body p-1">
-                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                    <tbody>
-                                        <tr ng-repeat="(key,value) in t">
-                                            <th scope="row">{{key}}</th>
-                                            <td>{{value}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                    </div>
-
-                    <div id="medicationCard" class="card bg-light" ng-repeat="t in medications track by $index">
-                            <div class="card-header bg-primary">
-                                Medication: {{t.Medication}}
-                            </div>
-                            <div class="card-body p-1">
-                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                    <tbody>
-                                        <tr ng-repeat="(key,value) in t">
-                                            <th scope="row">{{key}}</th>
-                                            <td>{{value}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                    </div>
-
-                    <div id="labCard" class="card bg-light" ng-repeat="t in labs track by $index">
-                            <div class="card-header bg-warning">
-                                Lab Test: {{t.Test}}
-                            </div>
-                            <div class="card-body p-1">
-                                <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                    <tbody>
-                                        <tr ng-repeat="(key,value) in t">
-                                            <th scope="row">{{key}}</th>
-                                            <td>{{value}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                    </div>
-
-                </div>
-
     </div>
-
-
+    
     <!-- Footer -->
-<!--     <footer class="footer" style="background: black; color: white">
+    <footer class="footer" style="background: black; color: white">
         <div class="container text-center px-auto">
             <span>&copy; 2018 Pftech Healthcare Solutions   </span>
             <a href="mailto:pftechsln@gmail.com" id="email">
                 <i class="far fa-envelope bold" aria-hidden="true"></i>
             </a>
         </div>
-    </footer> -->
+    </footer>
 
 </body>
 </html>

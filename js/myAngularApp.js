@@ -208,6 +208,10 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
         loadFhirData($scope, $http);
     }
 
+    $scope.reLogin = function () {
+        sessionStorage.clear();
+    }
+    
 }]);
 
 
@@ -256,11 +260,7 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.reLogin = function () {
-        $('#emrLogin').removeClass('collapse');
-        //$('#emrData').addClass('collapse');
-        $('#btnLogin').addClass('disable');
-        $('#emrData').addClass('collapse');
-        $('#bottomNavbar').addClass('collapse');
+        sessionStorage.clear();
     }
 
     $scope.displaySampleData = function() {        

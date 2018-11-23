@@ -29,22 +29,25 @@
 
 <body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
 
-    <!-- Top Navigator Bar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light py-1" id="navbarTop">
+     <!-- Top Navigator Bar -->
+     <nav class="navbar navbar-expand-md navbar-light navbar-custom py-1" id="navbarTop">
 
         <!-- Brand Name -->
         <a class="navbar-brand justify-content-center py-1" href="#">
-            <span class="">Health on </span>
-            <img alt="FHIR" src="assets/fhir.png" width="80" height="40" class="d-inline-block align-text-bottom" />
+            <span class="fa fa-fire"> Health on FHIR<sup>&reg;</sup></span>
+        </a>
+
+        <a href="index.html" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
+            <span class="fas fa-sign-in-alt"></span>
         </a>
 
         <!-- Menu Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+<!--         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
 
         <!-- Navbar Menu -->
-        <div class="collapse navbar-collapse" id="navbarMenu">
+<!--         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="index.html">Home</a>
@@ -53,12 +56,12 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnLogin">
-                        <span class="fa fa-sign-in"></span>
+                    <a href="index.html" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
+                        <span class="fas fa-sign-in-alt"></span>
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </nav>
 
     <!-- EMR Data -->
