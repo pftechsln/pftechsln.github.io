@@ -19,7 +19,7 @@ function loadSampleData($scope) {
       "FhirURL": "https://sampledata.com/demo"
     }
     var fhirRsrList=[];
-    fhirRsrList[0] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
 
     var allergies = [
     {
@@ -51,7 +51,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/allergy/1"
     }
-    fhirRsrList[1] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
     fhirRsr = {
       "Type": "Allergy",
       "Name": allergies[1].Substance,
@@ -59,7 +59,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/allergy/2"
     }
-    fhirRsrList[2] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
 
     var medications = [
     {
@@ -84,7 +84,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/medication/1"
     }
-    fhirRsrList[3] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
     fhirRsr = {
       "Type": "Medication",
       "Name": medications[1].Medication,
@@ -92,7 +92,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/medication/2"
     }
-    fhirRsrList[4] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
 
     var immunizations = [
     {
@@ -115,7 +115,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/immunization/1"
     }
-    fhirRsrList[5] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
     fhirRsr = {
       "Type": "Immunization",
       "Name": immunizations[1].Vaccine,
@@ -123,7 +123,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/immunization/2"
     }
-    fhirRsrList[6] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
 
     var labs = [
     {
@@ -150,7 +150,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/labtest/1"
     }
-    fhirRsrList[7] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
     fhirRsr = {
       "Type": "Lab Test",
       "Name": labs[1].Test,
@@ -158,7 +158,7 @@ function loadSampleData($scope) {
       "Source": "Sample Data",
       "FhirURL": "https://sampledata.com/labtest/2"
     }
-    fhirRsrList[8] = fhirRsr;
+    fhirRsrList.push(fhirRsr);
 
     $scope.patientDemo = patient;
     $scope.allergies = allergies;
