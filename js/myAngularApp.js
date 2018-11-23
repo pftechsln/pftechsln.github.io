@@ -167,11 +167,12 @@ var app = angular.module('myApp', []);
 app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
 
     var oauthCode = sessionStorage.getItem('oauthCode');
+    console.log(oauthCode);
 
     if (oauthCode == null) {
+
         loadSampleData($scope);
-        $('#emrData').removeClass('collapse');
-        $('#bottomNavbar').removeClass('collapse');
+        console.log("load sample data...");
     }
     else
     {
@@ -180,9 +181,11 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
         // Retrieve the session state/settings of FHIR
         //testCase(sessionStorage.getItem('testCase'), $scope);
         loadFhirSettings($scope);
+        console.log("load fhir settings");
 
         // Exchange authorization code for access token
         getAccessToken($scope, $http);
+        console.log("load fhir data");
     }
 
 
@@ -218,14 +221,6 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
             sessionStorage.setItem("oauthCode", oauthCode);
 
             window.location.href = "fhirData.html";
-
-            // Retrieve the session state/settings of FHIR
-            //testCase(sessionStorage.getItem('testCase'), $scope);
-            //loadFhirSettings($scope);
-
-            // Exchange authorization code for access token
-            //getAccessToken($scope, $http);
-
         }
     }
 
@@ -240,8 +235,6 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
         testCase(caseName, $scope);
     };
 
-    
-
     // Udate settings from the Data URL
     $scope.updateSettings = function () {
         setFhirSettings($scope);
@@ -255,8 +248,7 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
         $('#bottomNavbar').addClass('collapse');
     }
 
-    $scope.displaySampleData = function() {
-        
+    $scope.displaySampleData = function() {        
         window.location.href = "fhirData.html";
     }
 }]);
