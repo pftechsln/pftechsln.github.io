@@ -192,7 +192,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     }
     else
     {
-        loadFhirData();
+        loadFhirData($scope, $http);
     }
 
 
