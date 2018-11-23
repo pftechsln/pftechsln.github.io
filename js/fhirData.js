@@ -188,7 +188,7 @@ function displayAllergy(data, $scope) {
                 "Name": oneAllergy.Substance,
                 "Resource": oneAllergy,
                 "Source": $scope.fhirEndpointUrl,
-                "Full_Resource": data.entry[ln];
+                "Full_Resource": data.entry[ln],
             }
             $scope.fhirRsrList.push(fhirRsr);
             console.log(fhirRsr);
@@ -356,7 +356,7 @@ function extractMedication(data, $scope) {
                     "Name": oneMed.Medication,
                     "Resource": oneMed,
                     "Source": $scope.fhirEndpointUrl,
-                    "Full_Resource": data.entry[ln];
+                    "Full_Resource": data.entry[ln],
                   }
                 $scope.fhirRsrList.push(fhirRsr);
                 console.log(fhirRsr);
