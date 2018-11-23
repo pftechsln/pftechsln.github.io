@@ -151,6 +151,7 @@ function getAccessToken($scope, $http) {
             $scope.accessToken = data.access_token;
             $scope.patient = data.patient;
             $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
+            sessionStorage.setItem("accessToken", $scope.accessToken);
 
             loadFhirData($scope, $http);
         },
@@ -168,6 +169,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
 
     var fhirRsrList = [];
     var oauthCode = sessionStorage.getItem('oauthCode');
+    var accessToken = sessionStorage.getItem('accessToken');
     console.log(oauthCode);
 
     if (oauthCode == null) {
@@ -175,7 +177,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
         loadSampleData($scope);
         console.log("load sample data...");
     }
-    else
+    else if (accessToken == null)
     {
         $scope.oauthCode = oauthCode;
     
@@ -187,6 +189,10 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
         // Exchange authorization code for access token
         getAccessToken($scope, $http);
         console.log("load fhir data");
+    }
+    else
+    {
+        loadFhirData();
     }
 
 
