@@ -176,7 +176,6 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     else
     {
         $scope.oauthCode = oauthCode;
-
     
         // Retrieve the session state/settings of FHIR
         //testCase(sessionStorage.getItem('testCase'), $scope);
