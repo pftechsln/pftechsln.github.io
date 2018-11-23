@@ -177,8 +177,9 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     {
         $scope.oauthCode = oauthCode;
 
+    
         // Retrieve the session state/settings of FHIR
-        testCase(sessionStorage.getItem('testCase'), $scope);
+        //testCase(sessionStorage.getItem('testCase'), $scope);
         loadFhirSettings($scope);
 
         // Exchange authorization code for access token
