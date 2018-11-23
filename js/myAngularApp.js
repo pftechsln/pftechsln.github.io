@@ -152,6 +152,7 @@ function getAccessToken($scope, $http) {
             $scope.patient = data.patient;
             $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
             sessionStorage.setItem("accessToken", $scope.accessToken);
+            sessionStorage.setItem("patient", data.patient);
 
             loadFhirData($scope, $http);
         },
@@ -192,6 +193,8 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     }
     else
     {
+        $scope.accessToken = data.access_token;
+        $scope.patient = data.patient;
         loadFhirData($scope, $http);
     }
 
