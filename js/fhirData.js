@@ -1,3 +1,4 @@
+
 function loadFhirData($scope, $http) {
 
     $scope.statusText = "In progress: loading patient data from EMR server...";

@@ -34,40 +34,10 @@ var epicClient = {
     redirectUri: "https://pftechsln.github.io/",
 }
 
-// Constants : FHIR Organization URLs (will read from a file or
-var strUrl = '{ "Entries": [{ "OrganizationName": "Overlake Medical Center", "FHIRPatientFacingURI": "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/"}, { "OrganizationName": "Altru Health System", "FHIRPatientFacingURI": "https://epicsoap.altru.org/fhir/api/FHIR/DSTU2/" }, { "OrganizationName": "Bellin Health", "FHIRPatientFacingURI": "https://arr.thedacare.org/BLN/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "Carle Foundation Hospital \u0026 Physician Group", "FHIRPatientFacingURI": "https://epicsoap.carle.com/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "Cedars-Sinai Health System", "FHIRPatientFacingURI": "https://cslinkmobile.csmc.edu/fhirproxy/api/FHIR/DSTU2/" }, { "OrganizationName": "Hattiesburg Clinic and Forrest General Hospital", "FHIRPatientFacingURI": "https://soapprod.hattiesburgclinic.com/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "Hospital for Special Surgery", "FHIRPatientFacingURI": "https://epicproxy.et0927.epichosted.com/FHIRProxy/api/FHIR/DSTU2/" }, { "OrganizationName": "Martin Health System", "FHIRPatientFacingURI": "https://prodrx919.martinhealth.org/FHIR-PRD/api/FHIR/DSTU2/" }, { "OrganizationName": "Nebraska Medicine", "FHIRPatientFacingURI": "https://ocsoapprd.nebraskamed.com/FHIR-PRD/api/FHIR/DSTU2/" }, { "OrganizationName": "Norton Healthcare", "FHIRPatientFacingURI": "https://epicsoap.nortonhealthcare.org/FHIRPRD/api/FHIR/DSTU2/" }, { "OrganizationName": "Ochsner Health System", "FHIRPatientFacingURI": "https://myc.ochsner.org/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "Sansum Clinic", "FHIRPatientFacingURI": "https://wavesurescripts.sansumclinic.org/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "SSM Health", "FHIRPatientFacingURI": "https://fhir.ssmhc.com/fhir/api/FHIR/DSTU2/" }, { "OrganizationName": "SSM Health WI Dean Medical Group and Affiliates", "FHIRPatientFacingURI": "https://deanrx.deancare.com/fhir/api/FHIR/DSTU2/" }, { "OrganizationName": "Texas Children\u0027s Hospital", "FHIRPatientFacingURI": "https://mobileapps.texaschildrens.org/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "ThedaCare", "FHIRPatientFacingURI": "https://arr.thedacare.org/TC/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "UF Health", "FHIRPatientFacingURI": "https://epicsoap.shands.ufl.edu/FHIR/api/FHIR/DSTU2/" }, { "OrganizationName": "UW Health And Affiliates - Wisconsin", "FHIRPatientFacingURI": "https://epicproxy.hosp.wisc.edu/FhirProxy/api/FHIR/DSTU2/" }, { "OrganizationName": "Weill Cornell Medicine", "FHIRPatientFacingURI": "https://epicmobile.med.cornell.edu/FHIR/api/FHIR/DSTU2/" }] }';
-var listOrgs = JSON.parse(strUrl);
-
-
-function launch($scope, $http) {
-
-
-    loadFhirOrg($scope, $http);
-    //getOrgList($scope, $http);
-
-    if (window.location.search.length > 3) {
-        var code = window.location.search.substring(1).split('=');
-
-        // Redirected from OAuth login with authorization code
-        if (code[0] == "code") {
-            oauthCode = code[1];
-            $scope.oauthCode = oauthCode;
-
-            // Retrieve the session state/settings of FHIR
-            //testCase(sessionStorage.getItem('testCase'), $scope);
-            loadFhirSettings($scope);
-
-            // Exchange authorization code for access token
-            getAccessToken($scope, $http);
-
-        }
-
-    }
-}
-
+// Load the list of fhir endpoints from the json file
 function loadFhirOrg($scope, $http) {
-
     var data;
+
     $.ajax({
         url: "/assets/EpicEndpoints.json",
         dataType: 'json',
@@ -193,12 +163,71 @@ function getAccessToken($scope, $http) {
 
 
 var app = angular.module('myApp', []);
-app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
+
+app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    var oauthCode = sessionStorage.getItem('oauthCode');
+
+    if (oauthCode.length == 0) {
+        loadSampleData($scope);
+        $('#emrData').removeClass('collapse');
+        $('#bottomNavbar').removeClass('collapse');
+    }
+    else
+    {
+        $scope.oauthCode = oauthCode;
+
+        // Retrieve the session state/settings of FHIR
+        testCase(sessionStorage.getItem('testCase'), $scope);
+        loadFhirSettings($scope);
+
+        // Exchange authorization code for access token
+        getAccessToken($scope, $http);
+    }
+
+
+    $scope.getAccessToken = function () {
+        getAccessToken($scope, $http);
+    }
+
+    $scope.loadFhirData = function () {
+        loadFhirData($scope, $http);
+    }
+
+}]);
+
+
+app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
+
 
     $scope.rememberLastLogin = "true";
     $scope.fhirEndpointUrl ="0";
    
-    launch($scope, $http);
+    
+    // Load list of fhir endpoints orgs and URLs
+    loadFhirOrg($scope, $http);
+
+    // 
+    if (window.location.search.length > 3) {
+        var code = window.location.search.substring(1).split('=');
+
+        // Redirected from OAuth login with authorization code
+        if (code[0] == "code") {
+            oauthCode = code[1];
+            $scope.oauthCode = oauthCode;
+            sessionStorage.setItem("oauthCode", oauthCode);
+
+            window.location.href = "fhirData.html";
+
+            // Retrieve the session state/settings of FHIR
+            //testCase(sessionStorage.getItem('testCase'), $scope);
+            //loadFhirSettings($scope);
+
+            // Exchange authorization code for access token
+            //getAccessToken($scope, $http);
+
+        }
+    }
 
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
@@ -211,9 +240,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
         testCase(caseName, $scope);
     };
 
-    $scope.getAccessToken = function () {
-        getAccessToken($scope, $http);
-    }
+    
 
     // Udate settings from the Data URL
     $scope.updateSettings = function () {
@@ -228,16 +255,8 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
         $('#bottomNavbar').addClass('collapse');
     }
 
-    $scope.loadFhirData = function () {
-        loadFhirData($scope, $http);
-    }
-
     $scope.displaySampleData = function() {
-        loadSampleData($scope);
-
-        $('#emrLogin').addClass('collapse');
-        $('#emrData').removeClass('collapse');
-        $('#btnReLogin').removeClass('disable');
-        $('#bottomNavbar').removeClass('collapse');
+        
+        window.location.href = "fhirData.html";
     }
 }]);
