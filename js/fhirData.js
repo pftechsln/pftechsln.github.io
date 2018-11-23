@@ -33,7 +33,6 @@ function getPatData(resource, $scope, $http) {
         url = url + "/" + resource.name + "?patient=" + $scope.patient;
     }
 
-
     $http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.accessToken;
     $http({
         method: 'GET',
