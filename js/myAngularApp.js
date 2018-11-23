@@ -193,6 +193,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     }
     else
     {
+        loadFhirSettings($scope);
         $scope.accessToken = accessToken;
         $scope.patient =  sessionStorage.getItem('patient');;
         loadFhirData($scope, $http);
