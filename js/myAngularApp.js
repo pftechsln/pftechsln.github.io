@@ -223,6 +223,10 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
             window.location.href = "fhirData.html";
         }
     }
+    else
+    {
+        sessionStorage.clear();
+    }
 
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
