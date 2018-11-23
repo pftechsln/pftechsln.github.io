@@ -168,7 +168,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
 
     var oauthCode = sessionStorage.getItem('oauthCode');
 
-    if (oauthCode.length == 0) {
+    if (oauthCode == null) {
         loadSampleData($scope);
         $('#emrData').removeClass('collapse');
         $('#bottomNavbar').removeClass('collapse');
