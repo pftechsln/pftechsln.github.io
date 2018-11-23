@@ -168,9 +168,9 @@ var app = angular.module('myApp', []);
 
 app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    var fhirRsrList = [];
     var oauthCode = sessionStorage.getItem('oauthCode');
     var accessToken = sessionStorage.getItem('accessToken');
+    $scope.fhirRsrList = [];
     console.log(oauthCode);
 
     if (oauthCode == null) {
