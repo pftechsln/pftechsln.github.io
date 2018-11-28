@@ -237,7 +237,7 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
 
             var redirectUri = sessionStorage.getItem('redirectUri');
             if (redirectUri == null){
-                window.location.href = "https://localhost:3000/index.html?code=" + oauthCode;
+                window.location.href = "https://healthonfhir.azurewebsites.net/index.html?code=" + oauthCode;
             }
             else{
                 window.location.href = "fhirData.html";
