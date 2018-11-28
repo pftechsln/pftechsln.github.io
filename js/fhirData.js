@@ -8,7 +8,6 @@ function loadFhirData($scope, $http) {
     getPatData({ name: 'MedicationOrder' }, $scope, $http);
     getPatData({ name: 'Observation', queryFilter: 'category=laboratory', displayOverride: 'Observation-laboratory', }, $scope, $http);
     
-    $('#btnLogin').removeClass('disable');
     $scope.statusText = "";
 
 }
@@ -128,9 +127,15 @@ function displayPatient(data, $scope) {
         }
     }
 
-    //var jsonHtmlTable = ConvertJsonToTable(eval(data), 'jsonTable', null, 'Download')
+    var fhirRsr = {
+        "Type": "Demographics",
+        "Name": patient.Name,
+        "Resource": patient,
+        "Source": $scope.fhirEndpointUrl,
+        "Full_Resource": data,
+    }
+    $scope.fhirRsrList.push(fhirRsr);
 
-    //$('#tablePatient').html(jsonHtmlTable);
     $scope.patientDemo = patient;
 }
 

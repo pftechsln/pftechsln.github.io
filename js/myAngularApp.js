@@ -211,7 +211,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.reLogin = function () {
         sessionStorage.clear();
     }
-    
+
 }]);
 
 
@@ -235,7 +235,13 @@ app.controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.oauthCode = oauthCode;
             sessionStorage.setItem("oauthCode", oauthCode);
 
-            window.location.href = "fhirData.html";
+            var redirectUri = sessionStorage.getItem('redirectUri');
+            if (redirectUri == null){
+                window.location.href = "https://localhost:3000/index.html?code=" + oauthCode;
+            }
+            else{
+                window.location.href = "fhirData.html";
+            }
         }
     }
     else
