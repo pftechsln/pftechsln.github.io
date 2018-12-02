@@ -18,6 +18,16 @@ var resources = [
     { name: 'DocumentReference' },
 ];
 
+// Get the current base URL and use it as the redirect URL
+// 12/01/18 - Added
+function getBaseURL() {
+    var url = window.location.href;  // entire url including querystring - also: window.location.href;
+    var baseURL = url.substring(0, url.indexOf('/', 14));
+
+    console.log(url + "-" + baseURL);
+    return baseURL;
+}
+
 // Constants: FHIR Client for Health Organization on Epic
 var defaultClient = {
     name: 'PatientFHIR',
@@ -81,7 +91,8 @@ function setFhirSettings($scope, endpointUrl, testClient) {
     }
 
     $scope.clientId = testClient.clientId;
-    $scope.redirectUri = testClient.redirectUri;
+    //$scope.redirectUri = testClient.redirectUri;
+    $scope.redirectUri = getBaseURL() + "/fhirData.html";
 
     $scope.fhirBaseUrl = endpointUrl.replace("api/FHIR/DSTU2/", "");
     $scope.fhirAuthUrl = $scope.fhirBaseUrl + "oauth2/authorize?response_type=code&client_id=" + $scope.clientId + "&redirect_uri=" + $scope.redirectUri;
@@ -172,12 +183,27 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
     var accessToken = sessionStorage.getItem('accessToken');
     $scope.fhirRsrList = [];
     console.log(oauthCode);
+    
+    // If from redirecting after oauth login, get oauth code from the url
+    if (window.location.search.length > 3) {
+        var code = window.location.search.substring(1).split('=');
 
+        // Redirected from OAuth login with authorization code
+        if (code[0] == "code") {
+            oauthCode = code[1];
+            $scope.oauthCode = oauthCode;
+            sessionStorage.setItem("oauthCode", oauthCode);
+
+        }
+    }
+
+    // No oauth code: load sample data without login
     if (oauthCode == null) {
 
         loadSampleData($scope);
         console.log("load sample data...");
     }
+    // Has oauth code but not access code: exchange with access code and then retrieve fhir resources
     else if (accessToken == null)
     {
         $scope.oauthCode = oauthCode;
@@ -191,6 +217,7 @@ app.controller('fhirDataCtrl', ['$scope', '$http', function ($scope, $http) {
         getAccessToken($scope, $http);
         console.log("load fhir data");
     }
+    // Has both: refreshing the page, so reload the data
     else
     {
         loadFhirSettings($scope);
