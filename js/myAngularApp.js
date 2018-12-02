@@ -99,8 +99,8 @@ function setFhirSettings($scope, endpointUrl, testClient) {
     $scope.fhirTokenUrl = $scope.fhirBaseUrl + "oauth2/token";
 
     sessionStorage.setItem('fhirEndpointUrl', endpointUrl);
-    sessionStorage.setItem('client', testClient.clientId);
-    sessionStorage.setItem('redirectUri', testClient.redirectUri);
+    sessionStorage.setItem('client', $scope.clientId);
+    sessionStorage.setItem('redirectUri', $scope.redirectUri);
 
     // save off last login in cookie
     console.log($scope.rememberLastLogin);
