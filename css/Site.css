@@ -2,11 +2,11 @@
 body {
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: black /* #b6dff1 */;
-    background-image: url("../assets/fire-bg2.jpg");
+    background-color: #b6dff1;
+  /*  background-image: url("../assets/fire-bg2.jpg");
     background-repeat: repeat-y;
     background-size: 100vw;
-    background-position-y: 30%;
+    background-position-y: 30%; */
     height: 100%;
 }
 
