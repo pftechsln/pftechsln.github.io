@@ -22,6 +22,9 @@
         <h4>Medications</h4>
         <div id="meds">Loading...</div>
         <script type="text/javascript">
+            const client = FHIR.client("https://r3.smarthealthit.org");
+            client.request("Patient").then(console.log).catch(console.error);
+            
             FHIR.oauth2.ready().then(function(client) {
                 
                 // Render the current patient (or any error)
