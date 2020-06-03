@@ -22,9 +22,9 @@
         <h4>Medications</h4>
         <div id="meds">Loading...</div>
         <script type="text/javascript">
-            
+            document.getElementById("patient").innerText = "OK" + JSON.stringify(FHIR, null, 4);
             FHIR.oauth2.ready().then(function(client) {
-                
+                document.getElementById("patient").innerText = "OK2" + JSON.stringify(FHIR, null, 4);
                 // Render the current patient (or any error)
                 client.patient.read().then(
                     function(pt) {
