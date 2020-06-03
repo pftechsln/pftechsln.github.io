@@ -36,7 +36,11 @@
   </head>
 
   <body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
-    <!--Navigation bar-->
+    
+    <!-- Main Container -->
+    <div class="container-fluid" id="mainFhir">
+
+      <!--Navigation bar-->
     <div id="nav-placeholder"></div>
 
     <script>
@@ -46,13 +50,9 @@
     </script>
     <!--end of Navigation bar-->
 
-    <!-- Main Container -->
-    <div class="container-fluid py-2" id="mainFhir">
-
       <!-- Summary Dashboard-->
-      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12" id="summary">
+      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12 mt-2" id="summary">
  
-         
           <div class="card" ng-repeat="t in rsrTypeList track by $index">
               <div class="card-body">
                 <button class="btn w-100 card-title" data-toggle="collapse" data-target="#{{t.displayOverride?t.displayOverride:t.name}}">
@@ -62,11 +62,12 @@
                 <pre class="card-text collapse" id="{{t.displayOverride?t.displayOverride:t.name}}">loading ... </pre>
               </div>
           </div>
+    
       </div>
       <!-- End of Summary Dashboard -->
 
       <!-- EMR Data Card-Columns -->
-      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12" id="emrData">
+      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12 mb-5" id="emrData">
         <div class="card-columns mx-auto">
 
           <!-- FHIR Resource Card -->
@@ -100,11 +101,11 @@
     <!-- End of Main Container -->
 
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom"
+      class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom"
       id="bottomNavbar"
     >
       <button
-        class="btn btn-default text-center navbar-brand"
+        class="btn btn-secondary text-center navbar-brand"
         ng-click="loadFhirData()"
       >
         Reload Data
@@ -203,12 +204,12 @@
     </nav>
 
     <!-- Footer -->
-    <div id="footer-placeholder"></div>
+<!--     <div id="footer-placeholder"></div>
     <script>
       $(function () {
         $('#footer-placeholder').load('include/footer.html');
       });
-    </script>
+    </script> -->
     <!-- End of Footer -->
   </body>
 </html>

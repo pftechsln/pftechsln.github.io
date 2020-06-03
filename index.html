@@ -31,18 +31,18 @@
   </head>
 
   <body ng-app="myApp" ng-controller="loginCtrl" id="pageTop">
-    <!--Navigation bar-->
-    <div id="nav-placeholder"></div>
-
-    <script>
-      $(function () {
-        $('#nav-placeholder').load('include/nav.html');
-      });
-    </script>
-    <!--end of Navigation bar-->
-
     <!-- Main container -->
     <div class="container-fluid" id="mainIndex">
+      <!--Navigation bar-->
+      <div id="nav-placeholder"></div>
+
+      <script>
+        $(function () {
+          $('#nav-placeholder').load('include/nav.html');
+        });
+      </script>
+      <!--end of Navigation bar-->
+
       <!-- EHR Login -->
       <div class="container-fluid m-auto p-1" id="emrLogin">
         <!-- About -->
@@ -193,16 +193,16 @@
         <!-- End of Debug box -->
       </div>
       <!-- End of EHR login -->
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+      <script>
+        $(function () {
+          $('#footer-placeholder').load('include/footer.html');
+        });
+      </script>
+      <!-- End of Footer -->
     </div>
     <!-- End of main container -->
-
-    <!-- Footer -->
-    <div id="footer-placeholder"></div>
-    <script>
-      $(function () {
-        $('#footer-placeholder').load('include/footer.html');
-      });
-    </script>
-    <!-- End of Footer -->
   </body>
 </html>

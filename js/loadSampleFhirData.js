@@ -14,7 +14,7 @@ function loadSampleData($scope) {
     Type: 'Demographics',
     Name: patient.Name,
     Resource: patient,
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/demo',
   };
   var fhirRsrList = [];
@@ -47,7 +47,7 @@ function loadSampleData($scope) {
     Type: 'Allergy',
     Name: allergies[0].Substance,
     Resource: allergies[0],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/allergy/1',
   };
   fhirRsrList.push(fhirRsr);
@@ -55,7 +55,7 @@ function loadSampleData($scope) {
     Type: 'Allergy',
     Name: allergies[1].Substance,
     Resource: allergies[1],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/allergy/2',
   };
   fhirRsrList.push(fhirRsr);
@@ -81,7 +81,7 @@ function loadSampleData($scope) {
     Type: 'Medication',
     Name: medications[0].Medication,
     Resource: medications[0],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/medication/1',
   };
   fhirRsrList.push(fhirRsr);
@@ -89,7 +89,7 @@ function loadSampleData($scope) {
     Type: 'Medication',
     Name: medications[1].Medication,
     Resource: medications[1],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/medication/2',
   };
   fhirRsrList.push(fhirRsr);
@@ -112,7 +112,7 @@ function loadSampleData($scope) {
     Type: 'Immunization',
     Name: immunizations[0].Vaccine,
     Resource: immunizations[0],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/immunization/1',
   };
   fhirRsrList.push(fhirRsr);
@@ -120,7 +120,7 @@ function loadSampleData($scope) {
     Type: 'Immunization',
     Name: immunizations[1].Vaccine,
     Resource: immunizations[1],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/immunization/2',
   };
   fhirRsrList.push(fhirRsr);
@@ -147,7 +147,7 @@ function loadSampleData($scope) {
     Type: 'Lab Test',
     Name: labs[0].Test,
     Resource: labs[0],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/labtest/1',
   };
   fhirRsrList.push(fhirRsr);
@@ -155,7 +155,7 @@ function loadSampleData($scope) {
     Type: 'Lab Test',
     Name: labs[1].Test,
     Resource: labs[1],
-    Source: 'Sample Data',
+    SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/labtest/2',
   };
   fhirRsrList.push(fhirRsr);

@@ -7,15 +7,15 @@
 }
 
 #mainIndex {
-  background-color: #e7ecee;
+  background-color: rgb(220, 220, 220);
   margin: 0px;
-  padding-bottom: 20px;
+  height: 100vh;
 }
 
 #mainFhir {
-  background-color: #acafb1;
+  background-color: rgb(220, 220, 220);
   margin: 0px;
-  padding-bottom: 20px;
+  height: 100%;
 }
 
 /* change the color of active or hovered links */
@@ -99,16 +99,18 @@ hr.hr-text::before {
 
 /* Set black background color, white text and some padding */
 footer {
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
 
   box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
     1px 2px 5px 1px rgba(0, 0, 0, 0.26);
 
   background-color: rgb(60, 60, 60);
 
-  /*   position: fixed;
+  position: absolute;
   bottom: 0;
-  left: 0; */
+  left: 0;
+  width: 100%;
 
   /*   
   background-image: linear-gradient(
@@ -129,7 +131,7 @@ footer {
 }
 
 .fhirAllergy .card-header {
-  background-color: green;
+  background-color: teal;
 }
 
 .fhirDemographics .card-header {
@@ -138,6 +140,14 @@ footer {
 
 .fhirMedication .card-header {
   background-color: yellowgreen;
+}
+
+.fhirImmunization .card-header {
+  background-color: purple;
+}
+
+.fhirLab .card-header {
+  background-color: orangered;
 }
 
 th {
