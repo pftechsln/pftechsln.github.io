@@ -55,11 +55,11 @@
          
           <div class="card" ng-repeat="t in rsrTypeList track by $index">
               <div class="card-body">
-                <button class="btn w-100 card-title" data-toggle="collapse" data-target="#{{t}}">
-                  <span class="float-left">{{t}}</span>
-                  <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+t}}>Loading ...</span>
+                <button class="btn w-100 card-title" data-toggle="collapse" data-target="#{{t.displayOverride?t.displayOverride:t.name}}">
+                  <span class="float-left">{{t.displayOverride?t.displayOverride:t.name}}</span>
+                  <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+(t.displayOverride?t.displayOverride:t.name)}}>Loading ...</span>
                 </button>
-                <pre class="card-text collapse" id="{{t}}">loading ... </pre>
+                <pre class="card-text collapse" id="{{t.displayOverride?t.displayOverride:t.name}}">loading ... </pre>
               </div>
           </div>
       </div>

@@ -11,8 +11,8 @@ async function loadAllFhirResources($scope, $http) {
   await getPatData({ name: 'Conformance' }, $scope, $http);
 
   $scope.rsrTypeList.forEach((type) => {
-    console.log('loading ... ', type);
-    getPatData({ name: type }, $scope, $http);
+    console.log('loading ... ', type.name);
+    getPatData(type, $scope, $http);
   });
 }
 
@@ -34,7 +34,25 @@ function displayConformance(data, $scope) {
       });
 
       if (patientSearch || type === 'Patient') {
-        $scope.rsrTypeList.push(type);
+        if (type === 'Observation') {
+          $scope.rsrTypeList.push({
+            name: 'Observation',
+            queryFilter: 'category=laboratory',
+            displayOverride: 'Observation-laboratory',
+          });
+          $scope.rsrTypeList.push({
+            name: 'Observation',
+            queryFilter: 'category=social-history',
+            displayOverride: 'Observation-social-history',
+          });
+          $scope.rsrTypeList.push({
+            name: 'Observation',
+            queryFilter: 'category=vital-signs',
+            displayOverride: 'Observation-vital-signs',
+          });
+        } else {
+          $scope.rsrTypeList.push({ name: type });
+        }
       }
     }
   }
@@ -60,6 +78,9 @@ function loadFhirResources($scope, $http) {
 // Retrive patient data
 async function getPatData(resource, $scope, $http) {
   var url = $scope.fhirEndpointUrl;
+  const type = resource.displayOverride
+    ? resource.displayOverride
+    : resource.name;
 
   // Conformance
   if (resource.name === 'Conformance') {
@@ -92,6 +113,8 @@ async function getPatData(resource, $scope, $http) {
     url = url + '/' + resource.name + '?patient=' + $scope.patient;
   }
 
+  console.log('GET: ', url);
+
   $http.defaults.headers.common['Authorization'] =
     'Bearer ' + $scope.accessToken;
 
@@ -105,25 +128,25 @@ async function getPatData(resource, $scope, $http) {
     const jsonString = JSON.stringify(substance, undefined, 2);
 
     $scope.rawFhirRsrList.push({
-      type: resource.name,
+      type: type,
       json: jsonString,
       full: substance,
     });
 
-    $('#data' + resource.name).html(jsonString);
+    $('#data' + type).html(jsonString);
 
     if (substance['resourceType'] === 'Bundle') {
       entityCount = substance.total;
     } else {
       entityCount = 1;
     }
-    $('#cnt' + resource.name).html(entityCount);
-    $('#cnt' + resource.name).addClass('bg-warning');
-    $('#cnt2' + resource.name).html(entityCount);
-    $('#cnt2' + resource.name).addClass('bg-success');
-    $('#cnt2' + resource.name).addClass('text-light');
-    $('#cnt2' + resource.name).removeClass('bg-warning');
-    $('#' + resource.name).html(jsonString);
+    $('#cnt' + type).html(entityCount);
+    $('#cnt' + type).addClass('bg-warning');
+    $('#cnt2' + type).html(entityCount);
+    $('#cnt2' + type).addClass('bg-success');
+    $('#cnt2' + type).addClass('text-light');
+    $('#cnt2' + type).removeClass('bg-warning');
+    $('#' + type).html(jsonString);
 
     displayData(resource, substance, $scope);
   } catch (error) {
@@ -156,7 +179,7 @@ function displayData(resource, data, $scope) {
     extractMedication(data, $scope);
   }
   //*RLI 7/24/17
-  else if (resource.name === 'Observation') {
+  else if (resource.displayOverride === 'Observation-laboratory') {
     extractLab(data, $scope);
   } else if (resource.name === 'Conformance') {
     displayConformance(data, $scope);
