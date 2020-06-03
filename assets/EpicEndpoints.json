@@ -1,5 +1,8 @@
 {
   "Entries": [
+    {"OrganizationName": "Smart Health IT Sandbox",
+      "FHIRPatientFacingURI": "https:\/\/launch.smarthealthit.org\/v\/r2\/sim\/eyJrIjoiMSIsImIiOiIzMjZiNDY3NS0wYmM4LTRkYmQtYjQwNi1hNTU2NGMyODI0MDEifQ\/fhir\/api\/FHIR\/DSTU2\/"
+    },
     {
       "OrganizationName": "Access Community Health Network",
       "FHIRPatientFacingURI": "https:\/\/eprescribing.accesscommunityhealth.net\/FHIR\/api\/FHIR\/DSTU2\/"
