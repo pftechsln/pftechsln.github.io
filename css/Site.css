@@ -1,155 +1,179 @@
-﻿
-body {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    background-color: lightgrey /* #b6dff1 */;
-  /*  background-image: url("../assets/fire-bg2.jpg");
-    background-repeat: repeat-y;
-    background-size: 100vw;
-    background-position-y: 30%; */
-    height: 100%;
+﻿body {
+  background-color: rgb(80, 80, 80) /* #b6dff1 */;
+  height: 100%;
+  min-width: 400px;
+  /* background-image: url(../assets/background2.png); */
 }
 
-.jumbotron {
-    box-shadow: 1px 0px 0px 0px rgba(0,0,0,.26), 1px 0px 0px 0px rgba(0,0,0,.16);
+#mainIndex {
+  background-color: #e7ecee;
+  margin: 0px;
+  padding-bottom: 20px;
+}
+
+#mainFhir {
+  background-color: #acafb1;
+  margin: 0px;
+  padding-bottom: 20px;
+}
+
+/* change the color of active or hovered links */
+.nav-link {
+  color: #d9534f;
+}
+.nav-link:hover {
+  color: #428bca;
+}
+
+/* Set navbar shadow */
+#navbarTop {
+  box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
+    1px 2px 5px 1px rgba(0, 0, 0, 0.26);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(100, 100, 100),
+    rgb(45, 45, 45)
+  );
+  /*   background-image: linear-gradient(
+      141deg,
+      rgb(251, 252, 243) 0%,
+      rgb(49, 97, 71) 51%,
+      rgb(29, 56, 54) 75%
+    ); */
+}
+
+#loginOptions {
+  background: whitesmoke;
+  max-width: 450px;
+  min-width: 300px;
+}
+
+#epicPassword {
+  display: none;
+  font-size: 14px;
+}
+
+#epicLogin:hover #epicPassword {
+  display: block;
+}
+
+hr.hr-text {
+  position: relative;
+  border: none;
+  height: 1px;
+  background: #999;
+}
+
+hr.hr-text::before {
+  content: attr(data-content);
+  display: inline-block;
+  background: whitesmoke;
+  font-size: 1rem;
+  color: #999;
+  border-radius: 30rem;
+  padding: 0.2rem 0.2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Remove the navbar's default margin-bottom and rounded borders */
+/*
 .navbar {
-    margin-bottom: 1em;
-}
-
+  margin-bottom: 1em;
+} */
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content {height: 450px}
+.row.content {
+  height: 450px;
+}
 
 /* Set gray background color and 100% height */
 .sidenav {
-    padding-top: 20px;
-    background-color: #f1f1f1;
-    height: 100%;
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  height: 100%;
 }
 
-#navbarTop {
-    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
-    /* background-image: linear-gradient(to bottom right, rgb(247, 247, 93), rgb(243, 128, 86));  */
-    /* background-image: linear-gradient(141deg, rgb(251, 252, 243) 0%, rgb(230, 226, 15) 51%, rgb(241, 201, 115) 75%); */
-}
-
-    /* Set black background color, white text and some padding */
+/* Set black background color, white text and some padding */
 footer {
-    width: 100%;
-    margin: 0;
+  margin: 0;
 
-    /* box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26); */
-    /* background-image: url(../Images/background.png); */
+  box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
+    1px 2px 5px 1px rgba(0, 0, 0, 0.26);
+
+  background-color: rgb(60, 60, 60);
+
+  /*   position: fixed;
+  bottom: 0;
+  left: 0; */
+
+  /*   
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(100, 100, 100),
+    rgb(45, 45, 45)
+  ); */
+
+  /*   background-image: url(../assets/background2.png); */
 }
 
 .box {
-    background-color: white;
-    padding: 15px;
-    box-shadow: 1px 2px 10px 1px rgba(0,0,0,.16), 1px 2px 5px 1px rgba(0,0,0,.26);
-    margin: 10px 0px 10px 0px;
+  background-color: white;
+  padding: 15px;
+  box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
+    1px 2px 5px 1px rgba(0, 0, 0, 0.26);
+  margin: 10px 0px 10px 0px;
+}
+
+.fhirAllergy .card-header {
+  background-color: green;
+}
+
+.fhirDemographics .card-header {
+  background-color: grey;
+}
+
+.fhirMedication .card-header {
+  background-color: yellowgreen;
 }
 
 th {
-    text-align:  left;
-
+  text-align: left;
 }
 
+tbody {
+  width: 100%;
+  display: table;
+}
 
 .card-header {
-    font-size: medium;
-    font-weight: bold;
-    color: white;
-}
-.navbar-brand {
-    font-weight: 500;
-    font-variant: small-caps;
-    color: white
-
+  font-size: medium;
+  font-weight: bold;
+  color: white;
 }
 
-
-.navbar-toggle .icon-bar {
-    background-color: #428bca;
+@media (max-width: 800px) {
+  /*    .sidenav {
+         height: auto;
+         padding: 15px;
+       }
+       .row.content {height:auto;}
+    */
+  .card-columns {
+    column-count: 1;
+  }
 }
 
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;}
+@media (min-width: 801px) and (max-width: 1300px) {
+  /*    .sidenav {
+      height: auto;
+      padding: 15px;
     }
-
-    @media (max-width: 1200px) {
-        .card-columns {
-            -webkit-column-count: 1;
-            -moz-column-count: 1;
-            column-count: 1;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .card-columns {
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
-            column-count: 2;
-        }
-    }
-
-    @media (min-width: 1600px) {
-        .card-columns {
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
-            column-count: 3;
-        }
-    }
-
-.navbar-custom {
-    background-color: whitesmoke;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  outline: orangered;
-  background-size: 100%, 100%;
-  border-radius: 50%;
-  background-image: none;
-}
-
-.carousel-control-next-icon:after
-{
-  content: '>';
-  font-size: 55px;
-  color: red;
-}
-
-.carousel-control-prev-icon:after {
-  content: '<';
-  font-size: 55px;
-  color: red;
-}
-
-/* change the brand and text color */
-.navbar-custom .navbar-brand,
-.navbar-custom .navbar-text {
-    color: #d9534f;
-}
-/* change the link color */
-.navbar-custom .navbar-nav .nav-link {
-    color: #d9534f;
-}
-/* change the color of active or hovered links */
-.navbar-custom .nav-item:hover .nav-link {
-    color: #428bca;;
-}
-
-.navbar-custom {
-    background: whitesmoke;
+    .row.content {height:auto;}
+ */
+  .card-columns {
+    column-count: 2;
+  }
 }

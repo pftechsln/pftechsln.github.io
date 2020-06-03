@@ -1,139 +1,208 @@
 ﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
+  <head>
     <title>Health on FHIR</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.1/css/all.css' integrity='sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz' crossorigin='anonymous'>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/Site.css">
+    <!-- Fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+      integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap & JQuery -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-
 
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-    <!-- Site AngularJS -->
+    <!-- Site AngularJS & CSS -->
+    <script type="text/javascript" src="/js/smartFhir.js"></script>
     <script type="text/javascript" src="/js/myAngularApp.js"></script>
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
 
+  <body ng-app="myApp" ng-controller="loginCtrl" id="pageTop">
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
 
-</head>
+    <script>
+      $(function () {
+        $('#nav-placeholder').load('include/nav.html');
+      });
+    </script>
+    <!--end of Navigation bar-->
 
-<body ng-app="myApp" ng-controller="loginCtrl" id="pageTop">
-
-    <!-- Top Navigator Bar -->
-    <nav class="navbar navbar-expand-md navbar-light navbar-custom py-1" id="navbarTop">
-
-        <!-- Brand Name -->
-        <a class="navbar-brand justify-content-center py-1" href="#">
-            <span class="fa fa-fire"> Health on FHIR<sup>&reg;</sup></span>
-        </a>
-        
-        <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
-            <span class="fas fa-sign-in-alt"></span>
-        </a>
-        
-        <!-- Menu Button -->
-<!--         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
-
-        <!-- Navbar Menu -->
-<!--         <div class="collapse navbar-collapse" id="navbarMenu">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
-                        <span class="fa fa-sign-in"></span>
-                    </a>
-                </li>
-            </ul>
-        </div> -->
-    </nav>
-      
-    <!-- EMR Login -->
-    <div class="container-fluid box mx-auto mt-4 mb-5" id="emrLogin">
-        <div class="text-center m-auto p-1" style="max-width: 500px; min-width: 300px; background: white">
-            <div class="row mx-1 my-auto p-2" id="about" >
-                <img src="/assets/fhir.png" width="80" height="45" class="d-inline-block align-text-bottom m-auto" />
-                <p>This is a prototype app that uses the SMART<sup>&reg;</sup> on FHIR<sup>&reg;</sup> technology to retrieve patient data from EHR systems.</p>
-            </div>
-            
-            <div class="box mx-1 my-2" id="loginOptions" style="background: whitesmoke">
-                <button class="btn-info btn-lg btn-block my-2" ng-click="displaySampleData()">View Sample Data</button>
-                <button class="btn-danger btn-lg btn-block my-2" ng-click="testCase('epic')">Epic Sandbox</button>
-                <button class="btn-primary btn-lg btn-block my-2" ng-click="testCase('ohmcExt')">Overlake Hospital & Medical Center</button>
-
-                <hr />
-
-                <div class="input-group my-2">
-                    <select class="custom-select" id="inputGroupSelectEMR" aria-label="Select EMR" ng-model="fhirEndpointUrl" ng-change="updateSettings()">    
-                        <option selected value="0">Choose data source...</option>                       
-                        <option ng-repeat="x in fhirOrgs" value="{{x.FHIRPatientFacingURI}}">{{x.OrganizationName}}</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button id="btnLogin" class="btn btn-primary" type="button" ng-click="oauthLogin()" disabled>Login</button>
-                    </div>
-                </div>          
-                <div><input type="checkbox" ng-model="rememberLastLogin" checked value="true"/> Remember my selection</div>
-
-            </div>
-
-            <div id="debugBox" class="box" hidden>
-                <div class="">
-                    <pre id="txtStatus">{{statusText}}</pre>
-                    <dl class="dl-horizontal">
-                        <dt>FHIR Base URL</dt>
-                        <dd>{{fhirBaseUrl}}</dd>
-
-                        <dt>FHIR Authorize Url</dt>
-                        <dd>{{fhirAuthUrl}}</dd>
-
-                        <dt>FHIR Token Url</dt>
-                        <dd>{{fhirTokenUrl}}</dd>
-
-                        <dt>FHIR Endpoint Url</dt>
-                        <dd>{{fhirEndpointUrl}}</dd>
-
-                        <dt>Client ID</dt>
-                        <dd>{{clientId}}</dd>
-
-                        <dt>Authorization Code</dt>
-                        <dd>{{oauthCode}}</dd>
-
-                        <dt>Access Token</dt>
-                        <dd>{{accessToken}}</dd>
-
-                        <dt>Patient ID</dt>
-                        <dd>{{patient}}</dd>
-                    </dl>
-                </div>
-            </div>
+    <!-- Main container -->
+    <div class="container-fluid" id="mainIndex">
+      <!-- EHR Login -->
+      <div class="container-fluid m-auto p-1" id="emrLogin">
+        <!-- About -->
+        <div
+          class="row mx-auto py-2 px-3"
+          id="about"
+          style="max-width: 900px; min-width: 300px;"
+        >
+          <img
+            src="/assets/smart-on-fhir.png"
+            class="d-inline-block align-text-bottom m-auto p-2"
+          />
+          <blockquote class="lead">
+            <p class="mb-1">
+              This is a proof of concept app that uses the SMART<sup>&reg;</sup>
+              on FHIR<sup>&reg;</sup> specifications to integrate with EHR
+              systems. Please login to an EHR to retrieve patient's health data.
+            </p>
+          </blockquote>
         </div>
+        <!-- End of About -->
+
+        <!-- Login selection box -->
+        <div
+          class="box mx-auto my-2 container-sm text-center"
+          id="loginOptions"
+        >
+          <hr data-content="Quick Login" class="hr-text mb-4" />
+
+          <!-- Quick login #1 : Sample -->
+          <button
+            class="btn-info btn-lg btn-block my-2"
+            ng-click="displaySampleData()"
+          >
+            View Sample Data
+          </button>
+
+          <!-- Quick login #2 : Epic Sandbox -->
+          <button
+            id="epicLogin"
+            class="btn-danger btn-lg btn-block my-2"
+            ng-click="testCase('epic')"
+          >
+            Epic Sandbox
+            <span id="epicPassword" class="text-warning font-weight-light">
+              Username: <b>fhirjason</b> &nbsp&nbsp Password: <b>epicepic1</b>
+            </span>
+          </button>
+
+          <!-- Quick login #3 : OHMC -->
+          <button
+            class="btn-primary btn-lg btn-block my-2"
+            ng-click="testCase('ohmcExt')"
+          >
+            Overlake Hospital & Medical Center
+          </button>
+
+          <hr data-content="Select an EHR" class="hr-text my-4" />
+
+          <!-- Login dropdown selector -->
+          <div class="input-group my-2">
+            <select
+              class="custom-select"
+              id="inputGroupSelectEHR"
+              aria-label="Select EHR"
+              ng-model="serverIndex"
+              ng-change="updateSettings()"
+            >
+              <!-- <option selected value="0">Choose data source...</option> -->
+              <option ng-repeat="x in fhirOrgs" value="{{$index}}"
+                >{{x.OrganizationName}}</option
+              >
+            </select>
+            <div class="input-group-append">
+              <button
+                id="btnLogin"
+                class="btn btn-primary"
+                type="button"
+                ng-click="oauthLogin()"
+                disabled
+              >
+                Login
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                ng-model="rememberLastLogin"
+                ng-change="updateSettings()"
+                id="selectionCheck"
+                ng-checked="{{rememberLastLogin}}"
+              />
+              <label class="form-check-label" for="selectionCheck"
+                >Remember my selection</label
+              >
+              <i
+                class="fa fa-bug text-light float-right mt-1"
+                aria-hidden="true"
+                data-toggle="collapse"
+                data-target="#debugBox"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <!-- End of login selection box -->
+
+        <!-- Hidden box for debugging -->
+        <div id="debugBox" class="box collapse">
+          <div>
+            <pre id="txtStatus">{{statusText}}</pre>
+            <dl class="dl-horizontal">
+              <dt>FHIR Base URL</dt>
+              <dd><a href="{{fhirBaseUrl}}">{{fhirBaseUrl}}</a></dd>
+
+              <dt>Meta URL</dt>
+              <dd><a href="{{fhirMetaUrl}}">{{fhirMetaUrl}}</a></dd>
+
+              <dt>FHIR Endpoint Url</dt>
+              <dd><a href="{{fhirEndpointUrl}}">{{fhirEndpointUrl}}</a></dd>
+
+              <dt>FHIR Authorize Url</dt>
+              <dd><a href="{{fhirAuthUrl}}">{{fhirAuthUrl}}</a></dd>
+
+              <dt>FHIR Token Url</dt>
+              <dd><a href="{{fhirTokenUrl}}">{{fhirTokenUrl}}</a></dd>
+
+              <dt>Client ID</dt>
+              <dd>{{clientId}}</dd>
+
+              <dt>Organization Name</dt>
+              <dd>{{orgName}}</dd>
+
+              <dt>Authorization Code</dt>
+              <dd>{{oauthCode}}</dd>
+
+              <dt>Access Token</dt>
+              <dd>{{accessToken}}</dd>
+
+              <dt>Patient ID</dt>
+              <dd>{{patient}}</dd>
+            </dl>
+          </div>
+        </div>
+        <!-- End of Debug box -->
+      </div>
+      <!-- End of EHR login -->
     </div>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container text-center px-auto">
-            <span>&copy; 2018 Pftech Healthcare Solutions   </span>
-            <a href="mailto:pftechsln@gmail.com" id="email">
-                <i class="far fa-envelope bold" aria-hidden="true"></i>
-            </a>
-        </div>
-    </footer>
+    <!-- End of main container -->
 
-</body>
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script>
+      $(function () {
+        $('#footer-placeholder').load('include/footer.html');
+      });
+    </script>
+    <!-- End of Footer -->
+  </body>
 </html>

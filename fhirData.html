@@ -1,22 +1,30 @@
 ﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
+  <head>
     <title>Health on FHIR</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.1/css/all.css' integrity='sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz' crossorigin='anonymous'>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/Site.css">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Raleway:400,800"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+      integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap & JQuery-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="/css/site.css" />
 
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -25,96 +33,182 @@
     <script type="text/javascript" src="/js/loadSampleFhirData.js"></script>
     <script type="text/javascript" src="/js/fhirData.js"></script>
     <script type="text/javascript" src="/js/myAngularApp.js"></script>
-</head>
+  </head>
 
-<body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
+  <body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
 
-     <!-- Top Navigator Bar -->
-     <nav class="navbar navbar-expand-md navbar-light navbar-custom py-1" id="navbarTop">
+    <script>
+      $(function () {
+        $('#nav-placeholder').load('include/nav.html');
+      });
+    </script>
+    <!--end of Navigation bar-->
 
-        <!-- Brand Name -->
-        <a class="navbar-brand justify-content-center py-1" href="#">
-            <span class="fa fa-fire"> Health on FHIR<sup>&reg;</sup></span>
-        </a>
+    <!-- Main Container -->
+    <div class="container-fluid py-2" id="mainFhir">
 
-        <a href="index.html" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
-            <span class="fas fa-sign-in-alt"></span>
-        </a>
+      <!-- Summary Dashboard-->
+      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12" id="summary">
+ 
+         
+          <div class="card" ng-repeat="t in rsrTypeList track by $index">
+              <div class="card-body">
+                <button class="btn w-100 card-title" data-toggle="collapse" data-target="#{{t}}">
+                  <span class="float-left">{{t}}</span>
+                  <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+t}}>Loading ...</span>
+                </button>
+                <pre class="card-text collapse" id="{{t}}">loading ... </pre>
+              </div>
+          </div>
+      </div>
+      <!-- End of Summary Dashboard -->
 
-        <!-- Menu Button -->
-<!--         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
+      <!-- EMR Data Card-Columns -->
+      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12" id="emrData">
+        <div class="card-columns mx-auto">
 
-        <!-- Navbar Menu -->
-<!--         <div class="collapse navbar-collapse" id="navbarMenu">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html" class="btn btn-md" ng-click="reLogin()" id="btnReLogin">
-                        <span class="fas fa-sign-in-alt"></span>
-                    </a>
-                </li>
-            </ul>
-        </div> -->
-    </nav>
+          <!-- FHIR Resource Card -->
+          <div class="card bg-light box p-0 {{'fhir'+t.Type}}" ng-repeat="t in fhirRsrList track by $index">
+            <div class="card-header">
+              {{t.Type}}: {{t.Name}}
+            </div>
+            <div class="card-body p-0">
+              <table
+                class="table table-hover table-responsive table-condensed px-1"
+              >
+                <tbody>
+                  <tr ng-repeat="(key,value) in t.Resource" style="width: 100%">
+                    <th scope="row" class="p-1">{{key}}</th>
+                    <td class="p-1 ">{{value}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <a href={{t.Full_Resource}}>Full JSON</a> from <a href={{t.SourceLink}}>{{t.SourceName}}</a>
+            </div>
+          </div>
+          <!-- End of FHIR Resource Card -->
 
-    <!-- EMR Data -->
-    <div class="container-fluid col-sm-12 col-md-8 offset-md-1" id="emrData">
-
-
-                <div class="card-columns mx-auto">
-                  <div class="card bg-light" ng-repeat="t in fhirRsrList track by $index">
-                          <div class="card-header bg-success">
-                              {{t.Type}}: {{t.Name}}
-                          </div>
-                          <div class="card-body p-1">
-                              <table class="table table-bordered table-hover table-responsive table-condensed mx-0">
-                                  <tbody>
-                                      <tr ng-repeat="(key,value) in t.Resource">
-                                          <th scope="row">{{key}}</th>
-                                          <td>{{value}}</td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                          <div class="card-footer">
-                            Source: {{t.Source}}
-                          </div>
-                  </div>
-                </div>
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom" id="bottomNavbar" hidden>
-        <button class="btn btn-default text-center navbar-brand" ng-click="loadFhirData()">Reload Data</button>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNavbar" aria-controls="sideNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="sideNavbar" style="padding: 0">
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="tabDemographic" data-toggle="pill" href="#demographic" role="tab" aria-controls="pills-home" aria-selected="true">Demographics<span class="badge bg-primary" id="cntPatient"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tabAllergy" data-toggle="pill" href="#allergy" role="tab" aria-controls="pills-home" aria-selected="false">Allergies<span class="badge bg-info" id="cntAllergyIntolerance"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tabImmunization" data-toggle="pill" href="#immunization" role="tab" aria-controls="pills-home" aria-selected="false">Immunizations<span class="badge bg-info" id="cntImmunization"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tabMedication" data-toggle="pill" href="#medication" role="tab" aria-controls="pills-home" aria-selected="false">Medications<span class="badge bg-info" id="cntMedicationOrder"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tabLab" data-toggle="pill" href="#lab" role="tab" aria-controls="pills-home" aria-selected="false">Lab Observations<span class="badge bg-info" id="cntObservation"></span></a>
-                </li>
-            </ul>
         </div>
+      </div>
+      <!-- EMR Data Card-Columns -->
+
+    </div>
+    <!-- End of Main Container -->
+
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom"
+      id="bottomNavbar"
+    >
+      <button
+        class="btn btn-default text-center navbar-brand"
+        ng-click="loadFhirData()"
+      >
+        Reload Data
+      </button>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#sideNavbar"
+        aria-controls="sideNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="sideNavbar" style="padding: 0;">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="tabDemographic"
+              data-toggle="pill"
+              href="#demographic"
+              role="tab"
+              aria-controls="pills-home"
+              aria-selected="true"
+              >Demographics<span class="badge bg-primary" id="cntPatient"></span
+            ></a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="tabAllergy"
+              data-toggle="pill"
+              href="#allergy"
+              role="tab"
+              aria-controls="pills-home"
+              aria-selected="false"
+              >Allergies<span
+                class="badge bg-info"
+                id="cntAllergyIntolerance"
+              ></span
+            ></a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="tabImmunization"
+              data-toggle="pill"
+              href="#immunization"
+              role="tab"
+              aria-controls="pills-home"
+              aria-selected="false"
+              >Immunizations<span
+                class="badge bg-info"
+                id="cntImmunization"
+              ></span
+            ></a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="tabMedication"
+              data-toggle="pill"
+              href="#medication"
+              role="tab"
+              aria-controls="pills-home"
+              aria-selected="false"
+            >
+              <input
+                type="checkbox"
+                aria-label="Medication">Medications</input>
+              <span
+                class="badge bg-info"
+                id="cntMedicationOrder"
+              ></span
+            ></a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="tabLab"
+              data-toggle="pill"
+              href="#lab"
+              role="tab"
+              aria-controls="pills-home"
+              aria-selected="false"
+              >Lab Observations<span
+                class="badge bg-info"
+                id="cntObservation"
+              ></span
+            ></a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
-</body>
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script>
+      $(function () {
+        $('#footer-placeholder').load('include/footer.html');
+      });
+    </script>
+    <!-- End of Footer -->
+  </body>
 </html>
