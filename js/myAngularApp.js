@@ -30,7 +30,7 @@ function loadFhirOrg($scope, $http) {
   var data;
 
   $.ajax({
-    url: '/assets/EpicEndpoints.json',
+    url: '/js/EpicEndpoints.json',
     dataType: 'json',
     data: data,
     async: false,

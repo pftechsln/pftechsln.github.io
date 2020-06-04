@@ -1,34 +1,50 @@
-function updateProgress($scope) {
-  $scope.progress++;
-  const progress = Math.round(
-    (100 * $scope.progress) / (1 + $scope.rsrTypeList.length)
-  );
-  $('#progressBar').attr('style', 'width: ' + progress + '%;');
-  $('#progressBar').attr('aria-valuenow', progress);
-  $('#progressBar').html(progress + '%');
+function updateProgress($scope, isError) {
+  let progress = 0;
 
-  if (progress >= 99.9) {
+  if (isError) {
+    $scope.progressError++;
+    const progress = Math.round(
+      (100 * $scope.progressError) / (1 + $scope.rsrTypeList.length)
+    );
+    $('#progressBarError').attr('style', 'width: ' + progress + '%;');
+    $('#progressBarError').attr('aria-valuenow', progress);
+    //$('#progressBarError').html(progress + '%');
+  } else {
+    $scope.progress++;
+    const progress = Math.round(
+      (100 * $scope.progress) / (1 + $scope.rsrTypeList.length)
+    );
+    $('#progressBar').attr('style', 'width: ' + progress + '%;');
+    $('#progressBar').attr('aria-valuenow', progress);
+    $('#progressBar').html(progress + '%');
+  }
+
+  if ($scope.progress + $scope.progressError > $scope.rsrTypeList.length) {
     $scope.progress = 0;
+    $scope.progressError = 0;
     setTimeout('resetProgress()', 2000);
-  } else if (progress >= 75) {
-    $('#progressBar').removeClass('bg-primary');
-    $('#progressBar').addClass('bg-success');
-  } else if (progress >= 50) {
-    $('#progressBar').removeClass('bg-warning');
-    $('#progressBar').addClass('bg-primary');
-  } else if (progress >= 25) {
-    $('#progressBar').removeClass('bg-danger');
-    $('#progressBar').addClass('bg-warning');
+    //} else if (progress >= 75) {
+    //$('#progressBar').removeClass('bg-primary');
+    //$('#progressBar').addClass('bg-success');
+    //} else if (progress >= 50) {
+    //$('#progressBar').removeClass('bg-warning');
+    //$('#progressBar').addClass('bg-primary');
+    //} else if (progress >= 25) {
+    //$('#progressBar').removeClass('bg-danger');
+    //$('#progressBar').addClass('bg-warning');
   }
 }
 
 function resetProgress() {
   $('#progressWrap').prop('hidden', true);
-  $('#progressBar').removeClass('bg-success');
-  $('#progressBar').addClass('bg-danger');
+  //$('#progressBar').removeClass('bg-success');
+  //$('#progressBar').addClass('bg-danger');
   $('#progressBar').attr('style', 'width: ' + 0 + '%;');
   $('#progressBar').attr('aria-valuenow', 0);
   $('#progressBar').html(0);
+  $('#progressBarError').attr('style', 'width: ' + 0 + '%;');
+  $('#progressBarError').attr('aria-valuenow', 0);
+  //$('#progressBarError').html(0);
 }
 
 // Load patient demographic, and conformance first
@@ -43,6 +59,7 @@ function loadFhirData($scope, $http) {
 async function loadAllFhirResources($scope, $http) {
   $('#progressWrap').prop('hidden', false);
   $scope.progress = 0;
+  $scope.progressError = 0;
 
   await getPatData({ name: 'Conformance' }, $scope, $http);
 
@@ -126,13 +143,11 @@ async function getPatData(resource, $scope, $http) {
 
   // Resources w/o qualifier
   else if (resource.name === 'Patient') {
-    //getResource(resource, endpointUrl + resource.name + '/' + patientID, accessToken);
     url = url + '/' + resource.name + '/' + $scope.patient;
   }
 
   // Resources with qualifier
   else if (resource.queryFilter) {
-    //getResource(resource, endpointUrl + resource.name + '?patient=' + patientID + '&' + resource.queryFilter, accessToken);
     url =
       url +
       '/' +
@@ -145,7 +160,6 @@ async function getPatData(resource, $scope, $http) {
 
   // patient Demographics
   else {
-    //getResource(resource, endpointUrl + resource.name + '?patient=' + patientID, accessToken);
     url = url + '/' + resource.name + '?patient=' + $scope.patient;
   }
 
@@ -186,6 +200,7 @@ async function getPatData(resource, $scope, $http) {
 
     displayData(resource, substance, $scope);
 
+    // dont update progress yet for the Confromance call because rsrTypeList not available
     if ($scope.rsrTypeList) {
       updateProgress($scope);
     }
@@ -195,6 +210,8 @@ async function getPatData(resource, $scope, $http) {
     $('#cnt2' + resource.name).addClass('bg-danger');
     $('#cnt2' + resource.name).removeClass('bg-warning');
     $('#' + resource.name).html(error.status + ' ' + error.statusText);
+
+    updateProgress($scope, 1);
   }
 
   /*     function (error) {
