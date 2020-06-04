@@ -37,10 +37,7 @@
 
   <body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
     
-    <!-- Main Container -->
-    <div class="container-fluid" id="mainFhir">
-
-      <!--Navigation bar-->
+    <!--Navigation bar-->
     <div id="nav-placeholder"></div>
 
     <script>
@@ -50,8 +47,13 @@
     </script>
     <!--end of Navigation bar-->
 
+    <!-- Main Container -->
+    <div class="container-fluid" id="mainFhir">
+
+      
+
       <!-- Summary Dashboard-->
-      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12 mt-2 px-0" id="summary">
+      <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12 px-0" id="summary">
  
           <div class="card" ng-repeat="t in rsrTypeList track by $index">
               <div class="card-body">
@@ -87,7 +89,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="card-footer">
+            <div class="card-footer" ng-if='t.SourceLink'>
               <a href={{t.Full_Resource}}>Full JSON</a> from <a href={{t.SourceLink}}>{{t.SourceName}}</a>
             </div>
           </div>
@@ -101,15 +103,25 @@
     <!-- End of Main Container -->
 
     <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom"
+      class="navbar navbar-dark bg-dark fixed-bottom"
       id="bottomNavbar"
     >
-      <button
-        class="btn btn-secondary text-center navbar-brand"
-        ng-click="loadFhirData()"
+      <a
+        class="navbar-brand float-right"
+        href='#pageTop'
       >
-        Reload Data
-      </button>
+        Back to Top <i class="fas fa-arrow-up" aria-hidden="true"></i>
+      </a>
+
+      <a
+        class="navbar-brand"
+        ng-click="loadFhirData()"
+        href="#"
+        id="reload"
+      >
+        Reload Data <i class="fas fa-sync" aria-hidden="true"></i>
+      </a>
+
 <!--      <button
         class="navbar-toggler"
         type="button"
@@ -203,13 +215,5 @@
       </div> -->
     </nav>
 
-    <!-- Footer -->
-<!--     <div id="footer-placeholder"></div>
-    <script>
-      $(function () {
-        $('#footer-placeholder').load('include/footer.html');
-      });
-    </script> -->
-    <!-- End of Footer -->
   </body>
 </html>

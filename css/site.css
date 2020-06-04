@@ -1,5 +1,5 @@
 ﻿body {
-  background-color: rgb(80, 80, 80) /* #b6dff1 */;
+  background-color: rgb(60, 60, 60) /* #b6dff1 */;
   height: 100%;
   min-width: 400px;
 
@@ -9,13 +9,20 @@
 #mainIndex {
   background-color: rgb(220, 220, 220);
   margin: 0px;
-  height: 100vh;
+  min-height: 800px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #mainFhir {
   background-color: rgb(220, 220, 220);
   margin: 0px;
   height: 100%;
+  padding-top: 1em;
+}
+
+#emrLogin {
+  max-width: 800px;
 }
 
 /* change the color of active or hovered links */
@@ -103,14 +110,11 @@ footer {
   margin: 0px;
   padding: 0px;
 
-  box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
-    1px 2px 5px 1px rgba(0, 0, 0, 0.26);
+  /*  box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
+    1px 2px 5px 1px rgba(0, 0, 0, 0.26); */
 
   background-color: rgb(60, 60, 60);
 
-  position: absolute;
-  left: 0;
-  bottom: 0;
   width: 100%;
 
   /*   

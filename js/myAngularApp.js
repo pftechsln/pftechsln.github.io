@@ -213,6 +213,7 @@ app.controller('fhirDataCtrl', [
 
     // No oauth code: load sample data without login
     if (oauthCode == null) {
+      $('#reload');
       loadSampleData($scope);
       console.log('load sample data...');
     }
