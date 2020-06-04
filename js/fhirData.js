@@ -3,10 +3,13 @@ function updateProgress($scope) {
   const progress = Math.round(
     (100 * $scope.progress) / (1 + $scope.rsrTypeList.length)
   );
+  $('#progressBar').attr('style', 'width: ' + progress + '%;');
+  $('#progressBar').attr('aria-valuenow', progress);
+  $('#progressBar').html(progress + '%');
 
   if (progress >= 99.9) {
-    $('#progressWrap').prop('hidden', true);
     $scope.progress = 0;
+    setTimeout('resetProgress()', 2000);
   } else if (progress >= 75) {
     $('#progressBar').removeClass('bg-primary');
     $('#progressBar').addClass('bg-success');
@@ -17,10 +20,15 @@ function updateProgress($scope) {
     $('#progressBar').removeClass('bg-danger');
     $('#progressBar').addClass('bg-warning');
   }
+}
 
-  $('#progressBar').attr('style', 'width: ' + progress + '%;');
-  $('#progressBar').attr('aria-valuenow', progress);
-  $('#progressBar').html(progress);
+function resetProgress() {
+  $('#progressWrap').prop('hidden', true);
+  $('#progressBar').removeClass('bg-success');
+  $('#progressBar').addClass('bg-danger');
+  $('#progressBar').attr('style', 'width: ' + 0 + '%;');
+  $('#progressBar').attr('aria-valuenow', 0);
+  $('#progressBar').html(0);
 }
 
 // Load patient demographic, and conformance first
@@ -37,8 +45,6 @@ async function loadAllFhirResources($scope, $http) {
   $scope.progress = 0;
 
   await getPatData({ name: 'Conformance' }, $scope, $http);
-
-  updateProgress($scope);
 
   $scope.rsrTypeList.forEach((type) => {
     console.log('loading ... ', type.name);
@@ -178,11 +184,11 @@ async function getPatData(resource, $scope, $http) {
     $('#cnt2' + type).removeClass('bg-warning');
     $('#' + type).html(jsonString);
 
+    displayData(resource, substance, $scope);
+
     if ($scope.rsrTypeList) {
       updateProgress($scope);
     }
-
-    displayData(resource, substance, $scope);
   } catch (error) {
     console.log('Error loading ', resource.name, ': ', error);
     $('#cnt2' + resource.name).html('Error');
