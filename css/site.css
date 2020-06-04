@@ -193,3 +193,9 @@ tbody {
     column-count: 2;
   }
 }
+
+@media (min-height: 1000px) {
+  #mainIndex {
+    min-height: 700px;
+  }
+}
