@@ -213,7 +213,7 @@ app.controller('fhirDataCtrl', [
 
     // No oauth code: load sample data without login
     if (oauthCode == null) {
-      $('#reload');
+      $('#reload').hide();
       loadSampleData($scope);
       console.log('load sample data...');
     }
@@ -313,6 +313,7 @@ app.controller('loginCtrl', [
     };
 
     $scope.displaySampleData = function () {
+      sessionStorage.clear();
       window.location.href = 'fhirData.html';
     };
   },
