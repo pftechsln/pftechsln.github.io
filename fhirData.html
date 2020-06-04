@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/css/site.css" />
 
     <!-- Google AngularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">{{progress}}</script>
 
     <!-- Site AngularJS -->
     <script type="text/javascript" src="/js/loadSampleFhirData.js"></script>
@@ -50,7 +50,11 @@
     <!-- Main Container -->
     <div class="container-fluid" id="mainFhir">
 
-      
+      <!-- Progress bar -->
+      <div id="progressWrap" class="progress" style="height: 20px;">
+        <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        {{progress}} / {{rsrTypeList.length}}
+      </div>
 
       <!-- Summary Dashboard-->
       <div class="container-fluid col-sm-12 col-lg-10 offset-lg-1 col-md-12 px-0" id="summary">

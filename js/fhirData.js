@@ -1,3 +1,28 @@
+function updateProgress($scope) {
+  $scope.progress++;
+  const progress = Math.round(
+    (100 * $scope.progress) / (1 + $scope.rsrTypeList.length)
+  );
+
+  if (progress >= 99.9) {
+    $('#progressWrap').prop('hidden', true);
+    $scope.progress = 0;
+  } else if (progress >= 75) {
+    $('#progressBar').removeClass('bg-primary');
+    $('#progressBar').addClass('bg-success');
+  } else if (progress >= 50) {
+    $('#progressBar').removeClass('bg-warning');
+    $('#progressBar').addClass('bg-primary');
+  } else if (progress >= 25) {
+    $('#progressBar').removeClass('bg-danger');
+    $('#progressBar').addClass('bg-warning');
+  }
+
+  $('#progressBar').attr('style', 'width: ' + progress + '%;');
+  $('#progressBar').attr('aria-valuenow', progress);
+  $('#progressBar').html(progress);
+}
+
 // Load patient demographic, and conformance first
 function loadFhirData($scope, $http) {
   // Clear existing data if any
@@ -8,7 +33,12 @@ function loadFhirData($scope, $http) {
 }
 
 async function loadAllFhirResources($scope, $http) {
+  $('#progressWrap').prop('hidden', false);
+  $scope.progress = 0;
+
   await getPatData({ name: 'Conformance' }, $scope, $http);
+
+  updateProgress($scope);
 
   $scope.rsrTypeList.forEach((type) => {
     console.log('loading ... ', type.name);
@@ -147,6 +177,10 @@ async function getPatData(resource, $scope, $http) {
     $('#cnt2' + type).addClass('text-light');
     $('#cnt2' + type).removeClass('bg-warning');
     $('#' + type).html(jsonString);
+
+    if ($scope.rsrTypeList) {
+      updateProgress($scope);
+    }
 
     displayData(resource, substance, $scope);
   } catch (error) {
