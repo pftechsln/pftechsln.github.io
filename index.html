@@ -42,7 +42,7 @@
     </script>
     <!--end of Navigation bar-->
 
-    <!-- Button trigger modal -->
+    <!-- Button trigger modal
     <button
       type="button"
       class="btn btn-primary"
@@ -50,10 +50,10 @@
       data-target="#exampleModalCenter"
       hidden
     >
-      Launch demo modal
+      Launch modal
     </button>
 
-    <!-- Modal -->
+    
     <div
       class="modal fade"
       id="redirect"
@@ -101,6 +101,7 @@
         </div>
       </div>
     </div>
+  -->
 
     <!-- Main container -->
     <div
@@ -110,118 +111,114 @@
     >
       <!-- EHR Login -->
       <div class="container-fluid m-auto p-1" id="emrLogin">
-        <div class="row">
-          <!-- About -->
-          <div
-            class="row mx-auto py-2 px-3 col-sm-12 col-lg-5"
-            id="about"
-            style="max-width: 900px; min-width: 300px;"
-          >
-            <img
-              src="/assets/smart-on-fhir.png"
-              class="d-inline-block align-text-bottom m-auto p-2"
-            />
-            <blockquote class="lead">
-              <p class="mb-1">
-                This is a proof of concept app that uses the SMART<sup
-                  >&reg;</sup
-                >
-                on FHIR<sup>&reg;</sup> specifications to integrate with EHR
-                systems. Please login to an EHR to retrieve patient's health
-                data.
-              </p>
-            </blockquote>
-          </div>
-          <!-- End of About -->
-
-          <!-- Login selection box -->
-          <div
-            class="box mx-auto my-2 container-sm text-center col-sm-12 col-lg-7"
-            id="loginOptions"
-          >
-            <hr data-content="Quick Login" class="hr-text mb-4" />
-
-            <!-- Quick login #1 : Sample -->
-            <button
-              class="btn-info btn-lg btn-block my-2"
-              ng-click="displaySampleData()"
-            >
-              View Sample Data
-            </button>
-
-            <!-- Quick login #2 : Epic Sandbox -->
-            <button
-              id="epicLogin"
-              class="btn-danger btn-lg btn-block my-2"
-              ng-click="testCase('epic')"
-            >
-              Epic Sandbox
-              <span id="epicPassword" class="text-warning font-weight-light">
-                Username: <b>fhirjason</b> &nbsp&nbsp Password: <b>epicepic1</b>
-              </span>
-            </button>
-
-            <!-- Quick login #3 : OHMC -->
-            <button
-              class="btn-primary btn-lg btn-block my-2"
-              ng-click="testCase('ohmcExt')"
-            >
-              Overlake Hospital & Medical Center
-            </button>
-
-            <hr data-content="Select an EHR" class="hr-text my-4" />
-
-            <!-- Login dropdown selector -->
-            <div class="input-group my-2">
-              <select
-                class="custom-select"
-                id="inputGroupSelectEHR"
-                aria-label="Select EHR"
-                ng-model="serverIndex"
-                ng-change="updateSettings()"
-              >
-                <!-- <option selected value="0">Choose data source...</option> -->
-                <option ng-repeat="x in fhirOrgs" value="{{$index}}"
-                  >{{x.OrganizationName}}</option
-                >
-              </select>
-              <div class="input-group-append">
-                <button
-                  id="btnLogin"
-                  class="btn btn-primary"
-                  type="button"
-                  ng-click="oauthLogin()"
-                  disabled
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  ng-model="rememberLastLogin"
-                  ng-change="updateSettings()"
-                  id="selectionCheck"
-                  ng-checked="{{rememberLastLogin}}"
-                />
-                <label class="form-check-label" for="selectionCheck"
-                  >Remember my selection</label
-                >
-                <i
-                  class="fa fa-bug text-light float-right mt-1"
-                  aria-hidden="true"
-                  data-toggle="collapse"
-                  data-target="#debugBox"
-                ></i>
-              </div>
-            </div>
-          </div>
-          <!-- End of login selection box -->
+        <!-- About -->
+        <div
+          class="row mx-auto py-2 px-3"
+          id="about"
+          style="max-width: 900px; min-width: 300px;"
+        >
+          <img
+            src="/assets/smart-on-fhir.png"
+            class="d-inline-block align-text-bottom m-auto p-2"
+          />
+          <blockquote class="lead">
+            <p class="mb-1">
+              This is a proof of concept app that uses the SMART<sup>&reg;</sup>
+              on FHIR<sup>&reg;</sup> specifications to integrate with EHR
+              systems. Please login to an EHR to retrieve patient's health data.
+            </p>
+          </blockquote>
         </div>
+        <!-- End of About -->
+
+        <!-- Login selection box -->
+        <div
+          class="box mx-auto my-2 container-sm text-center"
+          id="loginOptions"
+        >
+          <hr data-content="Quick Login" class="hr-text mb-4" />
+
+          <!-- Quick login #1 : Sample -->
+          <button
+            class="btn-info btn-lg btn-block my-2"
+            ng-click="displaySampleData()"
+          >
+            View Sample Data
+          </button>
+
+          <!-- Quick login #2 : Epic Sandbox -->
+          <button
+            id="epicLogin"
+            class="btn-danger btn-lg btn-block my-2"
+            ng-click="testCase('epic')"
+          >
+            Epic Sandbox
+            <span id="epicPassword" class="text-warning font-weight-light">
+              Username: <b>fhirjason</b> &nbsp&nbsp Password: <b>epicepic1</b>
+            </span>
+          </button>
+
+          <!-- Quick login #3 : OHMC -->
+          <button
+            class="btn-primary btn-lg btn-block my-2"
+            ng-click="testCase('ohmcExt')"
+          >
+            Overlake Hospital & Medical Center
+          </button>
+
+          <hr data-content="Select an EHR" class="hr-text my-4" />
+
+          <!-- Login dropdown selector -->
+          <div class="input-group my-2">
+            <select
+              class="custom-select"
+              id="inputGroupSelectEHR"
+              aria-label="Select EHR"
+              ng-model="serverIndex"
+              ng-change="updateSettings()"
+            >
+              <!-- <option selected value="0">Choose data source...</option> -->
+              <option ng-repeat="x in fhirOrgs" value="{{$index}}"
+                >{{x.OrganizationName}}</option
+              >
+            </select>
+            <div class="input-group-append">
+              <button
+                id="btnLogin"
+                class="btn btn-primary"
+                type="button"
+                ng-click="oauthLogin()"
+                disabled
+              >
+                Login
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                ng-model="rememberLastLogin"
+                ng-change="updateSettings()"
+                id="selectionCheck"
+                ng-checked="{{rememberLastLogin}}"
+              />
+              <label class="form-check-label" for="selectionCheck"
+                >Remember my selection</label
+              >
+              <i
+                class="fa fa-bug text-light float-right mt-1"
+                aria-hidden="true"
+                data-toggle="collapse"
+                data-target="#debugBox"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <!-- End of login selection box -->
+
         <!-- Hidden box for debugging -->
         <div id="debugBox" class="box collapse">
           <div>
