@@ -78,8 +78,9 @@
         <div class="card-columns mx-auto">
 
           <!-- FHIR Resource Card -->
-          <div class="card bg-light box p-0 {{'fhir'+t.Type}}" ng-repeat="t in fhirRsrList track by $index">
+          <div class="card bg-light box p-0 {{'fhir'+t.Type}} fhirRsr" ng-repeat="t in fhirRsrList track by $index">
             <div class="card-header">
+              <div class="fhirRsrIcon"></div>
               {{t.Type}}: {{t.Name}}
             </div>
             <div class="card-body p-0">

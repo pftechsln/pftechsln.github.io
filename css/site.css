@@ -1,4 +1,6 @@
-﻿body {
+﻿@import url('fhir.css');
+
+body {
   background-color: rgb(220, 220, 220) /* #b6dff1 */;
   height: 100%;
   min-width: 400px;
@@ -107,8 +109,8 @@ hr.hr-text::before {
 /* Set black background color, white text and some padding  */
 footer {
   margin: 0px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   color: grey;
 
   box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.16),
@@ -135,26 +137,6 @@ footer i {
   margin: 10px 0px 10px 0px;
 }
 
-.fhirAllergy .card-header {
-  background-color: teal;
-}
-
-.fhirDemographics .card-header {
-  background-color: rgb(84, 47, 252);
-}
-
-.fhirMedication .card-header {
-  background-color: yellowgreen;
-}
-
-.fhirImmunization .card-header {
-  background-color: purple;
-}
-
-.fhirLab .card-header {
-  background-color: orangered;
-}
-
 th {
   text-align: left;
 }
@@ -167,7 +149,7 @@ tbody {
 .card-header {
   font-size: medium;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 @media (max-width: 800px) {

@@ -1,0 +1,79 @@
+/* .fhirRsrIcon {
+  background: url('../assets/access_allergies.png');
+  background-repeat: no-repeat;
+  background-size: 1.25em 1.25em;
+  background-position-y: center;
+  padding: 0px;
+  margin: 0px;
+  width: 1.25em;
+  height: 1.25em;
+  display: inline-block;
+} */
+
+.fhirRsr.card {
+  border-radius: 5px;
+  border-width: 2px;
+}
+
+.fhirRsr:hover .card-header {
+  opacity: 1;
+}
+
+.fhirRsr .card-header {
+  color: white;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* fhir Allergy */
+.fhirAllergy .card-header {
+  background-color: rgb(0, 200, 200);
+}
+
+.fhirAllergy:hover {
+  border-color: rgb(0, 200, 200);
+}
+
+.fhirAllergy:hover .card-header {
+  background-color: rgba(0, 200, 200);
+}
+
+/* fhir Patient Demographics */
+.fhirDemographics .card-header {
+  background-color: rgba(84, 47, 252, 0.8);
+}
+
+.fhirDemographics:hover .card-header {
+  background-color: rgba(84, 47, 252, 0.8);
+}
+
+.fhirDemographics:hover {
+  border-color: rgba(84, 47, 252, 0.7);
+}
+
+/* fhir Medication */
+.fhirMedication .card-header {
+  background-color: yellowgreen;
+}
+
+.fhirMedication:hover {
+  border-color: yellowgreen;
+}
+
+/* fhir Immunization */
+.fhirImmunization .card-header {
+  background-color: purple;
+}
+
+.fhirImmunization:hover {
+  border-color: purple;
+}
+
+/* fhir Lab Results */
+.fhirLab .card-header {
+  background-color: orangered;
+}
+
+.fhirLab:hover {
+  border-color: orangered;
+}
