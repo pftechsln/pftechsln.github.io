@@ -63,6 +63,15 @@ body {
   font-size: 14px;
 }
 
+#noLogin {
+  display: none;
+  font-size: 14px;
+}
+
+#viewSampleData:hover #noLogin {
+  display: block;
+}
+
 #epicLogin:hover #epicPassword {
   display: block;
 }

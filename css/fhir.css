@@ -22,6 +22,8 @@
 .fhirRsr .card-header {
   color: white;
   border-radius: 2px;
+  border-color: gray;
+  border: 1px solid lightgray;
   opacity: 0.8;
 }
 
