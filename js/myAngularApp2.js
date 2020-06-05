@@ -264,14 +264,14 @@ app.controller('loginCtrl', [
     //$scope.fhirEndpointUrl = '0';
 
     // redirect to Github if on Azure
-    if (window.location.hostname.includes('healthonfhir.azurewebsites.net')) {
+    /*     if (window.location.hostname.includes('healthonfhir.azurewebsites.net')) {
       //if (window.location.href.includes('localhost')) {
       $('#redirect').modal('show');
       $scope.timeout = setTimeout(() => {
         window.location.href = 'https://pftechsln.github.io';
       }, 10000);
     }
-
+ */
     // Load list of fhir endpoints orgs and URLs
     loadFhirOrg($scope, $http);
 
