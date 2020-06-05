@@ -31,15 +31,16 @@ function getBaseURL() {
 function loadFhirOrg($scope, $http) {
   var data;
 
-  $.ajax({
+  $scope.fhirOrgs = loadEpicFhirOrgs().Entries;
+  /*   $.ajax({
     url: '/js/EpicEndpoints.json',
     dataType: 'json',
     data: data,
-    async: false,
+    async: true,
     success: function (data) {
       $scope.fhirOrgs = data.Entries;
     },
-  });
+  }); */
 }
 
 function loadFhirSettings($scope) {
@@ -262,6 +263,15 @@ app.controller('loginCtrl', [
     //$scope.rememberLastLogin = 'true';
     //$scope.fhirEndpointUrl = '0';
 
+    // redirect to Github if on Azure
+    if (window.location.hostname.includes('healthonfhir.azurewebsites.net')) {
+      //if (window.location.href.includes('localhost')) {
+      $('#redirect').modal('show');
+      $scope.timeout = setTimeout(() => {
+        window.location.href = 'https://pftechsln.github.io';
+      }, 10000);
+    }
+
     // Load list of fhir endpoints orgs and URLs
     loadFhirOrg($scope, $http);
 
@@ -317,6 +327,11 @@ app.controller('loginCtrl', [
     $scope.displaySampleData = function () {
       sessionStorage.clear();
       window.location.href = 'fhirData.html';
+    };
+
+    $scope.cancelRedirect = function () {
+      clearTimeout($scope.timeout);
+      console.log($scope.timeout);
     };
   },
 ]);

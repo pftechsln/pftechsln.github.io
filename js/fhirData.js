@@ -8,7 +8,7 @@ function updateProgress($scope, isError) {
     );
     $('#progressBarError').attr('style', 'width: ' + progress + '%;');
     $('#progressBarError').attr('aria-valuenow', progress);
-    //$('#progressBarError').html(progress + '%');
+    $('#progressBarError').html(progress + '%');
   } else {
     $scope.progress++;
     const progress = Math.round(
@@ -22,29 +22,18 @@ function updateProgress($scope, isError) {
   if ($scope.progress + $scope.progressError > $scope.rsrTypeList.length) {
     $scope.progress = 0;
     $scope.progressError = 0;
-    setTimeout('resetProgress()', 2000);
-    //} else if (progress >= 75) {
-    //$('#progressBar').removeClass('bg-primary');
-    //$('#progressBar').addClass('bg-success');
-    //} else if (progress >= 50) {
-    //$('#progressBar').removeClass('bg-warning');
-    //$('#progressBar').addClass('bg-primary');
-    //} else if (progress >= 25) {
-    //$('#progressBar').removeClass('bg-danger');
-    //$('#progressBar').addClass('bg-warning');
+    setTimeout('resetProgress()', 3000);
   }
 }
 
 function resetProgress() {
   $('#progressWrap').prop('hidden', true);
-  //$('#progressBar').removeClass('bg-success');
-  //$('#progressBar').addClass('bg-danger');
   $('#progressBar').attr('style', 'width: ' + 0 + '%;');
   $('#progressBar').attr('aria-valuenow', 0);
-  $('#progressBar').html(0);
+  $('#progressBar').html('');
   $('#progressBarError').attr('style', 'width: ' + 0 + '%;');
   $('#progressBarError').attr('aria-valuenow', 0);
-  //$('#progressBarError').html(0);
+  $('#progressBarError').html('');
 }
 
 // Load patient demographic, and conformance first
