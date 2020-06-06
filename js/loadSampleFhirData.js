@@ -18,7 +18,7 @@ export function loadSampleData($scope) {
 
   displaySetting = FhirView.getRsrSetting('Patient');
   var fhirRsr = {
-    Type: 'Demographics',
+    Type: 'Patient',
     Name: patient.Name,
     Resource: patient,
     SourceName: 'Sample Data',
@@ -54,7 +54,7 @@ export function loadSampleData($scope) {
 
   displaySetting = FhirView.getRsrSetting('AllergyIntolerance');
   fhirRsr = {
-    Type: 'Allergy',
+    Type: 'AllergyIntolerance',
     Name: allergies[0].Substance,
     Resource: allergies[0],
     SourceName: 'Sample Data',
@@ -63,7 +63,7 @@ export function loadSampleData($scope) {
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
-    Type: 'Allergy',
+    Type: 'AllergyIntolerance',
     Name: allergies[1].Substance,
     Resource: allergies[1],
     SourceName: 'Sample Data',
@@ -166,7 +166,7 @@ export function loadSampleData($scope) {
 
   displaySetting = FhirView.getRsrSetting('Observation-laboratory');
   fhirRsr = {
-    Type: 'Lab Test',
+    Type: 'Observation-laboratory',
     Name: labs[0].Test,
     Resource: labs[0],
     SourceName: 'Sample Data',
@@ -175,7 +175,7 @@ export function loadSampleData($scope) {
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
-    Type: 'Lab Test',
+    Type: 'Observation-laboratory',
     Name: labs[1].Test,
     Resource: labs[1],
     SourceName: 'Sample Data',

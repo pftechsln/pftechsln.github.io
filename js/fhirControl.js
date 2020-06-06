@@ -11,7 +11,7 @@ export class FhirControl {
   }
 }
 
-function resetProgress() {
+function resetProgress($scope) {
   $scope.progress = 0;
   $scope.progressError = 0;
   $('#progressWrap').prop('hidden', true);
@@ -44,11 +44,12 @@ function updateProgress($scope, isError) {
     $('#progressBar').html(progress + '%');
   }
 
-  if ($scope.progress + $scope.progressError > $scope.rsrTypeList.length) {
+  if ($scope.progress + $scope.progressError >= $scope.rsrTypeList.length) {
     $scope.progress = 0;
     $scope.progressError = 0;
-    //window.setTimeout('resetProgress()', 3000);
-    resetProgress();
+    window.setTimeout(() => {
+      resetProgress($scope);
+    }, 3000);
   }
 }
 
@@ -317,7 +318,7 @@ function displayPatient(data, $scope) {
   }
 
   var fhirRsr = {
-    Type: 'Demographics',
+    Type: 'Patient',
     Name: patient.Name,
     Resource: patient,
     SourceLink: $scope.fhirMetaUrl,
@@ -380,7 +381,7 @@ function displayAllergy(data, $scope) {
       //allergies[ln] = oneAllergy;
 
       fhirRsr = {
-        Type: 'Allergy',
+        Type: 'AllergyIntolerance',
         Name: oneAllergy.Substance,
         Resource: oneAllergy,
         SourceLink: $scope.fhirMetaUrl,

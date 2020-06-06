@@ -38,28 +38,28 @@
   margin-bottom: 0.25rem;
 }
 /* fhir Allergy */
-.fhirAllergy .card-header {
+.fhirAllergyIntolerance .card-header {
   background-color: rgb(0, 200, 200);
 }
 
-.fhirAllergy .fhirKey {
+.fhirAllergyIntolerance .fhirKey {
   color: rgb(0, 200, 200);
 }
 
-.fhirAllergy:hover {
+.fhirAllergyIntolerance:hover {
   border-color: rgb(0, 200, 200);
 }
 
 /* fhir Patient Demographics */
-.fhirDemographics .card-header {
+.fhirPatient .card-header {
   background-color: rgb(84, 47, 252);
 }
 
-.fhirDemographics .fhirKey {
+.fhirPatient .fhirKey {
   color: rgb(84, 47, 252);
 }
 
-.fhirDemographics:hover {
+.fhirPatient:hover {
   border-color: rgba(84, 47, 252, 0.7);
 }
 
@@ -90,15 +90,15 @@
 }
 
 /* fhir Lab Results */
-.fhirLab .card-header {
+.fhirObservation-laboratory .card-header {
   background-color: #b61004;
 }
 
-.fhirLab .fhirKey {
+.fhirObservation-laboratory .fhirKey {
   color: #b61004;
 }
 
-.fhirLab:hover {
+.fhirObservation-laboratory:hover {
   border-color: #b61004;
 }
 
