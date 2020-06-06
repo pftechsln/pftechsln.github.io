@@ -30,8 +30,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">{{progress}}</script>
 
     <!-- Site AngularJS -->
-    <script type="module" src="/js/loadSampleFhirData.js"></script>
-    <script type="module" src="/js/fhirData.js"></script>
     <script type="module" src="/js/myAngularApp2.js"></script>
   </head>
 
@@ -70,7 +68,7 @@
                   </span>
                   <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+(t.displayOverride?t.displayOverride:t.name)}}>Loading ...</span>
                 </button>
-                <pre class="card-text collapse" id="{{t.displayOverride?t.displayOverride:t.name}}">loading ... </pre>
+                <pre class="card-text collapse" id="{{t.displayOverride?t.displayOverride:t.name}}" data-toggle="collapse" data-target="#{{t.displayOverride?t.displayOverride:t.name}}">loading ... </pre>
               </div>
           </div>
     

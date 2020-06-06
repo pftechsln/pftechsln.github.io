@@ -1,7 +1,8 @@
 // Update: 6/4/2020 source codes on Azure not sync with Github
+// had to copy myAngularApp to myAngularApp2 to sync the updates to Azure
 
-import { loadFhirData } from './fhirData.js';
-import { loadSampleData } from './loadSampleFhirData.js';
+import { FhirControl } from './fhirControl.js';
+import { loadEpicFhirOrgs } from './EpicEndpoints.js';
 
 // Constants: FHIR Client for Health Organization on Epic
 const productionClient = {
@@ -178,7 +179,7 @@ function getAccessToken($scope, $http) {
       sessionStorage.setItem('accessToken', $scope.accessToken);
       sessionStorage.setItem('patient', data.patient);
 
-      loadFhirData($scope, $http);
+      FhirControl.loadFhirData($scope, $http);
     },
     function (error) {
       $scope.statusText =
@@ -218,7 +219,7 @@ app.controller('fhirDataCtrl', [
     // No oauth code: load sample data without login
     if (oauthCode == null) {
       $('#reload').hide();
-      loadSampleData($scope);
+      FhirControl.loadSampleData($scope, $http);
       console.log('load sample data...');
     }
     // Has oauth code but not access code: exchange with access code and then retrieve fhir resources
@@ -240,7 +241,7 @@ app.controller('fhirDataCtrl', [
       console.log('load fhir settings', $scope);
       $scope.accessToken = accessToken;
       $scope.patient = sessionStorage.getItem('patient');
-      loadFhirData($scope, $http);
+      FhirControl.loadFhirData($scope, $http);
     }
 
     $scope.getAccessToken = function () {
@@ -248,7 +249,7 @@ app.controller('fhirDataCtrl', [
     };
 
     $scope.loadFhirData = function () {
-      loadFhirData($scope, $http);
+      FhirControl.loadFhirData($scope, $http);
     };
 
     $scope.reLogin = function () {

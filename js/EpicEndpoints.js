@@ -1,4 +1,4 @@
-function loadEpicFhirOrgs() {
+export function loadEpicFhirOrgs() {
   const epicFhirOrgs = {
     Entries: [
       {

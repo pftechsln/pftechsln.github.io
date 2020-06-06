@@ -1,4 +1,27 @@
 import { FhirView } from './fhirView.js';
+import { loadSampleData } from './loadSampleFhirData.js';
+
+export class FhirControl {
+  static loadSampleData($scope, $http) {
+    loadSampleData($scope);
+  }
+
+  static loadFhirData($scope, $http) {
+    loadFhirData($scope, $http);
+  }
+}
+
+function resetProgress() {
+  $scope.progress = 0;
+  $scope.progressError = 0;
+  $('#progressWrap').prop('hidden', true);
+  $('#progressBar').attr('style', 'width: ' + 0 + '%;');
+  $('#progressBar').attr('aria-valuenow', 0);
+  $('#progressBar').html('');
+  $('#progressBarError').attr('style', 'width: ' + 0 + '%;');
+  $('#progressBarError').attr('aria-valuenow', 0);
+  $('#progressBarError').html('');
+}
 
 function updateProgress($scope, isError) {
   let progress = 0;
@@ -6,7 +29,7 @@ function updateProgress($scope, isError) {
   if (isError) {
     $scope.progressError++;
     const progress = Math.round(
-      (100 * $scope.progressError) / (1 + $scope.rsrTypeList.length)
+      (100 * $scope.progressError) / $scope.rsrTypeList.length
     );
     $('#progressBarError').attr('style', 'width: ' + progress + '%;');
     $('#progressBarError').attr('aria-valuenow', progress);
@@ -14,7 +37,7 @@ function updateProgress($scope, isError) {
   } else {
     $scope.progress++;
     const progress = Math.round(
-      (100 * $scope.progress) / (1 + $scope.rsrTypeList.length)
+      (100 * $scope.progress) / $scope.rsrTypeList.length
     );
     $('#progressBar').attr('style', 'width: ' + progress + '%;');
     $('#progressBar').attr('aria-valuenow', progress);
@@ -24,18 +47,9 @@ function updateProgress($scope, isError) {
   if ($scope.progress + $scope.progressError > $scope.rsrTypeList.length) {
     $scope.progress = 0;
     $scope.progressError = 0;
-    setTimeout('resetProgress()', 3000);
+    //window.setTimeout('resetProgress()', 3000);
+    resetProgress();
   }
-}
-
-function resetProgress() {
-  $('#progressWrap').prop('hidden', true);
-  $('#progressBar').attr('style', 'width: ' + 0 + '%;');
-  $('#progressBar').attr('aria-valuenow', 0);
-  $('#progressBar').html('');
-  $('#progressBarError').attr('style', 'width: ' + 0 + '%;');
-  $('#progressBarError').attr('aria-valuenow', 0);
-  $('#progressBarError').html('');
 }
 
 // Load patient demographic, and conformance first
@@ -204,12 +218,12 @@ async function getPatData(resource, $scope, $http) {
     $('#cnt2' + type).removeClass('bg-warning');
     $('#' + type).html(jsonString);
 
-    displayData(resource, substance, $scope);
-
     // dont update progress yet for the Confromance call because rsrTypeList not available
-    if ($scope.rsrTypeList) {
+    if ($scope.rsrTypeList && type !== 'Conformance') {
       updateProgress($scope);
     }
+
+    displayData(resource, substance, $scope);
   } catch (error) {
     console.log('Error loading ', resource.name, ': ', error);
     $('#cnt2' + resource.name).html('Error');
@@ -309,6 +323,7 @@ function displayPatient(data, $scope) {
     SourceLink: $scope.fhirMetaUrl,
     SourceName: $scope.orgName,
     Full_Resource: data.fullUrl,
+    display: FhirView.getRsrSetting('Patient'),
   };
   $scope.fhirRsrList.push(fhirRsr);
   //console.log(fhirRsr);
@@ -319,6 +334,7 @@ function displayAllergy(data, $scope) {
   var tmpEntry;
   var tmpStr = '';
   var fhirRsr;
+  const displaySetting = FhirView.getRsrSetting('AllergyIntolerance');
 
   if (data.total < 1) {
     return;
@@ -370,6 +386,7 @@ function displayAllergy(data, $scope) {
         SourceLink: $scope.fhirMetaUrl,
         SourceName: $scope.orgName,
         Full_Resource: data.entry[ln].fullUrl,
+        display: displaySetting,
       };
       $scope.fhirRsrList.push(fhirRsr);
       //console.log(fhirRsr);
@@ -384,6 +401,7 @@ function displayAllergy(data, $scope) {
 function extractImmunization(data, $scope) {
   var tmpEntry;
   var tmpStr = '';
+  const displaySetting = FhirView.getRsrSetting('Immunization');
 
   if (data.total < 1) {
     return;
@@ -489,6 +507,7 @@ function extractLab(data, $scope) {
 function extractMedication(data, $scope) {
   var tmpEntry;
   var tmpStr = '';
+  const dsiplaySetting = FhirView.getRsrSetting('MedicationOrder');
 
   if (data.total < 1) {
     return;
@@ -532,6 +551,7 @@ function extractMedication(data, $scope) {
           SourceLink: $scope.fhirMetaUrl,
           SourceName: $scope.orgName,
           Full_Resource: data.entry[ln].fullUrl,
+          display: displaySetting,
         };
         $scope.fhirRsrList.push(fhirRsr);
         //console.log(fhirRsr);
@@ -541,5 +561,3 @@ function extractMedication(data, $scope) {
 
   //$scope.medications = medications;
 }
-
-export { loadFhirData };

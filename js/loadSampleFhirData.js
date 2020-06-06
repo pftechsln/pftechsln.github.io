@@ -1,6 +1,6 @@
 import { FhirView } from './fhirView.js';
 
-function loadSampleData($scope) {
+export function loadSampleData($scope) {
   var fhirRsrList = [];
   var displaySetting;
 
@@ -191,5 +191,3 @@ function loadSampleData($scope) {
   $scope.labs = labs;
   $scope.fhirRsrList = fhirRsrList;
 }
-
-export { loadSampleData };
