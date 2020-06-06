@@ -11,42 +11,52 @@
 } */
 
 .fhirRsr.card {
-  border-radius: 5px;
   border-width: 2px;
+  font-size: smaller;
 }
 
 .fhirRsr:hover .card-header {
   opacity: 1;
+  font-weight: 700;
 }
 
 .fhirRsr .card-header {
   color: white;
-  border-radius: 2px;
   border-color: gray;
   border: 1px solid lightgray;
   opacity: 0.8;
+  padding: 0.5rem 0.5rem;
+  font-weight: 500;
+  font-size: small;
 }
 
+.fhirRsr .card-footer {
+  padding: 0.5rem 0.5rem;
+}
+
+.fhirRsr .table {
+  margin-bottom: 0.25rem;
+}
 /* fhir Allergy */
 .fhirAllergy .card-header {
   background-color: rgb(0, 200, 200);
+}
+
+.fhirAllergy .fhirKey {
+  color: rgb(0, 200, 200);
 }
 
 .fhirAllergy:hover {
   border-color: rgb(0, 200, 200);
 }
 
-.fhirAllergy:hover .card-header {
-  background-color: rgba(0, 200, 200);
-}
-
 /* fhir Patient Demographics */
 .fhirDemographics .card-header {
-  background-color: rgba(84, 47, 252, 0.8);
+  background-color: rgb(84, 47, 252);
 }
 
-.fhirDemographics:hover .card-header {
-  background-color: rgba(84, 47, 252, 0.8);
+.fhirDemographics .fhirKey {
+  color: rgb(84, 47, 252);
 }
 
 .fhirDemographics:hover {
@@ -58,6 +68,10 @@
   background-color: yellowgreen;
 }
 
+.fhirMedication .fhirKey {
+  color: yellowgreen;
+}
+
 .fhirMedication:hover {
   border-color: yellowgreen;
 }
@@ -67,15 +81,34 @@
   background-color: purple;
 }
 
+.fhirImmunization .fhirKey {
+  color: purple;
+}
+
 .fhirImmunization:hover {
   border-color: purple;
 }
 
 /* fhir Lab Results */
 .fhirLab .card-header {
-  background-color: orangered;
+  background-color: #b61004;
+}
+
+.fhirLab .fhirKey {
+  color: #b61004;
 }
 
 .fhirLab:hover {
-  border-color: orangered;
+  border-color: #b61004;
+}
+
+.fhirKey {
+  font-weight: 500;
+  border-right: 1px solid lightgray;
+  padding-right: 0.5em;
+}
+
+.fhirValue {
+  color: black;
+  padding-left: 0.3em;
 }

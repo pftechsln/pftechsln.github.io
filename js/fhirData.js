@@ -1,3 +1,5 @@
+import { FhirView } from './fhirView.js';
+
 function updateProgress($scope, isError) {
   let progress = 0;
 
@@ -61,13 +63,14 @@ async function loadAllFhirResources($scope, $http) {
 function displayConformance(data, $scope) {
   $scope.rsrTypeList = [];
 
-  for (i = 0; i < data.rest[0].resource.length; i++) {
+  for (var i = 0; i < data.rest[0].resource.length; i++) {
     let type = data.rest[0].resource[i].type;
 
     let searchParam = data.rest[0].resource[i].searchParam;
     let patientSearch = false;
-    console.log(data.rest[0].resource[i]);
 
+    // Only keep resource types that can be searched by patient ID
+    // if search methods contain "patient"
     if (searchParam != null) {
       searchParam.forEach((search) => {
         if (search.name == 'patient') {
@@ -77,23 +80,36 @@ function displayConformance(data, $scope) {
 
       if (patientSearch || type === 'Patient') {
         if (type === 'Observation') {
+          let displaySettings = FhirView.getRsrSetting(
+            'Observation-laboratory'
+          );
           $scope.rsrTypeList.push({
             name: 'Observation',
             queryFilter: 'category=laboratory',
             displayOverride: 'Observation-laboratory',
+            display: displaySettings,
           });
+
+          displaySettings = FhirView.getRsrSetting(
+            'Observation-social-history'
+          );
           $scope.rsrTypeList.push({
             name: 'Observation',
             queryFilter: 'category=social-history',
             displayOverride: 'Observation-social-history',
+            display: displaySettings,
           });
+
+          displaySettings = FhirView.getRsrSetting('Observation-vital-signs');
           $scope.rsrTypeList.push({
             name: 'Observation',
             queryFilter: 'category=vital-signs',
             displayOverride: 'Observation-vital-signs',
+            display: displaySettings,
           });
         } else {
-          $scope.rsrTypeList.push({ name: type });
+          let displaySettings = FhirView.getRsrSetting(type);
+          $scope.rsrTypeList.push({ name: type, display: displaySettings });
         }
       }
     }
@@ -174,6 +190,7 @@ async function getPatData(resource, $scope, $http) {
 
     $('#data' + type).html(jsonString);
 
+    let entityCount = 1;
     if (substance['resourceType'] === 'Bundle') {
       entityCount = substance.total;
     } else {
@@ -253,7 +270,7 @@ function displayPatient(data, $scope) {
   patient['FHIR ID'] = data.id;
   patient['Name'] = data.name[0].given + ' ' + data.name[0].family;
 
-  for (ln = 0; ln < data.address.length; ln++) {
+  for (var ln = 0; ln < data.address.length; ln++) {
     if (data.address[ln].use === 'home') {
       address = data.address[ln].line.join(' ');
       address =
@@ -270,7 +287,7 @@ function displayPatient(data, $scope) {
   }
   patient['Address'] = address;
 
-  for (ln = 0; ln < data.telecom.length; ln++) {
+  for (var ln = 0; ln < data.telecom.length; ln++) {
     tmp = data.telecom[ln];
     if (tmp.system === 'phone') {
       if (tmp.use === 'home') {
@@ -310,7 +327,7 @@ function displayAllergy(data, $scope) {
   var allergies = new Array(data.total);
 
   try {
-    for (ln = 0; ln < data.total; ln++) {
+    for (var ln = 0; ln < data.total; ln++) {
       var oneAllergy = {
         Substance: '',
         Status: '',
@@ -330,7 +347,7 @@ function displayAllergy(data, $scope) {
         oneAllergy['Reaction'] = '';
       } else {
         tmpStr = '';
-        for (ln2 = 0; ln2 < tmpEntry.reaction.length; ln2++) {
+        for (var ln2 = 0; ln2 < tmpEntry.reaction.length; ln2++) {
           if (ln2 > 0) {
             tmpStr = tmpStr + ', ';
           }
@@ -375,7 +392,7 @@ function extractImmunization(data, $scope) {
   var immunizations = new Array(data.total);
 
   try {
-    for (ln = 0; ln < data.total; ln++) {
+    for (var ln = 0; ln < data.total; ln++) {
       tmpEntry = data.entry[ln].resource;
       if (tmpEntry.resourceType === 'Immunization') {
         var oneImm = {
@@ -420,7 +437,7 @@ function extractLab(data, $scope) {
   var labs = new Array(data.total);
 
   try {
-    for (ln = 0; ln < data.total; ln++) {
+    for (var ln = 0; ln < data.total; ln++) {
       tmpEntry = data.entry[ln].resource;
       if (tmpEntry.resourceType === 'Observation') {
         var oneLab = {
@@ -480,7 +497,7 @@ function extractMedication(data, $scope) {
   var medications = new Array(data.total);
 
   try {
-    for (ln = 0; ln < data.total; ln++) {
+    for (var ln = 0; ln < data.total; ln++) {
       tmpEntry = data.entry[ln].resource;
       if (tmpEntry.resourceType === 'MedicationOrder') {
         var oneMed = {
@@ -524,3 +541,5 @@ function extractMedication(data, $scope) {
 
   //$scope.medications = medications;
 }
+
+export { loadFhirData };

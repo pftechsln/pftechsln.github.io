@@ -1,4 +1,9 @@
+import { FhirView } from './fhirView.js';
+
 function loadSampleData($scope) {
+  var fhirRsrList = [];
+  var displaySetting;
+
   var patient = {
     Name: 'Jason Fhir',
     'FHIR ID': 'abcdefghijklmnopqrstuvwxyz0123456789',
@@ -10,14 +15,17 @@ function loadSampleData($scope) {
     'Mobile Phone': '918-987-6543',
     Email: 'jason.fhir@healthonfhir.com',
   };
+
+  displaySetting = FhirView.getRsrSetting('Patient');
   var fhirRsr = {
     Type: 'Demographics',
     Name: patient.Name,
     Resource: patient,
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/demo',
+    display: displaySetting,
   };
-  var fhirRsrList = [];
+
   fhirRsrList.push(fhirRsr);
 
   var allergies = [
@@ -43,12 +51,15 @@ function loadSampleData($scope) {
       Note: "It's serious. Patient needs to be very careful about it.",
     },
   ];
+
+  displaySetting = FhirView.getRsrSetting('AllergyIntolerance');
   fhirRsr = {
     Type: 'Allergy',
     Name: allergies[0].Substance,
     Resource: allergies[0],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/allergy/1',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
@@ -57,6 +68,7 @@ function loadSampleData($scope) {
     Resource: allergies[1],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/allergy/2',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
 
@@ -77,12 +89,15 @@ function loadSampleData($scope) {
         'Take 1 pill every 4 hours. No more than 4 pills in 24 hours period.',
     },
   ];
+
+  displaySetting = FhirView.getRsrSetting('MedicationOrder');
   fhirRsr = {
     Type: 'Medication',
     Name: medications[0].Medication,
     Resource: medications[0],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/medication/1',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
@@ -91,6 +106,7 @@ function loadSampleData($scope) {
     Resource: medications[1],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/medication/2',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
 
@@ -108,12 +124,15 @@ function loadSampleData($scope) {
       Route: 'Shot',
     },
   ];
+
+  displaySetting = FhirView.getRsrSetting('Immunization');
   fhirRsr = {
     Type: 'Immunization',
     Name: immunizations[0].Vaccine,
     Resource: immunizations[0],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/immunization/1',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
@@ -122,6 +141,7 @@ function loadSampleData($scope) {
     Resource: immunizations[1],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/immunization/2',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
 
@@ -143,12 +163,15 @@ function loadSampleData($scope) {
       Unit: 'bp',
     },
   ];
+
+  displaySetting = FhirView.getRsrSetting('Observation-laboratory');
   fhirRsr = {
     Type: 'Lab Test',
     Name: labs[0].Test,
     Resource: labs[0],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/labtest/1',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
   fhirRsr = {
@@ -157,6 +180,7 @@ function loadSampleData($scope) {
     Resource: labs[1],
     SourceName: 'Sample Data',
     FhirURL: 'https://sampledata.com/labtest/2',
+    display: displaySetting,
   };
   fhirRsrList.push(fhirRsr);
 
@@ -167,3 +191,5 @@ function loadSampleData($scope) {
   $scope.labs = labs;
   $scope.fhirRsrList = fhirRsrList;
 }
+
+export { loadSampleData };

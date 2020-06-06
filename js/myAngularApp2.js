@@ -1,6 +1,7 @@
 // Update: 6/4/2020 source codes on Azure not sync with Github
 
-//import { SmartFhir } from './smartFhir.js';
+import { loadFhirData } from './fhirData.js';
+import { loadSampleData } from './loadSampleFhirData.js';
 
 // Constants: FHIR Client for Health Organization on Epic
 const productionClient = {
