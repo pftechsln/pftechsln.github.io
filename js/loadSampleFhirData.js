@@ -112,16 +112,16 @@ export function loadSampleData($scope) {
 
   var immunizations = [
     {
-      Vaccine: 'Chicken Pot',
+      Vaccine: 'Cholera',
       Date: '1978-10-23',
       Site: 'Right Arm',
-      Route: 'Shot',
+      Route: 'Intravenous',
     },
     {
-      Vaccine: 'Hapties B',
+      Vaccine: 'DTP-Hib-Hep B',
       Date: '2000-01-01',
-      Site: 'Thing',
-      Route: 'Shot',
+      Site: '',
+      Route: '',
     },
   ];
 
@@ -147,20 +147,20 @@ export function loadSampleData($scope) {
 
   var labs = [
     {
-      Test: 'Test A',
-      Date: '1999-10-23',
-      Status: 'completed',
-      'Result Value': '234.23',
+      Test: 'PR INTERVAL',
+      Date: '2016-11-23',
+      Status: 'final',
+      'Result Value': '134.0',
       'Reference Range': '100-500',
-      Unit: 'ml',
+      Unit: 'ms',
     },
     {
-      Test: 'Test B',
-      Date: '2018-10-23',
-      Status: 'Pending',
-      'Result Value': '34',
-      'Reference Range': '30-5-',
-      Unit: 'bp',
+      Test: 'ALANINE AMINOTRANSFERASE (SGPT) [U/L] IN SER/PLAS',
+      Date: '2016-02-23',
+      Status: 'final',
+      'Result Value': '14',
+      'Reference Range': '10-40',
+      Unit: 'U/L',
     },
   ];
 
