@@ -163,6 +163,10 @@ tbody {
   color: black;
 }
 
+/* #summary .card-columns {
+  column-count: 1;
+} */
+
 @media (max-width: 800px) {
   /*    .sidenav {
          height: auto;
@@ -182,7 +186,7 @@ tbody {
     }
     .row.content {height:auto;}
  */
-  .card-columns {
+  #emrData .card-columns {
     column-count: 2;
   }
 }

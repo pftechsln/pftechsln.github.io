@@ -1,5 +1,6 @@
 import { FhirView } from './fhirView.js';
-import { loadSampleData } from './loadSampleFhirData.js';
+import { loadSampleData } from './loadSampleFhirData2.js';
+import { FhirAllergy, FhirResource } from './fhirModel.js';
 
 export class FhirControl {
   static loadSampleData($scope, $http) {
@@ -78,6 +79,9 @@ async function loadAllFhirResources($scope, $http) {
 function displayConformance(data, $scope) {
   $scope.rsrTypeList = [];
 
+  let displaySettings = FhirView.getRsrSetting('Patient');
+  $scope.rsrTypeList.push({ name: 'Patient', display: displaySettings });
+
   for (var i = 0; i < data.rest[0].resource.length; i++) {
     let type = data.rest[0].resource[i].type;
 
@@ -93,11 +97,9 @@ function displayConformance(data, $scope) {
         }
       });
 
-      if (patientSearch || type === 'Patient') {
+      if (patientSearch) {
         if (type === 'Observation') {
-          let displaySettings = FhirView.getRsrSetting(
-            'Observation-laboratory'
-          );
+          displaySettings = FhirView.getRsrSetting('Observation-laboratory');
           $scope.rsrTypeList.push({
             name: 'Observation',
             queryFilter: 'category=laboratory',
@@ -123,7 +125,7 @@ function displayConformance(data, $scope) {
             display: displaySettings,
           });
         } else {
-          let displaySettings = FhirView.getRsrSetting(type);
+          displaySettings = FhirView.getRsrSetting(type);
           $scope.rsrTypeList.push({ name: type, display: displaySettings });
         }
       }
@@ -247,6 +249,22 @@ async function getPatData(resource, $scope, $http) {
 }
 
 function displayData(resource, data, $scope) {
+  if (resource.name === 'Conformance') {
+    displayConformance(data, $scope);
+  } else if (resource.name === 'Patient') {
+    let oneResource = FhirResource.createResource(data);
+    $scope.fhirRsrList.push(oneResource);
+  } else {
+    data.entry.forEach((aJson) => {
+      let oneResource = FhirResource.createResource(
+        aJson,
+        resource.displayOverride
+      );
+      $scope.fhirRsrList.push(oneResource);
+    });
+  }
+  return;
+
   if (resource.name === 'Patient') {
     displayPatient(data, $scope);
   } else if (resource.name === 'AllergyIntolerance') {

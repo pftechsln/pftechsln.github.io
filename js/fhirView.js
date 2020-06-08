@@ -81,6 +81,18 @@ var _displaySettings = [
     icon: 'fa-procedures',
     color: '',
   },
+  {
+    name: 'FamilyMemberHistory',
+    displayName: 'Family Member History',
+    icon: 'fa-users',
+    color: '',
+  },
+  {
+    name: 'Device',
+    displayName: 'Device',
+    icon: 'fa-mobile-alt',
+    color: '',
+  },
 ];
 
 class FhirView {

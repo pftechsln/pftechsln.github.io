@@ -39,6 +39,20 @@
 .fhirRsr .table {
   margin-bottom: 0.25rem;
 }
+
+/* fhir Patient Demographics */
+.fhirRsr .card-header {
+  background-color: rgb(84, 47, 252);
+}
+
+.fhirRsr .fhirKey {
+  color: rgb(84, 47, 252);
+}
+
+.fhirRsr:hover {
+  border-color: rgba(84, 47, 252, 0.7);
+}
+
 /* fhir Allergy */
 .fhirAllergyIntolerance .card-header {
   background-color: rgb(0, 200, 200);
@@ -66,15 +80,18 @@
 }
 
 /* fhir Medication */
-.fhirMedication .card-header {
+.fhirMedicationOrder .card-header,
+.fhirMedicationStatement .card-header {
   background-color: yellowgreen;
 }
 
-.fhirMedication .fhirKey {
+.fhirMedicationOrder .fhirKey,
+.fhirMedicationStatement .fhirKey {
   color: yellowgreen;
 }
 
-.fhirMedication:hover {
+.fhirMedicationOrder:hover,
+.fhirMedicationStatement:hover {
   border-color: yellowgreen;
 }
 
@@ -92,15 +109,21 @@
 }
 
 /* fhir Lab Results */
-.fhirObservation-laboratory .card-header {
+.fhirObservation-laboratory .card-header,
+.fhirObservation-social-history .card-header,
+.fhirObservation-vital-signs .card-header {
   background-color: #b61004;
 }
 
-.fhirObservation-laboratory .fhirKey {
+.fhirObservation-laboratory .fhirKey,
+.fhirObservation-social-history .fhirKey,
+.fhirObservation-vital-signs .fhirKey {
   color: #b61004;
 }
 
-.fhirObservation-laboratory:hover {
+.fhirObservation-laboratory:hover,
+.fhirObservation-social-history:hover,
+.fhirObservation-vital-signs:hover {
   border-color: #b61004;
 }
 
