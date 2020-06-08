@@ -48,7 +48,7 @@
     <!-- Main Container -->
     <div class="container-fluid" id="mainFhir">
 
-      <div class='row m-0'>
+      
 
       <!-- Summary Dashboard-->
       <div class="container-fluid col-sm-12 col-lg-11 col-lg-offset-1 px-0" id="summary">
@@ -74,7 +74,7 @@
                 
           <div class="card-columns mx-auto">
           <!-- FHIR Resource Card -->
-          <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList | filter: {'resourceType' : type.displayOverride?type.displayOverride:type.name}">
+          <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList | filter: {'resourceType' : type.displayOverride?type.displayOverride:type.name} | limitTo : 20">
             <div class="card-header" data-toggle="collapse" data-target="#{{'fhir'+t.resourceType+$index}}"> 
               <i class="fhirRsrIcon fas {{t.display.icon}}" aria-hidden="true"></i>
               <span>{{t.name}}</span>
@@ -117,7 +117,7 @@
               <div class="card-columns mx-auto">
       
                 <!-- FHIR Resource Card -->
-                <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList track by $index">
+                <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList track by $index | limitTo : 50">
                   <div class="card-header" data-toggle="collapse" data-target="#{{'fhir'+$index}}"> 
                     <i class="fhirRsrIcon fas {{t.display.icon}}" aria-hidden="true"></i>
                     <span>{{t.name}}</span>
@@ -149,7 +149,7 @@
                 </div>
       </div>
           <!-- EMR Data Card-Columns -->
-      </div>
+      
     </div>
     <!-- End of Main Container -->
 

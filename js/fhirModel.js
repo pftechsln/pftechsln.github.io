@@ -379,6 +379,7 @@ class FhirVital extends FhirResource {
       Code: this.name,
       Date: this.date,
       Status: this.status,
+      //'ID & Direct Link': `<a href='${this.fullUrl}' target='_blank'>${this.id}</a>`,
     };
   }
 }
