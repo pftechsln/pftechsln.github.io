@@ -424,7 +424,7 @@ class FhirDiagnosticReport extends FhirResource {
       Code: this.name,
       Status: resource.status,
       'Effective Date': this.date,
-      'Issued Date': resource.issued.split('T')[0],
+      'Issued Date': resource.issued ? resource.issued.split('T')[0] : '',
       Category:
         typeof resource.category != 'undefined' ? resource.category.text : '',
       Results:
