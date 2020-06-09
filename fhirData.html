@@ -59,70 +59,73 @@
           <div id="progressBarError" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         
-        <!-- Summary Cards -->
+        <!-- Summary Cards group by Type-->
         <div class="card fhirRsr" ng-repeat="type in rsrTypeList">
           <div class="card-body p-1">
-                <button class="btn w-100 card-title p-1 m-0" data-toggle="collapse" data-target="#{{type.displayOverride?type.displayOverride:type.name}}">
-                  
-                  <span class="float-left">
-                    <i class="fas {{type.display.icon}}"></i>
-                    {{type.displayOverride?type.displayOverride:type.name}}
-                  </span>
-                  <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+(type.displayOverride?type.displayOverride:type.name)}}>Loading ...</span>
-                </button>
-                 <pre class="card-text collapse" id="{{type.displayOverride?type.displayOverride:type.name}}" data-toggle="collapse" data-target="#{{type.displayOverride?type.displayOverride:type.name}}">loading ... </pre>
-                
-          <div class="card-columns mx-auto">
-          <!-- FHIR Resource Card -->
-          <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList | filter: {'resourceType' : type.displayOverride?type.displayOverride:type.name} | limitTo : 20">
-            <div class="card-header" data-toggle="collapse" data-target="#{{'fhir'+t.resourceType+$index}}"> 
+            
+            <!-- Card Title -->
+            <button class="btn w-100 card-title p-1 m-0" data-toggle="collapse" data-target="#{{type.displayOverride?type.displayOverride:type.name}}">      
+              <span class="float-left">
+                <i class="fas {{type.display.icon}}"></i>
+                {{type.displayOverride?type.displayOverride:type.name}}
+              </span>
+              <span class="float-right float-md-left badge bg-warning mt-1 mx-2" id={{"cnt2"+(type.displayOverride?type.displayOverride:type.name)}}>Loading ...</span>
+            </button>
+            
+            <!-- Full Json -->
+            <pre class="card-text collapse" id="{{type.displayOverride?type.displayOverride:type.name}}" data-toggle="collapse" data-target="#{{type.displayOverride?type.displayOverride:type.name}}">loading ... </pre>
+           
+            <!-- Card column for individual resource card -->
+            <div class="card-columns mx-auto">
+
+              <!-- FHIR Resource Card -->
+              <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList | filter: {'resourceType' : type.displayOverride?type.displayOverride:type.name} | limitTo : 20">
+                <div class="card-header" data-toggle="collapse" data-target="#{{'fhir'+t.resourceType+$index}}"> 
               <i class="fhirRsrIcon fas {{t.display.icon}}" aria-hidden="true"></i>
               <span>{{t.name}}</span>
               <code class="float-right text-white">{{t.display.displayName}}</code>
+                </div>
+                <div id="{{'fhir'+t.resourceType+$index}}" class="collapse">
+                   <div class="card-body p-0">
+                      <table class="table table-hover table-responsive table-condensed px-1">
+                        <tbody>
+                          <tr ng-repeat="(key,value) in t.displayFields" style="width: 100%">
+                            <td scope="row" class="p-1">
+                              <span class="fhirKey">{{key}}</span>
+                              <span class="fhirValue">{{value}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  <div class="card-footer">
+                    <span ng-if='fhirMetaUrl'>Source: <a href={{fhirMetaUrl}} target="_blank">{{orgName}}</a></span>
+                    <a href='{{t.fullUrl}}' target="_blank" class='float-right'>Link to Full Resource</a>                                
+                  </div>
+                </div>
+              </div>
+              <!-- End of FHIR Resource Card -->
+
             </div>
-            <div id="{{'fhir'+t.resourceType+$index}}" class="collapse">
-              <div class="card-body p-0">
-                <table
-                  class="table table-hover table-responsive table-condensed px-1"
-                >
-                  <tbody>
-                    <tr ng-repeat="(key,value) in t.displayFields" style="width: 100%">
-                      <td scope="row" class="p-1">
-                        <span class="fhirKey">{{key}}</span>
-                        <span class="fhirValue">{{value}}</span>
-                      </td>
-
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="card-footer" ng-if='t.SourceLink'>
-                Source: <a href={{t.SourceLink}} target="_blank">{{t.SourceName}}</a>
-                <a class='float-right' href={{t.Full_Resource}} target="_blank">Link to Full Fhir Resource</a>              
-              </div>
-            </div>
+            <!-- End of Card column for individual resource card -->
           </div>
-          <!-- End of FHIR Resource Card -->
-              </div>
-          </div>
-    
+          <!-- End of Summary Dashboard -->
+        </div>
       </div>
-      <!-- End of Summary Dashboard -->
+      <!-- End of Summary Dashboard-->
 
-
-      </div>
-
-            <!-- EMR Data Card-Columns -->
+       <!-- EMR Data Card-Columns not grouped-->
       <div class="container-fluid col-sm-12 col-lg-7 col-md-6 mb-5 px-0" id="emrData" hidden>
               <div class="card-columns mx-auto">
       
-                <!-- FHIR Resource Card -->
+                <!-- FHIR Resource Card group-->
                 <div class="card bg-light box p-0 {{'fhir'+t.resourceType}} fhirRsr" ng-repeat="t in fhirRsrList track by $index | limitTo : 50">
                   <div class="card-header" data-toggle="collapse" data-target="#{{'fhir'+$index}}"> 
                     <i class="fhirRsrIcon fas {{t.display.icon}}" aria-hidden="true"></i>
                     <span>{{t.name}}</span>
                     <code class="float-right text-white">{{t.display.displayName}}</code>
                   </div>
+
                   <div id="{{'fhir'+$index}}" class="collapse">
                     <div class="card-body p-0">
                       <table
@@ -132,9 +135,8 @@
                           <tr ng-repeat="(key,value) in t.displayFields" style="width: 100%">                 
                             <td scope="row" class="p-1">
                               <span class="fhirKey">{{key}}</span>
-                              <span class="fhirValue">{{value}}</span>
-                            </td>
-      
+                              <span class="fhirValue">{{line}}</span>           
+                            </td>      
                           </tr>
                         </tbody>
                       </table>
@@ -148,7 +150,7 @@
                 <!-- End of FHIR Resource Card -->
                 </div>
       </div>
-          <!-- EMR Data Card-Columns -->
+       <!-- EMR Data Card-Columns -->
       
     </div>
     <!-- End of Main Container -->

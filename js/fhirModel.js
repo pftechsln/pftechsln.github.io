@@ -19,13 +19,12 @@ class FhirResource {
     this.status = resource.status;
     this.date = resource.date;
     this.fullJson = resource;
-    if (displayOverride) {
-      this.display = FhirView.getRsrSetting(displayOverride);
-    } else {
-      this.display = FhirView.getRsrSetting(this.resourceType);
-    }
+    this.display = FhirView.getRsrSetting(this.resourceType);
   }
 
+  // create an resource object from a json object
+  // either a serach entry  or a resource object
+  // search entry = resource + fullUrl
   static createResource(fullJson, displayOverride) {
     var resource;
     if (typeof fullJson.resource != 'undefined') {
@@ -42,20 +41,47 @@ class FhirResource {
       case 'AllergyIntolerance':
         return new FhirAllergy(fullJson);
 
+      case 'CarePlan':
+        return new FhirCarePlan(fullJson);
+
+      case 'Condition':
+        return new FhirCondition(fullJson);
+
+      case 'Device':
+        return new FhirDevice(fullJson);
+
       case 'DiagnosticReport':
         return new FhirDiagnosticReport(fullJson);
+
+      case 'DocumentReference':
+        return new FhirDocumentReference(fullJson);
+
+      case 'FamilyMemberHistory':
+        return new FhirFamilyMemberHistory(fullJson);
+
+      case 'Goal':
+        return new FhirGoal(fullJson);
 
       case 'Immunization':
         return new FhirImmunization(fullJson);
 
-      case 'CarePlan':
-        return new FhirCarePlan(fullJson);
+      case 'MedicationOrder':
+        return new FhirMedicationOrder(fullJson);
+
+      case 'MedicationStatement':
+        return new FhirMedicationStatement(fullJson);
 
       case 'Observation-laboratory':
         return new FhirLabResult(fullJson, displayOverride);
 
       case 'Observation-vital-signs':
         return new FhirVital(fullJson, displayOverride);
+
+      case 'Observation-social-history':
+        return new FhirSocialHistory(fullJson, displayOverride);
+
+      case 'Procedure':
+        return new FhirProcedure(fullJson);
 
       default:
         return new FhirResource(fullJson, displayOverride);
@@ -247,11 +273,98 @@ class FhirAllergy extends FhirResource {
   }
 }
 
-class FhirCarePlan extends FhirResource {}
+class FhirCarePlan extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
 
-class FhirMedicationOrder extends FhirResource {}
+class FhirCondition extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
 
-class FhirMedicationStatement extends FhirResource {}
+/* ========== Diagnostic Report ======
+"resource": {
+        "resourceType": "DiagnosticReport",
+        "status": "final",
+        "effectiveDateTime": "2016-11-22T23:33:00Z",
+        "issued": "2016-11-23T00:03:00Z",
+        "id": "TFz-mI8GMsQRlcNJDzKBiRwB",
+        "category" : {
+          "text": "Lab"
+        },
+        "code": {
+          "text": "BUN"
+        },
+        "result": [
+          {
+            "display": "Component: BUN / CREAT RATIO",
+            "reference": ....
+          }
+        ]
+      }
+      */
+class FhirDiagnosticReport extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.code.text;
+    this.date = resource.effectiveDateTime.split('T')[0];
+
+    this.displayFields = {
+      Code: this.name,
+      Status: resource.status,
+      'Effective Date': this.date,
+      'Issued Date': resource.issued ? resource.issued.split('T')[0] : '',
+      Category:
+        typeof resource.category != 'undefined' ? resource.category.text : '',
+      Results:
+        typeof resource.result != 'undefined' ? resource.result[0].display : '', //Todo: it's array with URL link
+      Conclusion: resource.conclusion,
+    };
+  }
+}
+
+class FhirDocumentReference extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
+
+class FhirDevice extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
+
+class FhirFamilyMemberHistory extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
+
+class FhirGoal extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
+
+class FhirMedicationOrder extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
+
+class FhirMedicationStatement extends FhirResource {
+  constructor(fullJson) {
+    super(fullJson);
+  }
+}
 
 /* ========= Immunization =========== 
 {
@@ -381,61 +494,35 @@ class FhirVital extends FhirResource {
       Status: this.status,
       //'ID & Direct Link': `<a href='${this.fullUrl}' target='_blank'>${this.id}</a>`,
     };
+
+    if (typeof resource.component != 'undefined') {
+      for (let i = 0; i < resource.component.length; i++) {
+        //this.displayFields['Component ' + (i + 1)] =
+        //  resource.component[i].code.text +
+        //  ': ' +
+        this.displayFields[resource.component[i].code.text] =
+          resource.component[i].valueQuantity.value +
+          ' ' +
+          resource.component[i].valueQuantity.unit;
+      }
+    } else {
+      this.displayFields['Value'] =
+        resource.valueQuantity.value + ' ' + resource.valueQuantity.unit;
+    }
   }
 }
 
-class FhirProcedure extends FhirResource {}
+class FhirSocialHistory extends FhirResource {
+  constructor(fullJson, displayOverride) {
+    super(fullJson, displayOverride);
+  }
+}
 
-class FhirGoal extends FhirResource {}
-
-class FhirCondition extends FhirResource {}
-
-/* ========== Diagnostic Report ======
-"resource": {
-        "resourceType": "DiagnosticReport",
-        "status": "final",
-        "effectiveDateTime": "2016-11-22T23:33:00Z",
-        "issued": "2016-11-23T00:03:00Z",
-        "id": "TFz-mI8GMsQRlcNJDzKBiRwB",
-        "category" : {
-          "text": "Lab"
-        },
-        "code": {
-          "text": "BUN"
-        },
-        "result": [
-          {
-            "display": "Component: BUN / CREAT RATIO",
-            "reference": ....
-          }
-        ]
-      }
-      */
-class FhirDiagnosticReport extends FhirResource {
+class FhirProcedure extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
-
-    this.name = resource.code.text;
-    this.date = resource.effectiveDateTime.split('T')[0];
-
-    this.displayFields = {
-      Code: this.name,
-      Status: resource.status,
-      'Effective Date': this.date,
-      'Issued Date': resource.issued ? resource.issued.split('T')[0] : '',
-      Category:
-        typeof resource.category != 'undefined' ? resource.category.text : '',
-      Results:
-        typeof resource.result != 'undefined' ? resource.result[0].display : '', //Todo: it's array with URL link
-      Conclusion: resource.conclusion,
-    };
   }
 }
-
-class FhirDocumentReference extends FhirResource {}
 
 class FhirPatient {
   constructor() {
