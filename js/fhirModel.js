@@ -5,7 +5,10 @@ class FhirResource {
     var resource;
 
     if (typeof fullJson.resource != 'undefined') {
-      this.fullUrl = fullJson.fullUrl;
+      this.fullUrl =
+        typeof fullJson.link != 'undefined'
+          ? fullJson.link[0].url
+          : fullJson.fullUrl;
       resource = fullJson.resource;
     } else {
       this.fullUrl = '';
@@ -257,7 +260,9 @@ function _getReactionText(reactionJson) {
 class FhirAllergy extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource = fullJson.resource;
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
     this.name =
       typeof resource.substance != 'undefined' ? resource.substance.text : '';
     this.date = resource.onset.split('T')[0];
@@ -273,15 +278,62 @@ class FhirAllergy extends FhirResource {
   }
 }
 
+function _extractField(arrayInput, field) {
+  if (typeof arrayInput == 'undefined') return [];
+  if (arrayInput.length === 0) return [];
+  if (field == null || field === '') return [];
+
+  let result = new Array(arrayInput.length);
+  for (let i = 0; i < arrayInput.length; i++) {
+    result[i] = arrayInput[i][field];
+  }
+
+  return result;
+}
+
 class FhirCarePlan extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    let goals = _extractField(resource.goal, 'display');
+    let addresses = _extractField(resource.addresses, 'display');
+    let activities = _extractField(
+      _extractField(_extractField(resource.activity, 'detail'), 'code'),
+      'text'
+    );
+
+    this.name = goals[0] + ' ...';
+    this.displayFields = {
+      Status: resource.status,
+      Goal: goals.join('; '),
+      Addresses: addresses.join('; '),
+      Activity: activities.join('; '),
+    };
   }
 }
 
 class FhirCondition extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.code.text;
+    this.date = resource.onsetDateTime.split('T')[0];
+    this.status = resource.clinicalStatus;
+
+    this.displayFields = {
+      Condition: this.name,
+      'Clinical Status': resource.clinicalStatus,
+      'Verification Status': resource.verificationStatus,
+      'Onset Date': this.date,
+      Category: resource.category.text,
+      Serverity:
+        typeof resource.severity != 'undefined' ? resource.severity.text : '',
+    };
   }
 }
 
@@ -333,36 +385,141 @@ class FhirDiagnosticReport extends FhirResource {
 class FhirDocumentReference extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.class.text;
+    this.date = resource.created.split('T')[0];
+
+    this.displayFields = {
+      Class: resource.class.text,
+      Type: resource.type.text,
+      'Created on': this.date,
+      //'Indexed on': resource.indexed.split('T')[0],
+      //Attachment: resource.content[0].attachment[0].url,
+    };
   }
 }
 
 class FhirDevice extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.type.text;
+    this.date = resource.expiry.split('T')[0];
+
+    this.displayFields = {
+      'Device Type': this.name,
+      Model: resource.model,
+      Status: this.status,
+      'Expiry Date': this.date,
+      UDI: resource.udi,
+    };
   }
 }
 
 class FhirFamilyMemberHistory extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.name;
+
+    this.displayFields = {
+      Name: this.name,
+      Relationship: resource.relationship.text,
+      Deceased: resource.deseasedBoolean ? 'Yes' : 'No',
+      Condition: _extractField(
+        _extractField(resource.condition, 'code'),
+        'text'
+      ).join('; '),
+    };
   }
 }
 
 class FhirGoal extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.date = resource.startDate;
+    this.name = resource.description;
+
+    this.displayFields = {
+      Description: resource.description,
+      'Start Date': resource.startDate,
+      Category: _extractField(resource.category, 'text').join('; '),
+      Addresses: _extractField(resource.addresses, 'display').join('; '),
+      Note: _extractField(resource.note, 'text').join('; '),
+    };
   }
 }
 
 class FhirMedicationOrder extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.medicationReference.display;
+    this.date = resource.dateWritten;
+
+    this.displayFields = {
+      Medication: this.name,
+      'Order Written Date': this.date,
+      Status: this.status,
+      Prescriber: resource.prescriber.display,
+      'Dosage Instruction': _extractField(
+        resource.dosageInstruction,
+        'text'
+      ).join('; '),
+      Duration:
+        typeof resource.dispenseRequest.expectedSupplyDuration != 'undefined'
+          ? resource.dispenseRequest.expectedSupplyDuration.value +
+            ' ' +
+            resource.dispenseRequest.expectedSupplyDuration.unit
+          : '',
+      'Start Date':
+        typeof resource.dispenseRequest.validityPeriod.start != 'undefined'
+          ? resource.dispenseRequest.validityPeriod.start.split('T')[0]
+          : '',
+      'End Date':
+        typeof resource.dispenseRequest.validityPeriod.end != 'undefined'
+          ? resource.dispenseRequest.validityPeriod.end.split('T')[0]
+          : '',
+    };
   }
 }
 
 class FhirMedicationStatement extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.medicationCodeableConcept.text;
+    this.date = resource.dateWritten;
+
+    this.displayFields = {
+      Medication: this.name,
+      Status: this.status,
+      Dosage: _extractField(resource.dosage, 'text').join('; '),
+      'Effective From':
+        typeof resource.effectivePeriod.start != 'undefined'
+          ? resource.effectivePeriod.start.split('T')[0]
+          : '',
+      'Effective To':
+        typeof resource.effectivePeriod.end != 'undefined'
+          ? resource.effectivePeriod.end.split('T')[0]
+          : '',
+    };
   }
 }
 
@@ -515,12 +672,36 @@ class FhirVital extends FhirResource {
 class FhirSocialHistory extends FhirResource {
   constructor(fullJson, displayOverride) {
     super(fullJson, displayOverride);
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.code.text;
+    this.date = resource.issued.split('T')[0];
+
+    this.displayFields = {
+      Code: this.name,
+      Value: resource.valueCodeableConcept.text,
+      'Issued Date': this.date,
+      Status: this.status,
+    };
   }
 }
 
 class FhirProcedure extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
+
+    let resource =
+      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+
+    this.name = resource.code.text;
+    this.date = resource.performedDateTime.split('T')[0];
+
+    this.displayFields = {
+      Procedure: this.name,
+      'Performed at': resource.performedDateTime,
+      Status: this.status,
+    };
   }
 }
 

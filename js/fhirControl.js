@@ -51,6 +51,7 @@ function updateProgress($scope, isError) {
     window.setTimeout(() => {
       resetProgress($scope);
     }, 3000);
+    console.log('load completed: ', $scope.fhirRsrList);
   }
 }
 
@@ -264,7 +265,7 @@ function displayData(resource, data, $scope) {
     });
   }
   return;
-
+  /* 
   if (resource.name === 'Patient') {
     displayPatient(data, $scope);
   } else if (resource.name === 'AllergyIntolerance') {
@@ -279,7 +280,7 @@ function displayData(resource, data, $scope) {
     extractLab(data, $scope);
   } else if (resource.name === 'Conformance') {
     displayConformance(data, $scope);
-  }
+  } */
 }
 
 function displayPatient(data, $scope) {
