@@ -322,7 +322,10 @@ class FhirCondition extends FhirResource {
       typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
     this.name = resource.code.text;
-    this.date = resource.onsetDateTime.split('T')[0];
+    this.date =
+      typeof resource.onsetDateTime != 'undefined'
+        ? resource.onsetDateTime.split('T')[0]
+        : '';
     this.status = resource.clinicalStatus;
 
     this.displayFields = {
@@ -389,7 +392,10 @@ class FhirDocumentReference extends FhirResource {
       typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
     this.name = resource.class.text;
-    this.date = resource.created.split('T')[0];
+    this.date =
+      typeof resource.created != 'undefined'
+        ? resource.created.split('T')[0]
+        : '';
 
     this.displayFields = {
       Class: resource.class.text,
@@ -512,12 +518,16 @@ class FhirMedicationStatement extends FhirResource {
       Status: this.status,
       Dosage: _extractField(resource.dosage, 'text').join('; '),
       'Effective From':
-        typeof resource.effectivePeriod.start != 'undefined'
-          ? resource.effectivePeriod.start.split('T')[0]
+        typeof resource.effectivePeriod != 'undefined'
+          ? typeof resource.effectivePeriod.start != 'undefined'
+            ? resource.effectivePeriod.start.split('T')[0]
+            : ''
           : '',
       'Effective To':
-        typeof resource.effectivePeriod.end != 'undefined'
-          ? resource.effectivePeriod.end.split('T')[0]
+        typeof resource.effectivePeriod != 'undefined'
+          ? typeof resource.effectivePeriod.end != 'undefined'
+            ? resource.effectivePeriod.end.split('T')[0]
+            : ''
           : '',
     };
   }
