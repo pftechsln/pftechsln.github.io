@@ -1,5 +1,19 @@
 import { FhirView } from './fhirView.js';
 
+// Private utility function
+function _extractField(arrayInput, field) {
+  if (typeof arrayInput == 'undefined') return [];
+  if (arrayInput.length === 0) return [];
+  if (field == null || field === '') return [];
+
+  let result = new Array(arrayInput.length);
+  for (let i = 0; i < arrayInput.length; i++) {
+    result[i] = arrayInput[i][field];
+  }
+
+  return result;
+}
+
 class FhirResource {
   constructor(fullJson, displayOverride) {
     var resource;
@@ -23,6 +37,76 @@ class FhirResource {
     this.date = resource.date;
     this.fullJson = resource;
     this.display = FhirView.getRsrSetting(this.resourceType);
+  }
+
+  // Extract all available resource type queries from Conformance
+  static extractResourceTypes(comformanceJson) {
+    let rsrTypeList = []; //Resource type list to return
+
+    // Always retrie Patient Demographics first, assuming it's always available in Conformance
+    let displaySettings = FhirView.getRsrSetting('Patient');
+    rsrTypeList.push({
+      name: 'Patient',
+      displayOverride: 'Patient',
+      display: displaySettings,
+    });
+
+    for (var i = 0; i < comformanceJson.rest[0].resource.length; i++) {
+      let type = comformanceJson.rest[0].resource[i].type;
+
+      let searchParam = comformanceJson.rest[0].resource[i].searchParam;
+      let patientSearch = false;
+
+      // Only keep resource types that can be searched by patient ID
+      // Check if any search method contains "patient" as parameter
+      if (searchParam != null) {
+        searchParam.forEach((search) => {
+          if (search.name == 'patient') {
+            patientSearch = true;
+          }
+        });
+
+        // Supports patient search, push this resource type into the return list
+        // For 'Observation', add to the list 3 times with different category
+        if (patientSearch) {
+          if (type === 'Observation') {
+            displaySettings = FhirView.getRsrSetting('Observation-laboratory');
+            rsrTypeList.push({
+              name: 'Observation',
+              queryFilter: 'category=laboratory',
+              displayOverride: 'Observation-laboratory',
+              display: displaySettings,
+            });
+
+            displaySettings = FhirView.getRsrSetting(
+              'Observation-social-history'
+            );
+            rsrTypeList.push({
+              name: 'Observation',
+              queryFilter: 'category=social-history',
+              displayOverride: 'Observation-social-history',
+              display: displaySettings,
+            });
+
+            displaySettings = FhirView.getRsrSetting('Observation-vital-signs');
+            rsrTypeList.push({
+              name: 'Observation',
+              queryFilter: 'category=vital-signs',
+              displayOverride: 'Observation-vital-signs',
+              display: displaySettings,
+            });
+          } else {
+            displaySettings = FhirView.getRsrSetting(type);
+            rsrTypeList.push({
+              name: type,
+              displayOverride: type,
+              display: displaySettings,
+            });
+          }
+        }
+      }
+    }
+    return rsrTypeList;
   }
 
   // create an resource object from a json object
@@ -278,19 +362,7 @@ class FhirAllergy extends FhirResource {
   }
 }
 
-function _extractField(arrayInput, field) {
-  if (typeof arrayInput == 'undefined') return [];
-  if (arrayInput.length === 0) return [];
-  if (field == null || field === '') return [];
-
-  let result = new Array(arrayInput.length);
-  for (let i = 0; i < arrayInput.length; i++) {
-    result[i] = arrayInput[i][field];
-  }
-
-  return result;
-}
-
+/* =========================== Care Plan =========================*/
 class FhirCarePlan extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -315,6 +387,7 @@ class FhirCarePlan extends FhirResource {
   }
 }
 
+/* ============ Condition ================*/
 class FhirCondition extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -385,21 +458,22 @@ class FhirDiagnosticReport extends FhirResource {
   }
 }
 
+/* ================== Document Reference =======================*/
 class FhirDocumentReference extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
     let resource =
       typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.class.text;
+    this.name = typeof resource.class != 'undefined' ? resource.class.text : '';
     this.date =
       typeof resource.created != 'undefined'
         ? resource.created.split('T')[0]
         : '';
 
     this.displayFields = {
-      Class: resource.class.text,
-      Type: resource.type.text,
+      Class: this.name,
+      Type: typeof resource.type != 'undefined' ? resource.type.text : '',
       'Created on': this.date,
       //'Indexed on': resource.indexed.split('T')[0],
       //Attachment: resource.content[0].attachment[0].url,
@@ -407,6 +481,7 @@ class FhirDocumentReference extends FhirResource {
   }
 }
 
+/* ============== Device ===============*/
 class FhirDevice extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -427,6 +502,7 @@ class FhirDevice extends FhirResource {
   }
 }
 
+/* ============== Family Member History =================*/
 class FhirFamilyMemberHistory extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -447,6 +523,7 @@ class FhirFamilyMemberHistory extends FhirResource {
   }
 }
 
+/* ================ Goal ==================*/
 class FhirGoal extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -467,6 +544,7 @@ class FhirGoal extends FhirResource {
   }
 }
 
+/* ================= Medication Order =======================*/
 class FhirMedicationOrder extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -502,6 +580,8 @@ class FhirMedicationOrder extends FhirResource {
     };
   }
 }
+
+/* ================= Medication Statement ============*/
 
 class FhirMedicationStatement extends FhirResource {
   constructor(fullJson) {
@@ -679,6 +759,7 @@ class FhirVital extends FhirResource {
   }
 }
 
+/* =============== Observationi - social history ================*/
 class FhirSocialHistory extends FhirResource {
   constructor(fullJson, displayOverride) {
     super(fullJson, displayOverride);
@@ -697,6 +778,7 @@ class FhirSocialHistory extends FhirResource {
   }
 }
 
+/* =================== Procedure =============*/
 class FhirProcedure extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
@@ -734,4 +816,4 @@ class FhirPatient {
   }
 }
 
-export { FhirAllergy, FhirImmunization, FhirResource };
+export { FhirResource, FhirPatient };

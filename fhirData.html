@@ -33,7 +33,7 @@
     <script type="module" src="/js/myAngularApp2.js"></script>
   </head>
 
-  <body ng-app="myApp" ng-controller="fhirDataCtrl" id="pageTop">
+  <body ng-app="myApp" ng-controller="fhirDataCtrl" ng-cloak id="pageTop" data-ng-init='init()'>
     
     <!--Navigation bar-->
     <div id="nav-placeholder"></div>
@@ -46,7 +46,7 @@
     <!--end of Navigation bar-->
 
     <!-- Main Container -->
-    <div class="container-fluid" id="mainFhir">
+    <div lass="container-fluid" id="mainFhir">
 
       
 
@@ -99,7 +99,7 @@
                       </table>
                     </div>
                   <div class="card-footer">
-                    <span ng-if='fhirMetaUrl'>Source: <a href={{fhirMetaUrl}} target="_blank">{{orgName}}</a></span>
+                    <span ng-if='t.fullUrl'>Source: <a href={{fhirMetaUrl}} target="_blank">{{orgName}}</a></span>
                     <a href='{{t.fullUrl}}' target="_blank" class='float-right'>Link to Full Resource</a>                                
                   </div>
                 </div>

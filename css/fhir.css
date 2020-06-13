@@ -11,7 +11,7 @@
 } */
 
 .fhirRsr.card {
-  border-width: 2px;
+  border-width: 1px;
   font-size: smaller;
   margin-bottom: 2px;
   margin-top: 2px;
@@ -19,14 +19,13 @@
 
 .fhirRsr:hover .card-header {
   opacity: 1;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .fhirRsr .card-header {
   color: white;
-  border-color: gray;
   border: 1px solid lightgray;
-  opacity: 0.8;
+  opacity: 0.9;
   padding: 0.5rem 0.5rem;
   font-weight: 500;
   font-size: small;
@@ -49,21 +48,29 @@
   color: rgb(84, 47, 252);
 }
 
-.fhirRsr:hover {
-  border-color: rgba(84, 47, 252, 0.7);
+.fhirPatient:hover,
+.fhirCarePlan:hover,
+.fhirDiagnosticReport:hover,
+.fhirDocumentReference:hover,
+.fhirFamilyMemberHistory:hover,
+.fhirGoal:hover {
+  border: 1px solid rgb(84, 47, 252);
 }
 
 /* fhir Allergy */
-.fhirAllergyIntolerance .card-header {
+.fhirAllergyIntolerance .card-header,
+.fhirCondition .card-header {
   background-color: rgb(0, 200, 200);
 }
 
-.fhirAllergyIntolerance .fhirKey {
+.fhirAllergyIntolerance .fhirKey,
+.fhirCondition .fhirKey {
   color: rgb(0, 200, 200);
 }
 
-.fhirAllergyIntolerance:hover {
-  border-color: rgb(0, 200, 200);
+.fhirAllergyIntolerance:hover,
+.fhirCondition:hover {
+  border: 1px solid rgb(0, 200, 200);
 }
 
 /* fhir Patient Demographics */
@@ -76,35 +83,41 @@
 }
 
 .fhirPatient:hover {
-  border-color: rgba(84, 47, 252, 0.7);
+  border-color: rgba(84, 47, 252);
 }
 
 /* fhir Medication */
 .fhirMedicationOrder .card-header,
 .fhirMedicationStatement .card-header {
-  background-color: yellowgreen;
+  background-color: rgb(110, 160, 0);
 }
 
 .fhirMedicationOrder .fhirKey,
 .fhirMedicationStatement .fhirKey {
-  color: yellowgreen;
+  color: rgb(110, 160, 0);
 }
 
 .fhirMedicationOrder:hover,
 .fhirMedicationStatement:hover {
-  border-color: yellowgreen;
+  border-color: rgb(110, 160, 0);
 }
 
 /* fhir Immunization */
-.fhirImmunization .card-header {
+.fhirImmunization .card-header,
+.fhirProcedure .card-header,
+.fhirDevice .card-header {
   background-color: purple;
 }
 
-.fhirImmunization .fhirKey {
+.fhirImmunization .fhirKey,
+.fhirProcedure .fhirKey,
+.fhirDevice .fhirKey {
   color: purple;
 }
 
-.fhirImmunization:hover {
+.fhirImmunization:hover,
+.fhirProcedure:hover,
+.fhirDevice:hover {
   border-color: purple;
 }
 

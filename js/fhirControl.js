@@ -1,10 +1,38 @@
-import { FhirView } from './fhirView.js';
-import { loadSampleData } from './loadSampleFhirData2.js';
-import { FhirAllergy, FhirResource } from './fhirModel.js';
+import { loadSampleData } from './loadSampleFhirData.js';
+import { loadEpicFhirOrgs } from './EpicEndpoints.js';
+import { FhirPatient, FhirResource } from './fhirModel.js';
 
 export class FhirControl {
+  static fhirSettings;
+
+  static loadEpicFhirOrgs() {
+    return loadEpicFhirOrgs();
+  }
+
   static loadSampleData($scope, $http) {
     loadSampleData($scope);
+  }
+
+  static setFhirSettings(endpointUrl, client) {
+    var fhirSettings = {};
+
+    fhirSettings.endpointUrl = endpointUrl;
+    fhirSettings.clientId = client.clientId;
+    fhirSettings.redirectUri = client.redirectUri;
+
+    fhirSettings.baseUrl = endpointUrl.replace('api/FHIR/DSTU2/', '');
+    fhirSettings.authUrl =
+      fhirSettings.baseUrl +
+      'oauth2/authorize?response_type=code&client_id=' +
+      client.clientId +
+      '&redirect_uri=' +
+      client.redirectUri;
+    fhirSettings.tokenUrl = fhirSettings.baseUrl + 'oauth2/token';
+    fhirSettings.metaUrl = fhirSettings.endpointUrl + 'metadata';
+
+    sessionStorage.setItem('fhirSettings', fhirSettings);
+    this.fhirSettings = fhirSettings;
+    console.log('fhirSettings: ', this.fhirSettings);
   }
 
   static loadFhirData($scope, $http) {
@@ -77,80 +105,6 @@ async function loadAllFhirResources($scope, $http) {
   });
 }
 
-function displayConformance(data, $scope) {
-  $scope.rsrTypeList = [];
-
-  let displaySettings = FhirView.getRsrSetting('Patient');
-  $scope.rsrTypeList.push({ name: 'Patient', display: displaySettings });
-
-  for (var i = 0; i < data.rest[0].resource.length; i++) {
-    let type = data.rest[0].resource[i].type;
-
-    let searchParam = data.rest[0].resource[i].searchParam;
-    let patientSearch = false;
-
-    // Only keep resource types that can be searched by patient ID
-    // if search methods contain "patient"
-    if (searchParam != null) {
-      searchParam.forEach((search) => {
-        if (search.name == 'patient') {
-          patientSearch = true;
-        }
-      });
-
-      if (patientSearch) {
-        if (type === 'Observation') {
-          displaySettings = FhirView.getRsrSetting('Observation-laboratory');
-          $scope.rsrTypeList.push({
-            name: 'Observation',
-            queryFilter: 'category=laboratory',
-            displayOverride: 'Observation-laboratory',
-            display: displaySettings,
-          });
-
-          displaySettings = FhirView.getRsrSetting(
-            'Observation-social-history'
-          );
-          $scope.rsrTypeList.push({
-            name: 'Observation',
-            queryFilter: 'category=social-history',
-            displayOverride: 'Observation-social-history',
-            display: displaySettings,
-          });
-
-          displaySettings = FhirView.getRsrSetting('Observation-vital-signs');
-          $scope.rsrTypeList.push({
-            name: 'Observation',
-            queryFilter: 'category=vital-signs',
-            displayOverride: 'Observation-vital-signs',
-            display: displaySettings,
-          });
-        } else {
-          displaySettings = FhirView.getRsrSetting(type);
-          $scope.rsrTypeList.push({ name: type, display: displaySettings });
-        }
-      }
-    }
-  }
-  console.log('resource types: ', $scope.rsrTypeList);
-}
-
-// Load other Fhir resources after Demographics and Conformance
-function loadFhirResources($scope, $http) {
-  getPatData({ name: 'AllergyIntolerance' }, $scope, $http);
-  getPatData({ name: 'Immunization' }, $scope, $http);
-  getPatData({ name: 'MedicationOrder' }, $scope, $http);
-  getPatData(
-    {
-      name: 'Observation',
-      queryFilter: 'category=laboratory',
-      displayOverride: 'Observation-laboratory',
-    },
-    $scope,
-    $http
-  );
-}
-
 // Retrive patient data
 async function getPatData(resource, $scope, $http) {
   var url = $scope.fhirEndpointUrl;
@@ -192,12 +146,27 @@ async function getPatData(resource, $scope, $http) {
     'Bearer ' + $scope.accessToken;
 
   try {
-    const response = await $http({
-      method: 'GET',
-      url: url,
+    // const response = await $http({
+    //   method: 'GET',
+    //   url: url,
+    // });
+
+    //fetch;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: 'Bearer ' + $scope.accessToken,
+        Accept: 'application/json, text/plain, */*',
+      },
     });
 
-    const substance = response.data; //.entry[0];
+    var json;
+    if (response.ok) {
+      json = await response.json();
+      console.log('fetch resp', json);
+    }
+    console.log('http', response, response.ok);
+
+    const substance = json; //response.data; //.entry[0];
     const jsonString = JSON.stringify(substance, undefined, 2);
 
     $scope.rawFhirRsrList.push({
@@ -227,7 +196,7 @@ async function getPatData(resource, $scope, $http) {
       updateProgress($scope);
     }
 
-    displayData(resource, substance, $scope);
+    extractFhirData(resource, substance, $scope);
   } catch (error) {
     console.log('Error loading ', resource.name, ': ', error);
     $('#cnt2' + resource.name).html('Error');
@@ -237,21 +206,11 @@ async function getPatData(resource, $scope, $http) {
 
     updateProgress($scope, 1);
   }
-
-  /*     function (error) {
-      $('#data' + resource.name).html(
-        'Error retrieving patient data: ' +
-          error.status +
-          ' - ' +
-          error.statusText
-      );
-    } 
-  ); */
 }
 
-function displayData(resource, data, $scope) {
+function extractFhirData(resource, data, $scope) {
   if (resource.name === 'Conformance') {
-    displayConformance(data, $scope);
+    $scope.rsrTypeList = FhirResource.extractResourceTypes(data);
   } else if (resource.name === 'Patient') {
     let oneResource = FhirResource.createResource(data);
     $scope.fhirRsrList.push(oneResource);
@@ -264,8 +223,12 @@ function displayData(resource, data, $scope) {
       $scope.fhirRsrList.push(oneResource);
     });
   }
+
+  $scope.$apply();
   return;
-  /* 
+}
+
+/* 
   if (resource.name === 'Patient') {
     displayPatient(data, $scope);
   } else if (resource.name === 'AllergyIntolerance') {
@@ -280,9 +243,25 @@ function displayData(resource, data, $scope) {
     extractLab(data, $scope);
   } else if (resource.name === 'Conformance') {
     displayConformance(data, $scope);
-  } */
+  } 
 }
 
+/* 
+// Load other Fhir resources after Demographics and Conformance
+function loadFhirResources($scope, $http) {
+  getPatData({ name: 'AllergyIntolerance' }, $scope, $http);
+  getPatData({ name: 'Immunization' }, $scope, $http);
+  getPatData({ name: 'MedicationOrder' }, $scope, $http);
+  getPatData(
+    {
+      name: 'Observation',
+      queryFilter: 'category=laboratory',
+      displayOverride: 'Observation-laboratory',
+    },
+    $scope,
+    $http
+  );
+}
 function displayPatient(data, $scope) {
   var patient = {
     Name: '',
@@ -412,7 +391,7 @@ function displayAllergy(data, $scope) {
       //console.log(fhirRsr);
     }
   } catch (error) {
-    /* ignore */
+    //. ignore 
   }
 
   //$scope.allergies = allergies;
@@ -462,7 +441,8 @@ function extractImmunization(data, $scope) {
   $scope.immunizations = immunizations;
 }
 
-//*RLI 7/24/17
+// *RLI 7/24/17
+
 function extractLab(data, $scope) {
   var tmpEntry;
   var tmpStr = '';
@@ -581,3 +561,4 @@ function extractMedication(data, $scope) {
 
   //$scope.medications = medications;
 }
+ */
