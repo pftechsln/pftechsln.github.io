@@ -40,27 +40,27 @@ export function loadSampleData($scope) {
   $scope.fhirRsrList = [];
 
   loadFhirFile(
-    'https//pftechsln.github.io/data/Patient.json',
+    'https://pftechsln.github.io/data/Patient.json',
     'Patient',
     $scope
   );
   loadFhirFile(
-    'https//pftechsln.github.io/data/AllergyList.json',
+    'https://pftechsln.github.io/data/AllergyList.json',
     'AllergyIntolerance',
     $scope
   );
   loadFhirFile(
-    'https//pftechsln.github.io/data/Immunizations.json',
+    'https://pftechsln.github.io/data/Immunizations.json',
     'Immunization',
     $scope
   );
   loadFhirFile(
-    'https//pftechsln.github.io/data/Medications.json',
+    'https://pftechsln.github.io/data/Medications.json',
     'MedicationOrder',
     $scope
   );
   loadFhirFile(
-    'https//pftechsln.github.io/data/Observations.json',
+    'https://pftechsln.github.io/data/Observations.json',
     'Observation-laboratory',
     $scope
   );
