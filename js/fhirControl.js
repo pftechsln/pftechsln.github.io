@@ -43,8 +43,79 @@ export class FhirControl {
     console.log('fhirSettings: ', this.fhirSettings);
   }
 
+  static getAccessToken($scope, $http) {
+    var oauthCode = $scope.oauthCode;
+
+    var data = $.param({
+      grant_type: 'authorization_code',
+      code: oauthCode,
+      redirect_uri: $scope.redirectUri,
+      client_id: $scope.clientId,
+    });
+
+    data = unescape(data);
+
+    $scope.statusText =
+      'In progress: exchanging authorization code for access token...';
+
+    $http({
+      method: 'POST',
+      url: $scope.fhirTokenUrl,
+      data: data,
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        Accept: '*/*',
+      },
+    }).then(
+      function (response) {
+        //alert(status + data);
+        var data = response.data;
+
+        $scope.accessToken = data.access_token;
+        $scope.patient = data.patient;
+        $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
+        sessionStorage.setItem('accessToken', $scope.accessToken);
+        sessionStorage.setItem('patient', data.patient);
+
+        this.loadFhirData($scope, $http);
+      },
+      function (error) {
+        $scope.statusText =
+          'Error exchanging access token: ' +
+          error.status +
+          ' - ' +
+          error.statusText;
+      }
+    );
+  }
+
   static loadFhirData($scope, $http) {
     loadFhirData($scope, $http);
+  }
+}
+
+function loadFhirSettings($scope) {
+  $scope.clientId = sessionStorage.getItem('client');
+  $scope.redirectUri = sessionStorage.getItem('redirectUri');
+  $scope.serverIndex = sessionStorage.getItem('serverIndex');
+  $scope.fhirEndpointUrl = sessionStorage.getItem('fhirEndpointUrl');
+  $scope.orgName = sessionStorage.getItem('orgName');
+  $scope.rememberLastLogin = sessionStorage.getItem('rememberLastLogin');
+
+  $scope.fhirBaseUrl = $scope.fhirEndpointUrl.replace('api/FHIR/DSTU2/', '');
+  $scope.fhirAuthUrl =
+    $scope.fhirBaseUrl +
+    'oauth2/authorize?response_type=code&client_id=' +
+    $scope.clientId +
+    '&redirect_uri=' +
+    $scope.redirectUri;
+  $scope.fhirTokenUrl = $scope.fhirBaseUrl + 'oauth2/token';
+  $scope.fhirMetaUrl = $scope.fhirEndpointUrl + 'metadata';
+
+  if ($scope.fhirEndpointUrl != '') {
+    $('#btnLogin').prop('disabled', false);
+  } else {
+    $('#btnLogin').prop('disabled', true);
   }
 }
 

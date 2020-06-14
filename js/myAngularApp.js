@@ -25,31 +25,6 @@ function getBaseURL() {
   return baseURL;
 }
 
-function loadFhirSettings($scope) {
-  $scope.clientId = sessionStorage.getItem('client');
-  $scope.redirectUri = sessionStorage.getItem('redirectUri');
-  $scope.serverIndex = sessionStorage.getItem('serverIndex');
-  $scope.fhirEndpointUrl = sessionStorage.getItem('fhirEndpointUrl');
-  $scope.orgName = sessionStorage.getItem('orgName');
-  $scope.rememberLastLogin = sessionStorage.getItem('rememberLastLogin');
-
-  $scope.fhirBaseUrl = $scope.fhirEndpointUrl.replace('api/FHIR/DSTU2/', '');
-  $scope.fhirAuthUrl =
-    $scope.fhirBaseUrl +
-    'oauth2/authorize?response_type=code&client_id=' +
-    $scope.clientId +
-    '&redirect_uri=' +
-    $scope.redirectUri;
-  $scope.fhirTokenUrl = $scope.fhirBaseUrl + 'oauth2/token';
-  $scope.fhirMetaUrl = $scope.fhirEndpointUrl + 'metadata';
-
-  if ($scope.fhirEndpointUrl != '') {
-    $('#btnLogin').prop('disabled', false);
-  } else {
-    $('#btnLogin').prop('disabled', true);
-  }
-}
-
 function setFhirSettings($scope, endpointUrl, testClient) {
   if (endpointUrl == null) {
     endpointUrl = $scope.fhirOrgs[$scope.serverIndex].FHIRPatientFacingURI;
@@ -127,50 +102,29 @@ function testCase(caseName, $scope) {
   $scope.oauthLogin();
 }
 
-function getAccessToken($scope, $http) {
-  var oauthCode = $scope.oauthCode;
+function loadFhirSettings($scope) {
+  $scope.clientId = sessionStorage.getItem('client');
+  $scope.redirectUri = sessionStorage.getItem('redirectUri');
+  $scope.serverIndex = sessionStorage.getItem('serverIndex');
+  $scope.fhirEndpointUrl = sessionStorage.getItem('fhirEndpointUrl');
+  $scope.orgName = sessionStorage.getItem('orgName');
+  $scope.rememberLastLogin = sessionStorage.getItem('rememberLastLogin');
 
-  var data = $.param({
-    grant_type: 'authorization_code',
-    code: oauthCode,
-    redirect_uri: $scope.redirectUri,
-    client_id: $scope.clientId,
-  });
+  $scope.fhirBaseUrl = $scope.fhirEndpointUrl.replace('api/FHIR/DSTU2/', '');
+  $scope.fhirAuthUrl =
+    $scope.fhirBaseUrl +
+    'oauth2/authorize?response_type=code&client_id=' +
+    $scope.clientId +
+    '&redirect_uri=' +
+    $scope.redirectUri;
+  $scope.fhirTokenUrl = $scope.fhirBaseUrl + 'oauth2/token';
+  $scope.fhirMetaUrl = $scope.fhirEndpointUrl + 'metadata';
 
-  data = unescape(data);
-
-  $scope.statusText =
-    'In progress: exchanging authorization code for access token...';
-
-  $http({
-    method: 'POST',
-    url: $scope.fhirTokenUrl,
-    data: data,
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Accept: '*/*',
-    },
-  }).then(
-    function (response) {
-      //alert(status + data);
-      var data = response.data;
-
-      $scope.accessToken = data.access_token;
-      $scope.patient = data.patient;
-      $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
-      sessionStorage.setItem('accessToken', $scope.accessToken);
-      sessionStorage.setItem('patient', data.patient);
-
-      FhirControl.loadFhirData($scope, $http);
-    },
-    function (error) {
-      $scope.statusText =
-        'Error exchanging access token: ' +
-        error.status +
-        ' - ' +
-        error.statusText;
-    }
-  );
+  if ($scope.fhirEndpointUrl != '') {
+    $('#btnLogin').prop('disabled', false);
+  } else {
+    $('#btnLogin').prop('disabled', true);
+  }
 }
 
 var app = angular.module('myApp', []);
@@ -215,7 +169,7 @@ app.controller('fhirDataCtrl', [
         console.log('load fhir settings', $scope);
 
         // Exchange authorization code for access token
-        getAccessToken($scope, $http);
+        FhirControl.getAccessToken($scope, $http);
         console.log('load fhir data');
       }
       // Has both: refreshing the page, so reload the data
@@ -229,15 +183,11 @@ app.controller('fhirDataCtrl', [
     };
 
     $scope.getAccessToken = function () {
-      getAccessToken($scope, $http);
+      FhirControl.getAccessToken($scope, $http);
     };
 
     $scope.loadFhirData = function () {
       FhirControl.loadFhirData($scope, $http);
-    };
-
-    $scope.reLogin = function () {
-      sessionStorage.clear();
     };
   },
 ]);
@@ -255,38 +205,18 @@ app.controller('loginCtrl', [
       }, 10000);
     }
  */
-    // Load list of fhir endpoints orgs and URLs
-    $scope.fhirOrgs = FhirControl.loadEpicFhirOrgs();
-    console.log('fhirOrgs: ', $scope.fhirOrgs);
 
-    if (window.location.search.length > 3) {
-      var code = window.location.search.substring(1).split('=');
+    $scope.initSettings = function () {
+      // Load list of fhir endpoints orgs and URLs
+      $scope.fhirOrgs = FhirControl.loadEpicFhirOrgs();
 
-      // Redirected from OAuth login with authorization code
-      if (code[0] == 'code') {
-        oauthCode = code[1];
-        $scope.oauthCode = oauthCode;
-        sessionStorage.setItem('oauthCode', oauthCode);
-
-        var redirectUri = sessionStorage.getItem('redirectUri');
-        if (redirectUri == null) {
-          window.location.href =
-            'https://healthonfhir.azurewebsites.net/index.html?code=' +
-            oauthCode;
-        } else {
-          window.location.href = 'fhirData.html';
-        }
-      }
-    } else {
       $scope.rememberLastLogin = sessionStorage.getItem('rememberLastLogin');
-      if ($scope.rememberLastLogin === 'true') {
+      if ($scope.rememberLastLogin) {
         loadFhirSettings($scope);
       } else {
-        console.log('clear session storage.');
         sessionStorage.clear();
       }
-    }
-
+    };
     // Redirect browser to Fhir Authorize URL
     $scope.oauthLogin = function () {
       window.location.href = $scope.fhirAuthUrl;
@@ -303,12 +233,8 @@ app.controller('loginCtrl', [
       setFhirSettings($scope);
     };
 
-    $scope.reLogin = function () {
-      sessionStorage.clear();
-    };
-
     $scope.displaySampleData = function () {
-      sessionStorage.clear();
+      //sessionStorage.clear();
       window.location.href = 'fhirData.html';
     };
 
