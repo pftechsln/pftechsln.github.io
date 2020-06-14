@@ -6,15 +6,22 @@ export class FhirControl {
   static fhirSettings;
 
   static loadEpicFhirOrgs() {
-    // let epicEndPointUrl = './data/EpicEndPoints.json';
+    return new Promise(function (resolve, reject) {
+      let epicEndPointUrl = './data/EpicEndPoints.json';
+      fetch(epicEndPointUrl)
+        .then((response) => {
+          response.json().then((data) => {
+            console.log(`fetch endpoints: `, data);
+            resolve(data.Entries);
+          });
+        })
+        .catch((error) => {
+          console.log('sample data error: ', error);
+          reject(error);
+        });
+    });
 
-    // let response = await fetch(epicEndPointUrl);
-    // let data = await response.json();
-    // console.log('epicorg', response, data);
-    // $scope.fhirOrgs = data.Entries;
-    // $scope.$apply();
-    //return data;
-    return loadEpicFhirOrgs();
+    //return loadEpicFhirOrgs();
   }
 
   static loadSampleData($scope, $http) {

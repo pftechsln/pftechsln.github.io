@@ -208,7 +208,12 @@ app.controller('loginCtrl', [
 
     $scope.initSettings = function () {
       // Load list of fhir endpoints orgs and URLs
-      $scope.fhirOrgs = FhirControl.loadEpicFhirOrgs();
+      //$scope.fhirOrgs = FhirControl.loadEpicFhirOrgs();
+      FhirControl.loadEpicFhirOrgs().then((data) => {
+        $scope.fhirOrgs = data;
+        console.log('endpoints: ', data);
+        $scope.$apply();
+      });
 
       $scope.rememberLastLogin = sessionStorage.getItem('rememberLastLogin');
       if ($scope.rememberLastLogin) {
