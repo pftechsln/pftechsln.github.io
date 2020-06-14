@@ -5,8 +5,16 @@ import { FhirPatient, FhirResource } from './fhirModel.js';
 export class FhirControl {
   static fhirSettings;
 
-  static loadEpicFhirOrgs() {
-    return loadEpicFhirOrgs();
+  static async loadEpicFhirOrgs($scope) {
+    let epicEndPointUrl = './assets/EpicEndPoints.json';
+
+    let response = await fetch(epicEndPointUrl);
+    let data = await response.json();
+    console.log('epicorg', response, data);
+    $scope.fhirOrgs = data.Entries;
+    $scope.$apply();
+    //return data;
+    //return loadEpicFhirOrgs();
   }
 
   static loadSampleData($scope, $http) {

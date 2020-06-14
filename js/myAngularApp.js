@@ -246,9 +246,6 @@ app.controller('loginCtrl', [
   '$scope',
   '$http',
   function ($scope, $http) {
-    //$scope.rememberLastLogin = 'true';
-    //$scope.fhirEndpointUrl = '0';
-
     // redirect to Github if on Azure
     /*     if (window.location.hostname.includes('healthonfhir.azurewebsites.net')) {
       //if (window.location.href.includes('localhost')) {
@@ -259,7 +256,9 @@ app.controller('loginCtrl', [
     }
  */
     // Load list of fhir endpoints orgs and URLs
-    $scope.fhirOrgs = FhirControl.loadEpicFhirOrgs().Entries;
+    //$scope.fhirOrgs = FhirControl.loadEpicFhirOrgs($scope).Entries;
+    FhirControl.loadEpicFhirOrgs($scope);
+    console.log('fhirorg', $scope.fhirOrgs);
 
     //
     if (window.location.search.length > 3) {

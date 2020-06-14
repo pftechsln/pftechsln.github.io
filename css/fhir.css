@@ -75,15 +75,18 @@
 
 /* fhir Patient Demographics */
 .fhirPatient .card-header {
-  background-color: rgb(84, 47, 252);
+  /*  background-color: rgb(84, 47, 252); */
+  background-color: rgba(0, 150, 200);
 }
 
 .fhirPatient .fhirKey {
-  color: rgb(84, 47, 252);
+  /* color: rgb(84, 47, 252); */
+  color: rgba(0, 150, 200);
 }
 
 .fhirPatient:hover {
-  border-color: rgba(84, 47, 252);
+  /*  border-color: rgba(84, 47, 252); */
+  border-color: rgba(0, 150, 200);
 }
 
 /* fhir Medication */
