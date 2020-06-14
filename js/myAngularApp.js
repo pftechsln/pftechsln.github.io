@@ -256,11 +256,9 @@ app.controller('loginCtrl', [
     }
  */
     // Load list of fhir endpoints orgs and URLs
-    //$scope.fhirOrgs = FhirControl.loadEpicFhirOrgs($scope).Entries;
-    FhirControl.loadEpicFhirOrgs($scope);
-    console.log('fhirorg', $scope.fhirOrgs);
+    $scope.fhirOrgs = FhirControl.loadEpicFhirOrgs();
+    console.log('fhirOrgs: ', $scope.fhirOrgs);
 
-    //
     if (window.location.search.length > 3) {
       var code = window.location.search.substring(1).split('=');
 

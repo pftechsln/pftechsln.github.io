@@ -1,14 +1,4 @@
-export async function loadEpicFhirOrgs() {
-  //let endPointUrl = 'https://open.epic.com/MyApps/EndpointsJson';
-  let endPointUrl = './assets/EpicEndPoints.json';
-
-  let response = await fetch(endPointUrl);
-  let data = await response.json();
-  console.log('epicorg', response, data);
-  return data;
-}
-
-export function loadEpicFhirOrgs2() {
+export function loadEpicFhirOrgs() {
   const epicFhirOrgs = {
     Entries: [
       {
@@ -1139,5 +1129,5 @@ export function loadEpicFhirOrgs2() {
     ],
   };
 
-  return epicFhirOrgs;
+  return epicFhirOrgs.Entries;
 }

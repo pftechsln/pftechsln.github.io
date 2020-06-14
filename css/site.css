@@ -1,7 +1,7 @@
 ﻿@import url('fhir.css');
 
 body {
-  background-color: rgb(220, 220, 220) /* #b6dff1 */;
+  background-color: lightblue /*rgb(220, 220, 220)  #b6dff1 */;
   height: 100%;
   min-width: 400px;
 
@@ -16,7 +16,7 @@ body {
 }
 
 #mainFhir {
-  background-color: rgb(220, 220, 220);
+  /*background-color: rgb(220, 220, 220);*/
   margin: 0px;
   min-height: 100vh;
   padding-top: 1em;
@@ -37,9 +37,12 @@ body {
   color: #428bca;
 }
 
-#about {
-  color: black;
-  font-weight: 700;
+#about blockquote {
+  color: #111111;
+  font-weight: 500;
+  font-size: 20px;
+  text-justify: inter-word;
+  text-align: center;
 }
 
 /* Set navbar shadow */
