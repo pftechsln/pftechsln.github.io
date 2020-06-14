@@ -5,7 +5,7 @@ body {
   height: 100%;
   min-width: 400px;
 
-  background-image: url(../assets/background.png);
+  /*background-image: url(../assets/background.png);*/
 }
 
 #mainIndex {
@@ -38,7 +38,8 @@ body {
 }
 
 #about {
-  color: whitesmoke;
+  color: black;
+  font-weight: 700;
 }
 
 /* Set navbar shadow */

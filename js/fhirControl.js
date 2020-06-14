@@ -6,7 +6,7 @@ export class FhirControl {
   static fhirSettings;
 
   static async loadEpicFhirOrgs($scope) {
-    let epicEndPointUrl = './assets/EpicEndPoints.json';
+    let epicEndPointUrl = './data/EpicEndPoints.json';
 
     let response = await fetch(epicEndPointUrl);
     let data = await response.json();
