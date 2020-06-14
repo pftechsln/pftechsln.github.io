@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "OrganizationName": "Epic Sandbox",
+      "OrganizationName": "Epic Test Sandbox",
       "FHIRPatientFacingURI": "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/"
     },
     {
