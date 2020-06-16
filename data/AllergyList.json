@@ -52,8 +52,10 @@
           {
             "certainty": "confirmed",
             "onset": "2012-11-07T00:00:00Z",
-            "manifestation": [ { "text": "Hives" } ],
-            "note": { "text": "Severity low enough to be prescribed if needed." }
+            "manifestation": [{ "text": "Hives" }],
+            "note": {
+              "text": "Severity low enough to be prescribed if needed."
+            }
           }
         ],
         "note": { "text": "Severity low enough to be prescribed if needed." }
@@ -97,7 +99,7 @@
           {
             "certainty": "confirmed",
             "onset": "2010-05-02T00:00:00Z",
-            "manifestation": [ { "text": "Itching" } ]
+            "manifestation": [{ "text": "Itching" }]
           }
         ]
       }
@@ -145,11 +147,10 @@
           {
             "certainty": "confirmed",
             "onset": "2014-03-07T00:00:00Z",
-            "manifestation": [ { "text": "Anaphylaxis" } ]
+            "manifestation": [{ "text": "Anaphylaxis" }]
           }
         ]
       }
     }
   ]
 }
-

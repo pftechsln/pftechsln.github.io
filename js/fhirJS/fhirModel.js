@@ -116,6 +116,8 @@ class FhirResource {
     var resource;
     if (typeof fullJson.resource != 'undefined') {
       resource = fullJson.resource;
+      // the entry is not a search match, do not try to create a resource object
+      if (fullJson.search.mode !== 'match') return null;
     } else {
       resource = fullJson;
     }
@@ -287,18 +289,22 @@ class FhirDemographics extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource = fullJson;
+    try {
+      let resource = fullJson;
 
-    this.name =
-      typeof resource.name != 'undefined' ? resource.name[0].text : '';
-    this.date = resource.birthDate;
+      this.name =
+        typeof resource.name != 'undefined' ? resource.name[0].text : '';
+      this.date = resource.birthDate;
 
-    this.displayFields = {
-      Name: this.name,
-      'Date of Birth': this.date,
-      Gender: resource.gender,
-      'Marital Status': resource.maritalStatus.text,
-    };
+      this.displayFields = {
+        Name: this.name,
+        'Date of Birth': this.date,
+        Gender: resource.gender,
+        'Marital Status': resource.maritalStatus.text,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -344,21 +350,26 @@ function _getReactionText(reactionJson) {
 class FhirAllergy extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name =
-      typeof resource.substance != 'undefined' ? resource.substance.text : '';
-    this.date = resource.onset.split('T')[0];
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Substance: this.name,
-      'Recorded Date': resource.recordedDate.split('T')[0],
-      'Onset Date': this.date,
-      Criticality: resource.criticality,
-      Reactions: _getReactionText(resource.reaction),
-      Note: typeof resource.note != 'undefined' ? resource.note.text : '',
-    };
+      this.name =
+        typeof resource.substance != 'undefined' ? resource.substance.text : '';
+      this.date = resource.onset.split('T')[0];
+
+      this.displayFields = {
+        Substance: this.name,
+        'Recorded Date': resource.recordedDate.split('T')[0],
+        'Onset Date': this.date,
+        Criticality: resource.criticality,
+        Reactions: _getReactionText(resource.reaction),
+        Note: typeof resource.note != 'undefined' ? resource.note.text : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -367,23 +378,27 @@ class FhirCarePlan extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    let goals = _extractField(resource.goal, 'display');
-    let addresses = _extractField(resource.addresses, 'display');
-    let activities = _extractField(
-      _extractField(_extractField(resource.activity, 'detail'), 'code'),
-      'text'
-    );
+      let goals = _extractField(resource.goal, 'display');
+      let addresses = _extractField(resource.addresses, 'display');
+      let activities = _extractField(
+        _extractField(_extractField(resource.activity, 'detail'), 'code'),
+        'text'
+      );
 
-    this.name = goals[0] + ' ...';
-    this.displayFields = {
-      Status: resource.status,
-      Goal: goals.join('; '),
-      Addresses: addresses.join('; '),
-      Activity: activities.join('; '),
-    };
+      this.name = goals[0] + ' ...';
+      this.displayFields = {
+        Status: resource.status,
+        Goal: goals.join('; '),
+        Addresses: addresses.join('; '),
+        Activity: activities.join('; '),
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -391,25 +406,30 @@ class FhirCarePlan extends FhirResource {
 class FhirCondition extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date =
-      typeof resource.onsetDateTime != 'undefined'
-        ? resource.onsetDateTime.split('T')[0]
-        : '';
-    this.status = resource.clinicalStatus;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Condition: this.name,
-      'Clinical Status': resource.clinicalStatus,
-      'Verification Status': resource.verificationStatus,
-      'Onset Date': this.date,
-      Category: resource.category.text,
-      Serverity:
-        typeof resource.severity != 'undefined' ? resource.severity.text : '',
-    };
+      this.name = resource.code.text;
+      this.date =
+        typeof resource.onsetDateTime != 'undefined'
+          ? resource.onsetDateTime.split('T')[0]
+          : '';
+      this.status = resource.clinicalStatus;
+
+      this.displayFields = {
+        Condition: this.name,
+        'Clinical Status': resource.clinicalStatus,
+        'Verification Status': resource.verificationStatus,
+        'Onset Date': this.date,
+        Category: resource.category.text,
+        Serverity:
+          typeof resource.severity != 'undefined' ? resource.severity.text : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -438,23 +458,29 @@ class FhirDiagnosticReport extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date = resource.effectiveDateTime.split('T')[0];
+      this.name = resource.code.text;
+      this.date = resource.effectiveDateTime.split('T')[0];
 
-    this.displayFields = {
-      Code: this.name,
-      Status: resource.status,
-      'Effective Date': this.date,
-      'Issued Date': resource.issued ? resource.issued.split('T')[0] : '',
-      Category:
-        typeof resource.category != 'undefined' ? resource.category.text : '',
-      Results:
-        typeof resource.result != 'undefined' ? resource.result[0].display : '', //Todo: it's array with URL link
-      Conclusion: resource.conclusion,
-    };
+      this.displayFields = {
+        Code: this.name,
+        Status: resource.status,
+        'Effective Date': this.date,
+        'Issued Date': resource.issued ? resource.issued.split('T')[0] : '',
+        Category:
+          typeof resource.category != 'undefined' ? resource.category.text : '',
+        Results:
+          typeof resource.result != 'undefined'
+            ? resource.result[0].display
+            : '', //Todo: it's array with URL link
+        Conclusion: resource.conclusion,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -462,22 +488,28 @@ class FhirDiagnosticReport extends FhirResource {
 class FhirDocumentReference extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = typeof resource.class != 'undefined' ? resource.class.text : '';
-    this.date =
-      typeof resource.created != 'undefined'
-        ? resource.created.split('T')[0]
-        : '';
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Class: this.name,
-      Type: typeof resource.type != 'undefined' ? resource.type.text : '',
-      'Created on': this.date,
-      //'Indexed on': resource.indexed.split('T')[0],
-      //Attachment: resource.content[0].attachment[0].url,
-    };
+      this.name =
+        typeof resource.class != 'undefined' ? resource.class.text : '';
+      this.date =
+        typeof resource.created != 'undefined'
+          ? resource.created.split('T')[0]
+          : '';
+
+      this.displayFields = {
+        Class: this.name,
+        Type: typeof resource.type != 'undefined' ? resource.type.text : '',
+        'Created on': this.date,
+        //'Indexed on': resource.indexed.split('T')[0],
+        //Attachment: resource.content[0].attachment[0].url,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -486,19 +518,23 @@ class FhirDevice extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.type.text;
-    this.date = resource.expiry.split('T')[0];
+      this.name = resource.type.text;
+      this.date = resource.expiry.split('T')[0];
 
-    this.displayFields = {
-      'Device Type': this.name,
-      Model: resource.model,
-      Status: this.status,
-      'Expiry Date': this.date,
-      UDI: resource.udi,
-    };
+      this.displayFields = {
+        'Device Type': this.name,
+        Model: resource.model,
+        Status: this.status,
+        'Expiry Date': this.date,
+        UDI: resource.udi,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -506,20 +542,25 @@ class FhirDevice extends FhirResource {
 class FhirFamilyMemberHistory extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.name;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Name: this.name,
-      Relationship: resource.relationship.text,
-      Deceased: resource.deseasedBoolean ? 'Yes' : 'No',
-      Condition: _extractField(
-        _extractField(resource.condition, 'code'),
-        'text'
-      ).join('; '),
-    };
+      this.name = resource.name;
+
+      this.displayFields = {
+        Name: this.name,
+        Relationship: resource.relationship.text,
+        Deceased: resource.deseasedBoolean ? 'Yes' : 'No',
+        Condition: _extractField(
+          _extractField(resource.condition, 'code'),
+          'text'
+        ).join('; '),
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -528,19 +569,23 @@ class FhirGoal extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.date = resource.startDate;
-    this.name = resource.description;
+      this.date = resource.startDate;
+      this.name = resource.description;
 
-    this.displayFields = {
-      Description: resource.description,
-      'Start Date': resource.startDate,
-      Category: _extractField(resource.category, 'text').join('; '),
-      Addresses: _extractField(resource.addresses, 'display').join('; '),
-      Note: _extractField(resource.note, 'text').join('; '),
-    };
+      this.displayFields = {
+        Description: resource.description,
+        'Start Date': resource.startDate,
+        Category: _extractField(resource.category, 'text').join('; '),
+        Addresses: _extractField(resource.addresses, 'display').join('; '),
+        Note: _extractField(resource.note, 'text').join('; '),
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -548,36 +593,41 @@ class FhirGoal extends FhirResource {
 class FhirMedicationOrder extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.medicationReference.display;
-    this.date = resource.dateWritten;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Medication: this.name,
-      'Order Written Date': this.date,
-      Status: this.status,
-      Prescriber: resource.prescriber.display,
-      'Dosage Instruction': _extractField(
-        resource.dosageInstruction,
-        'text'
-      ).join('; '),
-      Duration:
-        typeof resource.dispenseRequest.expectedSupplyDuration != 'undefined'
-          ? resource.dispenseRequest.expectedSupplyDuration.value +
-            ' ' +
-            resource.dispenseRequest.expectedSupplyDuration.unit
-          : '',
-      'Start Date':
-        typeof resource.dispenseRequest.validityPeriod.start != 'undefined'
-          ? resource.dispenseRequest.validityPeriod.start.split('T')[0]
-          : '',
-      'End Date':
-        typeof resource.dispenseRequest.validityPeriod.end != 'undefined'
-          ? resource.dispenseRequest.validityPeriod.end.split('T')[0]
-          : '',
-    };
+      this.name = resource.medicationReference.display;
+      this.date = resource.dateWritten;
+
+      this.displayFields = {
+        Medication: this.name,
+        'Order Written Date': this.date,
+        Status: this.status,
+        Prescriber: resource.prescriber.display,
+        'Dosage Instruction': _extractField(
+          resource.dosageInstruction,
+          'text'
+        ).join('; '),
+        Duration:
+          typeof resource.dispenseRequest.expectedSupplyDuration != 'undefined'
+            ? resource.dispenseRequest.expectedSupplyDuration.value +
+              ' ' +
+              resource.dispenseRequest.expectedSupplyDuration.unit
+            : '',
+        'Start Date':
+          typeof resource.dispenseRequest.validityPeriod.start != 'undefined'
+            ? resource.dispenseRequest.validityPeriod.start.split('T')[0]
+            : '',
+        'End Date':
+          typeof resource.dispenseRequest.validityPeriod.end != 'undefined'
+            ? resource.dispenseRequest.validityPeriod.end.split('T')[0]
+            : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -587,29 +637,33 @@ class FhirMedicationStatement extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.medicationCodeableConcept.text;
-    this.date = resource.dateWritten;
+      this.name = resource.medicationCodeableConcept.text;
+      this.date = resource.dateWritten;
 
-    this.displayFields = {
-      Medication: this.name,
-      Status: this.status,
-      Dosage: _extractField(resource.dosage, 'text').join('; '),
-      'Effective From':
-        typeof resource.effectivePeriod != 'undefined'
-          ? typeof resource.effectivePeriod.start != 'undefined'
-            ? resource.effectivePeriod.start.split('T')[0]
-            : ''
-          : '',
-      'Effective To':
-        typeof resource.effectivePeriod != 'undefined'
-          ? typeof resource.effectivePeriod.end != 'undefined'
-            ? resource.effectivePeriod.end.split('T')[0]
-            : ''
-          : '',
-    };
+      this.displayFields = {
+        Medication: this.name,
+        Status: this.status,
+        Dosage: _extractField(resource.dosage, 'text').join('; '),
+        'Effective From':
+          typeof resource.effectivePeriod != 'undefined'
+            ? typeof resource.effectivePeriod.start != 'undefined'
+              ? resource.effectivePeriod.start.split('T')[0]
+              : ''
+            : '',
+        'Effective To':
+          typeof resource.effectivePeriod != 'undefined'
+            ? typeof resource.effectivePeriod.end != 'undefined'
+              ? resource.effectivePeriod.end.split('T')[0]
+              : ''
+            : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -637,15 +691,19 @@ class FhirImmunization extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
-    this.name = resource.vaccineCode.text;
-    this.displayFields = {
-      Vaccine: this.name,
-      Date: resource.date.split('T')[0],
-      Site: typeof resource.site != 'undefined' ? resource.site.text : '',
-      Route: typeof resource.route != 'undefined' ? resource.route.text : '',
-    };
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+      this.name = resource.vaccineCode.text;
+      this.displayFields = {
+        Vaccine: this.name,
+        Date: resource.date.split('T')[0],
+        Site: typeof resource.site != 'undefined' ? resource.site.text : '',
+        Route: typeof resource.route != 'undefined' ? resource.route.text : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -672,25 +730,29 @@ class FhirLabResult extends FhirResource {
   constructor(fullJson, displayOverride) {
     super(fullJson, displayOverride);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date = resource.effectiveDateTime.split('T')[0];
+      this.name = resource.code.text;
+      this.date = resource.effectiveDateTime.split('T')[0];
 
-    this.displayFields = {
-      Code: this.name,
-      Date: this.date,
-      Status: this.status,
-      Value:
-        typeof resource.valueQuantity != 'undefined'
-          ? resource.valueQuantity.value + ' ' + resource.valueQuantity.unit
-          : '',
-      'Reference Range':
-        typeof resource.referenceRange != 'undefined'
-          ? resource.referenceRange.text
-          : '',
-    };
+      this.displayFields = {
+        Code: this.name,
+        Date: this.date,
+        Status: this.status,
+        Value:
+          typeof resource.valueQuantity != 'undefined'
+            ? resource.valueQuantity.value + ' ' + resource.valueQuantity.unit
+            : '',
+        'Reference Range':
+          typeof resource.referenceRange != 'undefined'
+            ? resource.referenceRange.text
+            : '',
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -729,32 +791,36 @@ class FhirVital extends FhirResource {
   constructor(fullJson, displayOverride) {
     super(fullJson, displayOverride);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date = resource.effectiveDateTime.split('T')[0];
+      this.name = resource.code.text;
+      this.date = resource.effectiveDateTime.split('T')[0];
 
-    this.displayFields = {
-      Code: this.name,
-      Date: this.date,
-      Status: this.status,
-      //'ID & Direct Link': `<a href='${this.fullUrl}' target='_blank'>${this.id}</a>`,
-    };
+      this.displayFields = {
+        Code: this.name,
+        Date: this.date,
+        Status: this.status,
+        //'ID & Direct Link': `<a href='${this.fullUrl}' target='_blank'>${this.id}</a>`,
+      };
 
-    if (typeof resource.component != 'undefined') {
-      for (let i = 0; i < resource.component.length; i++) {
-        //this.displayFields['Component ' + (i + 1)] =
-        //  resource.component[i].code.text +
-        //  ': ' +
-        this.displayFields[resource.component[i].code.text] =
-          resource.component[i].valueQuantity.value +
-          ' ' +
-          resource.component[i].valueQuantity.unit;
+      if (typeof resource.component != 'undefined') {
+        for (let i = 0; i < resource.component.length; i++) {
+          //this.displayFields['Component ' + (i + 1)] =
+          //  resource.component[i].code.text +
+          //  ': ' +
+          this.displayFields[resource.component[i].code.text] =
+            resource.component[i].valueQuantity.value +
+            ' ' +
+            resource.component[i].valueQuantity.unit;
+        }
+      } else {
+        this.displayFields['Value'] =
+          resource.valueQuantity.value + ' ' + resource.valueQuantity.unit;
       }
-    } else {
-      this.displayFields['Value'] =
-        resource.valueQuantity.value + ' ' + resource.valueQuantity.unit;
+    } catch (error) {
+      console.log('Error loading resource: ', error);
     }
   }
 }
@@ -763,18 +829,23 @@ class FhirVital extends FhirResource {
 class FhirSocialHistory extends FhirResource {
   constructor(fullJson, displayOverride) {
     super(fullJson, displayOverride);
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date = resource.issued.split('T')[0];
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.displayFields = {
-      Code: this.name,
-      Value: resource.valueCodeableConcept.text,
-      'Issued Date': this.date,
-      Status: this.status,
-    };
+      this.name = resource.code.text;
+      this.date = resource.issued.split('T')[0];
+
+      this.displayFields = {
+        Code: this.name,
+        Value: resource.valueCodeableConcept.text,
+        'Issued Date': this.date,
+        Status: this.status,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 
@@ -783,17 +854,21 @@ class FhirProcedure extends FhirResource {
   constructor(fullJson) {
     super(fullJson);
 
-    let resource =
-      typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
+    try {
+      let resource =
+        typeof fullJson.resource != 'undefined' ? fullJson.resource : fullJson;
 
-    this.name = resource.code.text;
-    this.date = resource.performedDateTime.split('T')[0];
+      this.name = resource.code.text;
+      this.date = resource.performedDateTime.split('T')[0];
 
-    this.displayFields = {
-      Procedure: this.name,
-      'Performed at': resource.performedDateTime,
-      Status: this.status,
-    };
+      this.displayFields = {
+        Procedure: this.name,
+        'Performed at': resource.performedDateTime,
+        Status: this.status,
+      };
+    } catch (error) {
+      console.log('Error loading resource: ', error);
+    }
   }
 }
 

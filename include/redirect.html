@@ -1,0 +1,76 @@
+// redirect to Github if on Azure /* if
+(window.location.hostname.includes('healthonfhir.azurewebsites.net')) { //if
+(window.location.href.includes('localhost')) { $('#redirect').modal('show');
+$scope.timeout = setTimeout(() => { window.location.href =
+'https://pftechsln.github.io'; }, 10000); } */
+
+<!--Redirect-->
+<!-- <div id="redirect-placeholder"></div>
+
+<script>
+  $(function () {
+    $('#redirect-placeholder').load('include/redirect.html');
+  });
+</script> -->
+<!--end of redirect-->
+
+<!-- Button trigger modal
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModalCenter"
+      hidden
+    >
+      Launch modal
+    </button>
+
+    
+    <div
+      class="modal fade"
+      id="redirect"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="redirect"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Redirecting to Github</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Due to temporary source code syncing issue between Azure and Github,
+            you are being redirected to the same web app host on Github. As soon
+            as we resolve the deployment issue on Azure, we will stop the
+            redirecting. Sorry for the inconvenience.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              OK
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              ng-click="cancelRedirect()"
+            >
+              Cancel Redirecting
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  -->

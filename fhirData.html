@@ -21,14 +21,14 @@
 
     <!-- Bootstrap & JQuery-->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/library/jquery.min.js"></script>
+    <script src="/js/library/bootstrap.min.js"></script>
 
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">{{progress}}</script>
 
     <!-- Site AngularJS -->
-    <script type="module" src="/js/myAngularApp.js"></script>
+    <script type="module" src="/js/angularJS/fhirData.js"></script>
     <link rel="stylesheet" href="/css/site.css" />
   </head>
 
@@ -48,6 +48,22 @@
     <div lass="container-fluid" id="mainFhir">
 
       
+      <div class='box contain-sm text-center mt-5 mx-auto' id='errorMsgbox' ng-show='hasError' style='width:500px'>
+          <h1><i class="fas fa-exclamation-circle text-danger"></i> Authentication Error</h1>
+          <table class="table table-hover table-responsive table-condensed px-1">
+            <tbody>
+              <tr ng-repeat="pair in valuePairs" style="width: 100%; font-size: large">
+                <th class='text-right w-50' scope='row'><b>{{pair[0]}}</b></th>
+                <td class='text-left w-50'>                
+                  {{pair[1].replace('+',' ')}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         
+          <a href='./index.html' class='btn btn-primary btn-lg btn-block'>Return to Login</a>
+      </div>
+
 
       <!-- Summary Dashboard-->
       <div class="container-fluid col-sm-12 col-lg-11 col-lg-offset-1 px-0" id="summary">
@@ -98,7 +114,7 @@
                       </table>
                     </div>
                   <div class="card-footer">
-                    <span ng-if='t.fullUrl'>Source: <a href={{fhirMetaUrl}} target="_blank">{{orgName}}</a></span>
+                    <span ng-if='t.fullUrl'>Source: <a href={{fhirConfig.metaUrl}} target="_blank">{{fhirConfig.orgName}}</a></span>
                     <a href='{{t.fullUrl}}' target="_blank" class='float-right'>Link to Full Resource</a>                                
                   </div>
                 </div>

@@ -18,14 +18,14 @@
 
     <!-- Bootstrap & JQuery -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/library/jquery.min.js"></script>
+    <script src="/js/library/bootstrap.min.js"></script>
 
     <!-- Google AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <!-- Site AngularJS & CSS -->
-    <script type="module" src="/js/myAngularApp.js"></script>
+    <script type="module" src="/js/angularJS/login.js"></script>
     <link rel="stylesheet" href="/css/site.css" />
   </head>
 
@@ -44,67 +44,6 @@
       });
     </script>
     <!--end of Navigation bar-->
-
-    <!-- Button trigger modal
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#exampleModalCenter"
-      hidden
-    >
-      Launch modal
-    </button>
-
-    
-    <div
-      class="modal fade"
-      id="redirect"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="redirect"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Redirecting to Github</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Due to temporary source code syncing issue between Azure and Github,
-            you are being redirected to the same web app host on Github. As soon
-            as we resolve the deployment issue on Azure, we will stop the
-            redirecting. Sorry for the inconvenience.
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              OK
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-dismiss="modal"
-              ng-click="cancelRedirect()"
-            >
-              Cancel Redirecting
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  -->
 
     <!-- Main container -->
     <div class="container-fluid" id="mainIndex">
@@ -204,7 +143,7 @@
                 type="checkbox"
                 class="form-check-input"
                 ng-model="rememberLastLogin"
-                ng-change="updateSettings()"
+                ng-change="updateCache()"
                 id="selectionCheck"
                 ng-checked="{{rememberLastLogin}}"
               />
@@ -228,34 +167,37 @@
             <pre id="txtStatus">{{statusText}}</pre>
             <dl class="dl-horizontal">
               <dt>FHIR Base URL</dt>
-              <dd><a href="{{fhirBaseUrl}}">{{fhirBaseUrl}}</a></dd>
+              <dd>
+                <a href="{{fhirConfig.baseUrl}}">{{fhirConfig.baseUrl}}</a>
+              </dd>
 
               <dt>Meta URL</dt>
-              <dd><a href="{{fhirMetaUrl}}">{{fhirMetaUrl}}</a></dd>
+              <dd>
+                <a href="{{fhirConfig.metaUrl}}">{{fhirConfig.metaUrl}}</a>
+              </dd>
 
               <dt>FHIR Endpoint Url</dt>
-              <dd><a href="{{fhirEndpointUrl}}">{{fhirEndpointUrl}}</a></dd>
+              <dd>
+                <a href="{{fhirConfig.endpointUrl}}"
+                  >{{fhirConfig.endpointUrl}}</a
+                >
+              </dd>
 
               <dt>FHIR Authorize Url</dt>
-              <dd><a href="{{fhirAuthUrl}}">{{fhirAuthUrl}}</a></dd>
+              <dd>
+                <a href="{{fhirConfig.authUrl}}">{{fhirConfig.authUrl}}</a>
+              </dd>
 
               <dt>FHIR Token Url</dt>
-              <dd><a href="{{fhirTokenUrl}}">{{fhirTokenUrl}}</a></dd>
+              <dd>
+                <a href="{{fhirConfig.tokenUrl}}">{{fhirConfig.tokenUrl}}</a>
+              </dd>
 
               <dt>Client ID</dt>
-              <dd>{{clientId}}</dd>
+              <dd>{{fhirConfig.clientId}}</dd>
 
               <dt>Organization Name</dt>
-              <dd>{{orgName}}</dd>
-
-              <dt>Authorization Code</dt>
-              <dd>{{oauthCode}}</dd>
-
-              <dt>Access Token</dt>
-              <dd>{{accessToken}}</dd>
-
-              <dt>Patient ID</dt>
-              <dd>{{patient}}</dd>
+              <dd>{{fhirConfig.orgName}}</dd>
             </dl>
           </div>
         </div>
