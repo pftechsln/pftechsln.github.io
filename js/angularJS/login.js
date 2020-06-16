@@ -44,7 +44,7 @@ app.controller('loginCtrl', [
       sessionStorage.removeItem('accessToken');
 
       // Load list of fhir endpoints orgs and URLs
-      let epicEndPointUrl = './data/EpicEndpoints.json';
+      let epicEndPointUrl = './data/EpicEndpoints2.txt';
       $http.get(epicEndPointUrl).then(
         (response) => {
           $scope.fhirOrgs = response.data.Entries;
