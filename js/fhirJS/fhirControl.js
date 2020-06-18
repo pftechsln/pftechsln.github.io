@@ -128,47 +128,43 @@ function resetProgress($scope) {
 }
 
 function updateProgress($scope, isError) {
-  let progress = 0;
-
+  let progress;
+  $('#progressWrap').prop('hidden', false);
   if (isError) {
     $scope.progressError++;
-    const progress = Math.round(
+    progress = Math.round(
       (100 * $scope.progressError) / $scope.rsrTypeList.length
     );
     $('#progressBarError').attr('style', 'width: ' + progress + '%;');
     $('#progressBarError').attr('aria-valuenow', progress);
-    $('#progressBarError').html(progress + '%');
+    //$('#progressBarError').html(progress + '%');
   } else {
     $scope.progress++;
-    const progress = Math.round(
-      (100 * $scope.progress) / $scope.rsrTypeList.length
-    );
+    progress = Math.round((100 * $scope.progress) / $scope.rsrTypeList.length);
     $('#progressBar').attr('style', 'width: ' + progress + '%;');
     $('#progressBar').attr('aria-valuenow', progress);
-    $('#progressBar').html(progress + '%');
+    //$('#progressBar').html(progress + '%');
   }
 
   if ($scope.progress + $scope.progressError >= $scope.rsrTypeList.length) {
     $scope.progress = 0;
     $scope.progressError = 0;
     window.setTimeout(() => {
+      $('#progressBar').html('<i class="fas fa-check"></i>');
+      $scope.$apply();
+    }, 500);
+    window.setTimeout(() => {
       resetProgress($scope);
-    }, 3000);
+    }, 2500);
     console.log('load completed: ', $scope.fhirRsrList);
   }
 }
 
 // Load patient demographic, and conformance first
-function loadFhirData($scope, $http) {
+async function loadFhirData($scope, $http) {
   // Clear existing data if any
   $scope.fhirRsrList = [];
   $scope.rawFhirRsrList = [];
-
-  loadAllFhirResources($scope, $http);
-}
-
-async function loadAllFhirResources($scope, $http) {
-  $('#progressWrap').prop('hidden', false);
   $scope.progress = 0;
   $scope.progressError = 0;
 

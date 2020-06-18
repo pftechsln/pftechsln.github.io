@@ -59,5 +59,10 @@ app.controller('fhirDataCtrl', [
         FhirControl.loadFhirData($scope, $http);
       }
     };
+
+    // reload fhir data
+    $scope.loadFhirData = function () {
+      FhirControl.loadFhirData($scope, $http);
+    };
   },
 ]);
