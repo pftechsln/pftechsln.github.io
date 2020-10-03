@@ -32,7 +32,8 @@ export class FhirControl {
       'oauth2/authorize?response_type=code&client_id=' +
       client.clientId +
       '&redirect_uri=' +
-      client.redirectUri;
+      client.redirectUri +
+      '&scope=openid launch/patient patient/Patient.read';
     fhirConfig.tokenUrl = baseUrl + 'oauth2/token';
     fhirConfig.metaUrl = endpointUrl + 'metadata';
 
