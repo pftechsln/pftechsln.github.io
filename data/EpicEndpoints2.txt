@@ -1,6 +1,16 @@
 {
   "Entries": [
     {
+      "OrganizationName": "MI FHIR R4 Offline",
+      "FHIRPatientFacingURI": "http://localhost:3002/",
+      "OAuthURI": "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login"
+    },
+    {
+      "OrganizationName": "MI FHIR R4",
+      "FHIRPatientFacingURI": "https://aim.medinformatix.cc/v1/",
+      "OAuthURI": "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login"
+    },
+    {
       "OrganizationName": "Epic Sandbox",
       "FHIRPatientFacingURI": "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/"
     },
