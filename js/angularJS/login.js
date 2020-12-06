@@ -24,7 +24,7 @@ const sandboxClient = {
 const miFhirClient = {
 	name: "MI FHIR App",
 	clientId: "2a65a1m9hg4f34q6fqfh2o91ij",
-	redirectUri: "https://healthonfhir.azurewebsites.net/fhirData.html",
+	redirectUri: "https://pftechsln.github.io/fhirData.html",
   oauthUri: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login",
   tokenUri: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/oauth2/token",
 	scope: "*",

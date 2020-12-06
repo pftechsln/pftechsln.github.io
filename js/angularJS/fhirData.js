@@ -13,6 +13,7 @@ app.controller('fhirDataCtrl', [
       var oauthCode = sessionStorage.getItem('oauthCode');
       var accessToken = sessionStorage.getItem('accessToken');
       $scope.fhirConfig = JSON.parse(sessionStorage.getItem('fhirConfig'));
+      console.log('Loading fhirConfig', $scope.fhirConfig);
 
       $scope.fhirRsrList = [];
       $scope.rawFhirRsrList = [];
