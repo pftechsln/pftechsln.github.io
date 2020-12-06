@@ -110,6 +110,7 @@ export class FhirControl {
 					$scope.accessTokenJson = JSON.stringify(data, undefined, 2);
 					sessionStorage.setItem("accessToken", $scope.accessToken);
 					sessionStorage.setItem("patient", data.patient);
+          console.log('accessToken', data);
 
 					loadFhirData($scope, $http);
 				});
@@ -206,14 +207,13 @@ async function getFhirResource(resource, $scope, $http) {
 
 	// Resources w/o qualifier
 	else if (resource.name === "Patient") {
-		url = url + "/" + resource.name + "/" + $scope.patient;
+		url = url + resource.name + "/" + $scope.patient;
 	}
 
 	// Resources with qualifier
 	else if (resource.queryFilter) {
 		url =
-			url +
-			"/" +
+			url +			
 			resource.name +
 			"?patient=" +
 			$scope.patient +
@@ -223,7 +223,7 @@ async function getFhirResource(resource, $scope, $http) {
 
 	// patient Demographics
 	else {
-		url = url + "/" + resource.name + "?patient=" + $scope.patient;
+		url = url + resource.name + "?patient=" + $scope.patient;
 	}
 
 	$http.defaults.headers.common["Authorization"] =
