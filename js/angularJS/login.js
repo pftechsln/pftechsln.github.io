@@ -3,6 +3,7 @@ import {
   productionClient,
   sandboxClient,
   miFhirClient,
+  sandboxClientR4,
 } from "../../config/fhir_client.js";
 import { fhir_server_list } from "../../config/fhir_server.js";
 
@@ -114,10 +115,11 @@ app.controller("loginCtrl", [
       if (
         server.endpointUrl ===
           "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/" ||
-        server.orgName === "Epic Sandbox" || 
-		server.orgName === "Epic Sandbox R4"
+        server.orgName === "Epic Sandbox"
       ) {
         client = sandboxClient;
+      } else if (server.orgName === "Epic Sandbox R4") {
+        client = sandboxClientR4;
       } else if (
         server.orgName === "MI FHIR R4" ||
         server.orgName === "MI FHIR R4 Offline"

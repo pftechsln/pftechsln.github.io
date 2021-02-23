@@ -18,6 +18,16 @@ export const sandboxClient = {
   appName: "Health on Fhir",
 };
 
+// Constants: Epic Client for the Epic Sandbox
+export const sandboxClientR4 = {
+  name: "Epic Client",
+  //clientId: "6c12dff4-24e7-4475-a742-b08972c4ea27",
+  clientId: "4df31887-2fc7-45ba-95cf-668f3cd4d20b",
+  redirectUri: "https://pftechsln.github.io/fhirData.html",
+  scope: "*",
+  appName: "Health on Fhir",
+};
+
 // Constants: MI Client
 export const miFhirClient = {
   name: "MI FHIR App",
