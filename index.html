@@ -40,7 +40,7 @@
 
     <script>
       $(function () {
-        $('#nav-placeholder').load('include/nav.html');
+        $("#nav-placeholder").load("include/nav.html");
       });
     </script>
     <!--end of Navigation bar-->
@@ -53,7 +53,7 @@
         <div
           class="row mx-auto py-2 px-3"
           id="about"
-          style="max-width: 900px; min-width: 300px;"
+          style="max-width: 900px; min-width: 300px"
         >
           <img
             src="/assets/smart-on-fhir.png"
@@ -94,7 +94,7 @@
             class="btn-danger btn-lg btn-block my-2"
             ng-click="testCase('epic')"
           >
-            Epic Sandbox
+            Epic Sandbox DSTU2
             <span id="epicPassword" class="text-warning font-weight-light">
               Username: <b>fhirjason</b> &nbsp&nbsp Password: <b>epicepic1</b>
             </span>
@@ -116,6 +116,18 @@
             Medinformatix
           </button>
 
+          <!-- Quick login #5 : Epic Sandbox R4 -->
+          <button
+            id="epicLoginR4"
+            class="btn-danger btn-lg btn-block my-2"
+            ng-click="testCase('epicR4')"
+          >
+            Epic Sandbox R4
+            <span id="epicPassword" class="text-warning font-weight-light">
+              Username: <b>fhirjason</b> &nbsp&nbsp Password: <b>epicepic1</b>
+            </span>
+          </button>
+
           <!-- <hr data-content="Select an EHR" class="hr-text my-4" /> -->
 
           <!-- Login dropdown selector -->
@@ -128,9 +140,9 @@
               ng-change="updateSettings()"
             >
               <!-- <option selected value="0">Choose data source...</option> -->
-              <option ng-repeat="x in fhirOrgs" value="{{$index}}"
-                >{{x.OrganizationName}}</option
-              >
+              <option ng-repeat="x in fhirOrgs" value="{{$index}}">
+                {{x.OrganizationName}}
+              </option>
             </select>
             <div class="input-group-append">
               <button
@@ -219,7 +231,7 @@
     <div id="footer-placeholder"></div>
     <script>
       $(function () {
-        $('#footer-placeholder').load('include/footer.html');
+        $("#footer-placeholder").load("include/footer.html");
       });
     </script>
     <!-- End of Footer -->
