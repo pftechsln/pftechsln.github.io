@@ -13,19 +13,19 @@ export const sandboxClient = {
   name: "Epic Client",
   //clientId: "6c12dff4-24e7-4475-a742-b08972c4ea27",
   clientId: "682f041d-5ed1-4d1b-a8c4-08653678e7ca",
-  redirectUri: "https://pftechsln.github.io/fhirData.html",
+  redirectUri: "/fhirData.html",
   scope: "*",
   appName: "Health on Fhir",
 };
 
 // Constants: Epic Client for the Epic Sandbox
 export const sandboxClientR4 = {
-  name: "Epic Client",
+  name: "Epic Client R4",
   //clientId: "6c12dff4-24e7-4475-a742-b08972c4ea27",
   clientId: "4df31887-2fc7-45ba-95cf-668f3cd4d20b",
-  redirectUri: "https://pftechsln.github.io/fhirData.html",
+  redirectUri: "/fhirData.html",
   scope: "*",
-  appName: "Health on Fhir",
+  appName: "Health on Fhir R4",
 };
 
 // Constants: MI Client

@@ -26,6 +26,7 @@ export class FhirControl {
     fhirConfig.ready = false;
     let endpointUrl = server.endpointUrl;
     let baseUrl = endpointUrl.split("api/FHIR/")[0];
+    client.redirectUri = getBaseURL() + client.redirectUri;
 
     if (client.name === "MI FHIR App") {
       // https://pvdev-auth.auth.us-west-2.amazoncognito.com/login?
@@ -144,6 +145,15 @@ function resetProgress($scope) {
   $("#progressBarError").html("");
 }
 
+// Get the current base URL and use it as the redirect URL
+// 12/01/18 - Added
+function getBaseURL() {
+  var url = window.location.href; // entire url including querystring
+  var baseURL = url.substring(0, url.indexOf("/", 8)); // start after https://
+
+  return baseURL;
+}
+
 function updateProgress($scope, isError) {
   let progress;
   $("#progressWrap").prop("hidden", false);
@@ -174,6 +184,39 @@ function updateProgress($scope, isError) {
       resetProgress($scope);
     }, 2500);
     console.log("load completed: ", $scope.fhirRsrList);
+  }
+}
+
+async function getMetadata($scope, $http) {
+  let url = $scope.fhirConfig.metaUrl;
+  $http.defaults.headers.common["Authorization"] =
+    "Bearer " + $scope.accessToken;
+
+  try {
+    // const response = await $http({
+    //   method: 'GET',
+    //   url: url,
+    // });
+    //fetch;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer " + $scope.accessToken,
+        Accept: "application/json, text/plain, */*",
+      },
+    });
+
+    var json;
+    if (response.ok) {
+      json = await response.json();
+    }
+
+    const substance = json; //response.data; //.entry[0];
+    //const jsonString = JSON.stringify(substance, undefined, 2);
+    console.log(`done loading ${resource.name}`);
+
+    console.log("metadata...", substance);
+  } catch (err) {
+    console.log("error loading metadata: ", err);
   }
 }
 

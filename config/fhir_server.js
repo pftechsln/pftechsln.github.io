@@ -28,6 +28,21 @@ export const fhir_server_list = {
   ],
   Entries: [
     {
+      OrganizationName: "Epic Sandbox DTSU2",
+      FHIRPatientFacingURI: "https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+    },
+    {
+      OrganizationName: "Epic Sandbox R4",
+      FHIRPatientFacingURI:
+        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+      scope: "Patient Encounter ServiceRequest Task",
+    },
+    {
+      OrganizationName: "Overlake Hospital Medical Center",
+      FHIRPatientFacingURI:
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
+    },
+    {
       OrganizationName: "Access Community Health Network",
       FHIRPatientFacingURI:
         "https://eprescribing.accesscommunityhealth.net/FHIR/api/FHIR/DSTU2/",
@@ -677,11 +692,6 @@ export const fhir_server_list = {
       OrganizationName: "OrthoVirginia",
       FHIRPatientFacingURI:
         "https://epicproxy.et1015.epichosted.com/FHIRProxy/api/FHIR/DSTU2/",
-    },
-    {
-      OrganizationName: "Overlake Hospital Medical Center",
-      FHIRPatientFacingURI:
-        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
     },
     {
       OrganizationName: "Owensboro Health",

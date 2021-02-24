@@ -38,15 +38,6 @@ import { fhir_server_list } from "../../config/fhir_server.js";
 // 	appName: "MI FHIR App",
 // };
 
-// Get the current base URL and use it as the redirect URL
-// 12/01/18 - Added
-function getBaseURL() {
-  var url = window.location.href; // entire url including querystring
-  var baseURL = url.substring(0, url.indexOf("/", 8)); // start after https://
-
-  return baseURL;
-}
-
 var app = angular.module("myApp", []);
 
 // --------------------------------------------------------------------
@@ -58,42 +49,29 @@ app.controller("loginCtrl", [
   function ($scope, $http) {
     // Initialize settings on page load
     $scope.initSettings = function () {
+      // clear session storage from last connection
       sessionStorage.removeItem("oauthCode");
       sessionStorage.removeItem("accessToken");
 
-      // // Load list of fhir endpoints orgs and URLs
-      // let epicEndPointUrl = "./data/EpicEndpoints2.txt";
-      // $http.get(epicEndPointUrl).then(
-      // 	(response) => {
-      // 		$scope.fhirOrgs = response.data.Entries;
-
-      // 		// load previous endpoint selection, and set up fhir config for OAuth login
-      // 		$scope.rememberLastLogin =
-      // 			sessionStorage.getItem("rememberLastLogin") === "true";
-      // 		if ($scope.rememberLastLogin === true) {
-      // 			$scope.serverIndex = sessionStorage.getItem("serverIndex");
-      // 			$scope.updateSettings();
-      // 		} else {
-      // 			sessionStorage.clear();
-      // 		}
-      // 	},
-      // 	(error) => {
-      // 		console.log("Error loading endpoints: ", error);
-      // 	}
-      // );
+      // load list of fhir endpoints orgs and URLs
       $scope.fhirOrgs = fhir_server_list.Entries;
-    };
 
-    // Redirect browser to Fhir Authorize URL
-    $scope.oauthLogin = function () {
-      window.location.href = $scope.fhirConfig.authUrl;
+      // load previous endpoint selection, and set up fhir config for OAuth login
+      $scope.rememberLastLogin =
+        sessionStorage.getItem("rememberLastLogin") === "true";
+      if ($scope.rememberLastLogin === true) {
+        $scope.serverIndex = sessionStorage.getItem("serverIndex");
+        $scope.updateSettings();
+      } else {
+        sessionStorage.clear();
+      }
     };
 
     // Gather client and server info, pass to FhirControl to set up for OAuth login
     $scope.updateSettings = function (serverInfo) {
       var client, server;
 
-      // Save off }selection to auto-populatae when come back to the page
+      // Save off selection to auto-populatae when come back to the page
       if ($scope.rememberLastLogin === true) {
         sessionStorage.setItem("serverIndex", $scope.serverIndex);
         sessionStorage.setItem("rememberLastLogin", $scope.rememberLastLogin);
@@ -138,6 +116,48 @@ app.controller("loginCtrl", [
       }
     };
 
+    // some quick login cases for Epic Sandbox and Overlake Hospital
+    $scope.testCase = function (caseName) {
+      switch (caseName) {
+        case "ohmcExt":
+          $scope.serverIndex = 2;
+          $scope.updateSettings({
+            endpointUrl:
+              "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
+            orgName: "Overlake Hospital and Medical Center",
+          });
+          break;
+
+        case "miFhir":
+          $scope.serverIndex = 0;
+          $scope.updateSettings({
+            endpointUrl: "http://localhost:3002/",
+            orgName: "MI FHIR R4 Offline",
+          });
+          break;
+
+        case "epicR4":
+          $scope.serverIndex = 1;
+          $scope.updateSettings({
+            endpointUrl:
+              "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+            orgName: "Epic Sandbox R4",
+            scope: "Patient Encounter ServiceRequest Task",
+          });
+          break;
+
+        case "epic":
+        default:
+          $scope.serverIndex = 0;
+          $scope.updateSettings({
+            endpointUrl: "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/",
+            orgName: "Epic Sandbox",
+          });
+      }
+
+      $scope.oauthLogin();
+    };
+
     // Update server selection in session storage
     $scope.updateCache = function () {
       if ($scope.rememberLastLogin === true) {
@@ -155,46 +175,9 @@ app.controller("loginCtrl", [
       window.location.href = "fhirData.html";
     };
 
-    // 2 quick login cases for Epic Sandbox and Overlake Hospital
-    $scope.testCase = function (caseName) {
-      switch (caseName) {
-        case "ohmcExt":
-          $scope.serverIndex = 139;
-          $scope.updateSettings({
-            endpointUrl:
-              "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
-            orgName: "Overlake Hospital and Medical Center",
-          });
-
-          break;
-
-        case "miFhir":
-          $scope.serverIndex = 0;
-          $scope.updateSettings({
-            endpointUrl: "http://localhost:3002/",
-            orgName: "MI FHIR R4 Offline",
-          });
-          break;
-
-        case "epicR4":
-          $scope.serverIndex = 2;
-          $scope.updateSettings({
-            endpointUrl:
-              "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
-            orgName: "Epic Sandbox R4",
-            scope: "Patient Encounter ServiceRequest Task",
-          });
-          break;
-        case "epic":
-        default:
-          $scope.serverIndex = 2;
-          $scope.updateSettings({
-            endpointUrl: "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/",
-            orgName: "Epic Sandbox",
-          });
-      }
-
-      $scope.oauthLogin();
+    // Redirect browser to Fhir Authorize URL
+    $scope.oauthLogin = function () {
+      window.location.href = $scope.fhirConfig.authUrl;
     };
 
     $scope.cancelRedirect = function () {
