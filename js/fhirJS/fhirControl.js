@@ -26,7 +26,7 @@ export class FhirControl {
     fhirConfig.ready = false;
     let endpointUrl = server.endpointUrl;
     let baseUrl = endpointUrl.split("api/FHIR/")[0];
-    client.redirectUri = getBaseURL() + client.redirectUri;
+    //client.redirectUri = getBaseURL() + client.redirectUri;
 
     if (client.name === "MI FHIR App") {
       // https://pvdev-auth.auth.us-west-2.amazoncognito.com/login?

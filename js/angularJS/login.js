@@ -128,6 +128,15 @@ app.controller("loginCtrl", [
           });
           break;
 
+          case "ohmcExtR4":
+            $scope.serverIndex = 2;
+            $scope.updateSettings({
+              endpointUrl:
+                "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
+              orgName: "Overlake Hospital and Medical Center",
+            });
+            break;
+
         case "miFhir":
           $scope.serverIndex = 0;
           $scope.updateSettings({

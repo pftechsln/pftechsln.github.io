@@ -21,9 +21,14 @@ export const fhir_server_list = {
       scope: "Patient Encounter ServiceRequest Task",
     },
     {
-      OrganizationName: "Overlake Hospital Medical Center",
+      OrganizationName: "Overlake Hospital Medical Center DTSU2",
       FHIRPatientFacingURI:
-        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DTSU2/",
+    },
+    {
+      OrganizationName: "Overlake Hospital Medical Center R4",
+      FHIRPatientFacingURI:
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
     },
   ],
   Entries: [
