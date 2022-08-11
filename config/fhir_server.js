@@ -12,7 +12,7 @@ export const fhir_server_list = {
     },
     {
       OrganizationName: "Epic Sandbox DTSU2",
-      FHIRPatientFacingURI: "https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+      FHIRPatientFacingURI: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/" //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
     },
     {
       OrganizationName: "Epic Sandbox R4",
@@ -29,12 +29,14 @@ export const fhir_server_list = {
       OrganizationName: "Overlake Hospital Medical Center R4",
       FHIRPatientFacingURI:
         "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
+      scope: "*"
     },
   ],
   Entries: [
     {
       OrganizationName: "Epic Sandbox DTSU2",
-      FHIRPatientFacingURI: "https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+      FHIRPatientFacingURI: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DTSU2/", //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+      OAuthURI: "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
     },
     {
       OrganizationName: "Epic Sandbox R4",
@@ -1071,7 +1073,7 @@ export const fhir_server_list = {
     {
       OrganizationName: "UW Medicine (Washington)",
       FHIRPatientFacingURI:
-        "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/DSTU2/",
+        "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/R4/",
     },
     {
       OrganizationName: "Valley Medical Center",
