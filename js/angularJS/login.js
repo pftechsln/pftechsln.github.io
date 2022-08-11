@@ -95,7 +95,7 @@ app.controller("loginCtrl", [
           "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/" ||
         server.orgName === "Epic Sandbox"
       ) {
-        client = sandboxClient;
+        client = sandboxClientR4;
       } else if (server.orgName === "Epic Sandbox R4") {
         client = sandboxClientR4;
       } else if (
