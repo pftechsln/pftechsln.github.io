@@ -92,7 +92,7 @@ app.controller("loginCtrl", [
       // from server determine whether to use test client or production client
       if (
         server.endpointUrl ===
-          "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/" ||
+          "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/" ||
         server.orgName === "Epic Sandbox"
       ) {
         client = sandboxClientR4;
@@ -159,7 +159,7 @@ app.controller("loginCtrl", [
         default:
           $scope.serverIndex = 0;
           $scope.updateSettings({
-            endpointUrl: "https://open-ic.epic.com/FHIR/api/FHIR/DSTU2/",
+            endpointUrl: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/",
             orgName: "Epic Sandbox",
           });
       }
