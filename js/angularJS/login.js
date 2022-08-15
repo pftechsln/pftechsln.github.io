@@ -151,7 +151,7 @@ app.controller("loginCtrl", [
             endpointUrl:
               "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
             orgName: "Epic Sandbox R4",
-            scope: "Patient Encounter ServiceRequest Task",
+            // scope: "Patient Encounter ServiceRequest Task",
           });
           break;
 

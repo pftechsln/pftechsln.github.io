@@ -44,10 +44,10 @@ export class FhirControl {
     } else {
       fhirConfig.authUrl =
         baseUrl +
-        "oauth2/authorize?response_type=code&client_id=" +
-        client.clientId +
-        "&redirect_uri=" +
-        client.redirectUri; //+
+        "oauth2/authorize?response_type=code" + 
+        "&client_id=" + client.clientId +
+        "&redirect_uri=" + client.redirectUri +
+        "&aud=" + baseUrl; //+
         //"&scope=openid patient/Patient.* launch/patient";
       fhirConfig.tokenUrl = baseUrl + "oauth2/token";
     }
@@ -76,7 +76,7 @@ export class FhirControl {
 
   static getAccessToken($scope, $http) {
     const oauthCode = $scope.oauthCode;
-    const data = unescape(
+    const data = decodeURI(
       $.param({
         grant_type: "authorization_code",
         code: oauthCode,
