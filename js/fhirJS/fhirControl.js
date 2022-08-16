@@ -46,8 +46,9 @@ export class FhirControl {
         baseUrl +
         "oauth2/authorize?response_type=code" + 
         "&client_id=" + client.clientId +
-        "&redirect_uri=" + client.redirectUri +
-        "&aud=" + baseUrl; //+
+        "&redirect_uri=" + encodeURI(client.redirectUri) +
+        "&aud=" + encodeURI(endpointUrl) +
+        "&state=fhirtest"; //+
         //"&scope=openid patient/Patient.* launch/patient";
       fhirConfig.tokenUrl = baseUrl + "oauth2/token";
     }
@@ -107,7 +108,7 @@ export class FhirControl {
     }).then(
       (response) => {
         response.json().then((data) => {
-          const isDTSU2 = $scope?.fhirConfig?.baseUrl?.includes('DTSU2');
+          const isDTSU2 = $scope?.fhirConfig?.endpointUrl?.includes('DTSU2');
           $scope.accessToken = data.access_token;
           $scope.patient = isDTSU2? data["__epic?.dstu2.patient"] : data.patient;
           $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
