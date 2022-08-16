@@ -424,7 +424,7 @@ class FhirCondition extends FhirResource {
         'Verification Status': typeof resource.verificationStatus === 'object' ? resource.verificationStatus?.text : resource.verificationStatus,
         'Onset Date': this.date,
         Code: resource.code,
-        Category: resource.category.text,
+        Category: resource.category?.[0]?.text,
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
         Encounter: `${resource.encounter?.display} @ ${resource.encounter?.reference}`,
