@@ -423,11 +423,11 @@ class FhirCondition extends FhirResource {
         'Clinical Status': typeof resource.clinicalStatus === 'object' ? resource.clinicalStatus?.text : resource.clinicalStatus,
         'Verification Status': typeof resource.verificationStatus === 'object' ? resource.verificationStatus?.text : resource.verificationStatus,
         'Onset Date': this.date,
-        Code: resource.code,
+        Code: JSON.stringify(resource.code, null, 4),
         Category: resource.category?.[0]?.text,
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
-        Encounter: `${resource.encounter?.display} @ ${resource.encounter?.reference}`,
+        Encounter: resource.encounter ? `${resource.encounter.display} @ ${resource.encounter.reference}` : '',
       };
     } catch (error) {
       console.log('Error loading resource: ', error);
