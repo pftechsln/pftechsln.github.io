@@ -95,7 +95,7 @@ app.controller("loginCtrl", [
           "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/" ||
         server.orgName === "Epic Sandbox"
       ) {
-        client = sandboxClientR4;
+        client = sandboxClient;
       } else if (server.orgName === "Epic Sandbox R4" || server.orgName === 'Epic Sandbox STU3') {
         client = sandboxClientR4;
       } else if (
