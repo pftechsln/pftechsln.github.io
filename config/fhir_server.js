@@ -44,7 +44,7 @@ export const fhir_server_list = {
     {
       OrganizationName: "Epic Sandbox R4",
       FHIRPatientFacingURI:
-        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/STU3/",
       OAuthURI: 
         "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize",
       //scope: "Patient Encounter ServiceRequest Task",
