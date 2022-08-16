@@ -32,6 +32,15 @@ export const sandboxClientR4 = {
   appName: "Health on Fhir R4",
 };
 
+// Constants: Epic Client for the Epic Sandbox
+export const productionClientR4 = {
+  name: "Epic Client R4",
+  clientId: "3977981c-e8d8-435f-9eed-5c381b26f963", // prod id
+  redirectUri: "https://pftechsln.github.io/fhirData.html",
+  scope: "*",
+  appName: "Health on Fhir R4",
+};
+
 // Constants: MI Client
 export const miFhirClient = {
   name: "MI FHIR App",

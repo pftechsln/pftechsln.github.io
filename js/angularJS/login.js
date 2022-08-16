@@ -103,6 +103,10 @@ app.controller("loginCtrl", [
         server.orgName === "MI FHIR R4 Offline"
       ) {
         client = miFhirClient;
+      } else if (
+        server.orgName?.includes('R4')
+      ) {
+        client = productionClientR4;
       } else {
         client = productionClient;
       }
