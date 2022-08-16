@@ -18,7 +18,7 @@ export const fhir_server_list = {
     {
       OrganizationName: "Epic Sandbox R4",
       FHIRPatientFacingURI:
-        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/STU3/",
       //scope: "Patient Encounter ServiceRequest Task",
     },
     {
@@ -29,7 +29,7 @@ export const fhir_server_list = {
     {
       OrganizationName: "Overlake Hospital Medical Center R4",
       FHIRPatientFacingURI:
-        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/STU3/",
       scope: "*"
     },
   ],
