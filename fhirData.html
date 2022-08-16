@@ -105,11 +105,13 @@
                    <div class="card-body p-0">
                       <table class="table table-hover table-responsive table-condensed px-1">
                         <tbody>
-                          <tr ng-repeat="(key,value) in t.displayFields" style="width: 100%">
-                            <td scope="row" class="p-1">
+                          <tr ng-repeat="(key,value) in t.displayFields" style="width: 100%; padding: 0.2rem;">
+<!--                             <td scope="row" class="p-1">
                               <span class="fhirKey">{{key}}</span>
                               <span class="fhirValue">{{value}}</span>
-                            </td>
+                            </td> -->
+                            <td class="fhirKey" style="padding: 0.5rem;">{{key}}</td>
+                            <td class="fhirValue" style="width: 100%; padding: 0.5rem;"><pre style="margin: 0rem;"">{{value}}</pre></td>
                           </tr>
                         </tbody>
                       </table>

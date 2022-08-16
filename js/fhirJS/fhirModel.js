@@ -423,7 +423,7 @@ class FhirCondition extends FhirResource {
         'Clinical Status': typeof resource.clinicalStatus === 'object' ? resource.clinicalStatus?.text : resource.clinicalStatus,
         'Verification Status': typeof resource.verificationStatus === 'object' ? resource.verificationStatus?.text : resource.verificationStatus,
         'Onset Date': this.date,
-        Code: JSON.stringify(resource.code, null, 4),
+        Code: JSON.stringify(resource.code, null, 2),
         Category: resource.category?.[0]?.text,
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
