@@ -1,18 +1,19 @@
 export const fhir_server_list = {
   Shortcuts: [
+    // {
+    //   OrganizationName: "MI FHIR R4 Offline",
+    //   FHIRPatientFacingURI: "http://localhost:3002/",
+    //   OAuthURI: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login",
+    // },
+    // {
+    //   OrganizationName: "MI FHIR R4",
+    //   FHIRPatientFacingURI: "https://aim.medinformatix.cc/v1/",
+    //   OAuthURI: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login",
+    // },
     {
-      OrganizationName: "MI FHIR R4 Offline",
-      FHIRPatientFacingURI: "http://localhost:3002/",
-      OAuthURI: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login",
-    },
-    {
-      OrganizationName: "MI FHIR R4",
-      FHIRPatientFacingURI: "https://aim.medinformatix.cc/v1/",
-      OAuthURI: "https://pvdev-auth.auth.us-west-2.amazoncognito.com/login",
-    },
-    {
-      OrganizationName: "Epic Sandbox DTSU2",
-      FHIRPatientFacingURI: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/" //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+      OrganizationName: "Epic Sandbox DSTU2",
+      FHIRPatientFacingURI: 
+        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/" //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
     },
     {
       OrganizationName: "Epic Sandbox R4",
@@ -21,9 +22,9 @@ export const fhir_server_list = {
       //scope: "Patient Encounter ServiceRequest Task",
     },
     {
-      OrganizationName: "Overlake Hospital Medical Center DTSU2",
+      OrganizationName: "Overlake Hospital Medical Center DSTU2",
       FHIRPatientFacingURI:
-        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DTSU2/",
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
     },
     {
       OrganizationName: "Overlake Hospital Medical Center R4",
@@ -34,16 +35,19 @@ export const fhir_server_list = {
   ],
   Entries: [
     {
-      OrganizationName: "Epic Sandbox DTSU2",
-      FHIRPatientFacingURI: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DTSU2/", //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
-      OAuthURI: "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
+      OrganizationName: "Epic Sandbox DSTU2",
+      FHIRPatientFacingURI: 
+        "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/", //"https://open-ic.epic.com/FHIR/api/FHIR/DTSU2/",
+      OAuthURI: 
+        "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
     },
     {
       OrganizationName: "Epic Sandbox R4",
       FHIRPatientFacingURI:
         "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
-      OAuthURI: "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize",
-      //cope: "Patient Encounter ServiceRequest Task",
+      OAuthURI: 
+        "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize",
+      //scope: "Patient Encounter ServiceRequest Task",
     },
     {
       OrganizationName: "Overlake Hospital Medical Center",
