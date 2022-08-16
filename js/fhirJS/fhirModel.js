@@ -420,9 +420,10 @@ class FhirCondition extends FhirResource {
 
       this.displayFields = {
         Condition: this.name,
-        'Clinical Status': resource.clinicalStatus,
-        'Verification Status': resource.verificationStatus,
+        'Clinical Status': typeof resource.clinicalStatus === 'object' ? resource.clinicalStatus?.text : resource.clinicalStatus,
+        'Verification Status': typeof resource.verificationStatus === 'object' ? resource.verificationStatus?.text : resource.verificationStatus,
         'Onset Date': this.date,
+        Code: resource.code,
         Category: resource.category.text,
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
