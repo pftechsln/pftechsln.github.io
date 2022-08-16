@@ -107,9 +107,9 @@ export class FhirControl {
     }).then(
       (response) => {
         response.json().then((data) => {
-          const isDTSU2 = $scope.fhirConfig.baseURL.includes('DTSU2');
+          const isDTSU2 = $scope?.fhirConfig?.baseUrl?.includes('DTSU2');
           $scope.accessToken = data.access_token;
-          $scope.patient = isDTSU2? data.__epic.dstu2.patient : data.patient;
+          $scope.patient = isDTSU2? data["__epic?.dstu2.patient"] : data.patient;
           $scope.accessTokenJson = JSON.stringify(data, undefined, 2);
           sessionStorage.setItem("accessToken", $scope.accessToken);
           sessionStorage.setItem("patient", data.patient);
