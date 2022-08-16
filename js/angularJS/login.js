@@ -96,7 +96,7 @@ app.controller("loginCtrl", [
         server.orgName === "Epic Sandbox"
       ) {
         client = sandboxClientR4;
-      } else if (server.orgName === "Epic Sandbox R4") {
+      } else if (server.orgName === "Epic Sandbox R4" || server.orgName === 'Epic Sandbox STU3') {
         client = sandboxClientR4;
       } else if (
         server.orgName === "MI FHIR R4" ||
