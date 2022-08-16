@@ -50,6 +50,11 @@ export function loadSampleData($scope) {
     $scope
   );
   loadFhirFile(
+    'https://pftechsln.github.io/data/Condition.json',
+    'Condition',
+    $scope
+  );
+  loadFhirFile(
     'https://pftechsln.github.io/data/Immunizations.json',
     'Immunization',
     $scope

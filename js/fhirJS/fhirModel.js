@@ -427,6 +427,7 @@ class FhirCondition extends FhirResource {
         Category: resource.category.text,
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
+        Encounter: `${resource.encounter?.display} @ ${resource.encounter?.reference}`,
       };
     } catch (error) {
       console.log('Error loading resource: ', error);
