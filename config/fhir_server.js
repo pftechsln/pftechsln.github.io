@@ -55,6 +55,21 @@ export const fhir_server_list = {
         "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/DSTU2/",
     },
     {
+      OrganizationName: "Overlake Hospital Medical Center R4",
+      FHIRPatientFacingURI:
+        "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
+    },
+    {
+      OrganizationName: "UW Medicine (Washington)",
+      FHIRPatientFacingURI:
+        "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/DSTU2/",
+    },
+    {
+      OrganizationName: "UW Medicine (Washington) R4",
+      FHIRPatientFacingURI:
+        "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/R4/",
+    },
+    {
       OrganizationName: "Access Community Health Network",
       FHIRPatientFacingURI:
         "https://eprescribing.accesscommunityhealth.net/FHIR/api/FHIR/DSTU2/",
@@ -1074,11 +1089,6 @@ export const fhir_server_list = {
       OrganizationName: "UW Health And Affiliates - Wisconsin",
       FHIRPatientFacingURI:
         "https://epicproxy.hosp.wisc.edu/FhirProxy/api/FHIR/DSTU2/",
-    },
-    {
-      OrganizationName: "UW Medicine (Washington)",
-      FHIRPatientFacingURI:
-        "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/R4/",
     },
     {
       OrganizationName: "Valley Medical Center",

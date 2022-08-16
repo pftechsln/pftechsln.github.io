@@ -136,7 +136,7 @@ app.controller("loginCtrl", [
             $scope.serverIndex = 2;
             $scope.updateSettings({
               endpointUrl:
-                "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/STU3/",
+                "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
               orgName: "Overlake Hospital and Medical Center",
             });
             break;
