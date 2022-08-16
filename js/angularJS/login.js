@@ -132,7 +132,7 @@ app.controller("loginCtrl", [
             $scope.serverIndex = 2;
             $scope.updateSettings({
               endpointUrl:
-                "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
+                "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/STU3/",
               orgName: "Overlake Hospital and Medical Center",
             });
             break;
@@ -143,6 +143,16 @@ app.controller("loginCtrl", [
             endpointUrl: "http://localhost:3002/",
             orgName: "MI FHIR R4 Offline",
           });
+          break;
+
+        case "epicS3":
+            $scope.serverIndex = 1;
+            $scope.updateSettings({
+              endpointUrl:
+                "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/STU3/",
+              orgName: "Epic Sandbox STU3",
+              // scope: "Patient Encounter ServiceRequest Task",
+            });
           break;
 
         case "epicR4":
