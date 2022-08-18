@@ -1,0 +1,297 @@
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "total": 3,
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition?patient=eq081-VQEgP8drUUqCWzHfw3"
+      }
+    ],
+    "entry": [
+      {
+        "link": [
+          {
+            "relation": "self",
+            "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eVGf2YljIMIk76IcfbNpjWQ3"
+          }
+        ],
+        "fullUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eVGf2YljIMIk76IcfbNpjWQ3",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "eVGf2YljIMIk76IcfbNpjWQ3",
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "version": "4.0.0",
+                "code": "active",
+                "display": "Active"
+              }
+            ],
+            "text": "Active"
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "version": "4.0.0",
+                "code": "confirmed",
+                "display": "Confirmed"
+              }
+            ],
+            "text": "Confirmed"
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item",
+                  "display": "Problem List Item"
+                }
+              ],
+              "text": "Problem List Item"
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.6.90",
+                "code": "Z91.89"
+              },
+              {
+                "system": "urn:oid:2.16.840.1.113883.6.96",
+                "code": "315016007"
+              }
+            ],
+            "text": "Risk for coronary artery disease between 10% and 20% in next 10 years"
+          },
+          "subject": {
+            "reference": "Patient/eq081-VQEgP8drUUqCWzHfw3",
+            "display": "Lin, US"
+          },
+          "onsetPeriod": {
+            "start": "2019-05-28",
+            "end": "2019-05-28"
+          },
+          "recordedDate": "2019-05-28"
+        },
+        "search": {
+          "mode": "match"
+        }
+      },
+      {
+        "link": [
+          {
+            "relation": "self",
+            "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eY-LMUKgFarb5r10D5sXS7nGJO9qELcndS5oncvyDjPHp.lFiCEKE6mt2pIDbyFeBHvU6Z0XikLVgIqkXp8XV1Q3"
+          }
+        ],
+        "fullUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eY-LMUKgFarb5r10D5sXS7nGJO9qELcndS5oncvyDjPHp.lFiCEKE6mt2pIDbyFeBHvU6Z0XikLVgIqkXp8XV1Q3",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "eY-LMUKgFarb5r10D5sXS7nGJO9qELcndS5oncvyDjPHp.lFiCEKE6mt2pIDbyFeBHvU6Z0XikLVgIqkXp8XV1Q3",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "encounter-diagnosis",
+                  "display": "Encounter Diagnosis"
+                }
+              ],
+              "text": "Encounter Diagnosis"
+            },
+            {
+              "coding": [
+                {
+                  "system": "http://open.epic.com/FHIR/StructureDefinition/condition-category",
+                  "code": "visit-diagnosis",
+                  "display": "Visit Diagnosis"
+                }
+              ],
+              "text": "Visit Diagnosis"
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "315016007",
+                "display": "At risk of coronary heart disease (finding)"
+              },
+              {
+                "system": "http://hl7.org/fhir/sid/icd-9-cm/diagnosis",
+                "code": "V49.89",
+                "display": "Risk for coronary artery disease between 10% and 20% in next 10 years"
+              },
+              {
+                "system": "urn:oid:2.16.840.1.113883.6.90",
+                "code": "Z91.89",
+                "display": "Risk for coronary artery disease between 10% and 20% in next 10 years"
+              }
+            ],
+            "text": "Risk for coronary artery disease between 10% and 20% in next 10 years"
+          },
+          "subject": {
+            "reference": "Patient/eq081-VQEgP8drUUqCWzHfw3",
+            "display": "Lin, US"
+          },
+          "encounter": {
+            "reference": "Encounter/e6kBx6PwnxIv.5kCifScsWg3",
+            "display": "Office Visit"
+          },
+          "evidence": [
+            {
+              "detail": [
+                {
+                  "reference": "Condition/eVGf2YljIMIk76IcfbNpjWQ3",
+                  "display": "Risk for coronary artery disease between 10% and 20% in next 10 years"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
+      },
+      {
+        "link": [
+          {
+            "relation": "self",
+            "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eY-LMUKgFarb5r10D5sXS7tjBxvqEuuIjSj-3DP.gq8M3"
+          }
+        ],
+        "fullUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Condition/eY-LMUKgFarb5r10D5sXS7tjBxvqEuuIjSj-3DP.gq8M3",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "eY-LMUKgFarb5r10D5sXS7tjBxvqEuuIjSj-3DP.gq8M3",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://open.epic.com/FHIR/StructureDefinition/condition-category",
+                  "code": "reason-for-visit",
+                  "display": "Reason for Visit"
+                }
+              ],
+              "text": "Reason for Visit"
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.728286",
+                "code": "83",
+                "display": "Annual Exam"
+              }
+            ],
+            "text": "Annual Exam"
+          },
+          "subject": {
+            "reference": "Patient/eq081-VQEgP8drUUqCWzHfw3",
+            "display": "Lin, US"
+          },
+          "encounter": {
+            "reference": "Encounter/e6kBx6PwnxIv.5kCifScsWg3",
+            "display": "Office Visit"
+          },
+          "recordedDate": "2019-05-28T13:56:10Z",
+          "recorder": {
+            "reference": "Practitioner/eUXiD4IyBLJFoR2VHOjfTdg3",
+            "display": "Family Medicine Physician, MD"
+          }
+        },
+        "search": {
+          "mode": "match"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:00000000-0013-109d-fa6b-3087c6e56fa4",
+        "resource": {
+          "resourceType": "OperationOutcome",
+          "issue": [
+            {
+              "severity": "warning",
+              "code": "suppressed",
+              "details": {
+                "coding": [
+                  {
+                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                    "code": "59205",
+                    "display": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+                  }
+                ],
+                "text": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+              },
+              "diagnostics": "User not authorized for Condition - Genomics. Search results of this type have not been included."
+            },
+            {
+              "severity": "warning",
+              "code": "suppressed",
+              "details": {
+                "coding": [
+                  {
+                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                    "code": "59205",
+                    "display": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+                  }
+                ],
+                "text": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+              },
+              "diagnostics": "User not authorized for Condition - Dental Finding. Search results of this type have not been included."
+            },
+            {
+              "severity": "warning",
+              "code": "suppressed",
+              "details": {
+                "coding": [
+                  {
+                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                    "code": "59205",
+                    "display": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+                  }
+                ],
+                "text": "The authenticated user's search request applies to a sub-resource that the user is not authorized to view. Results of this sub-type will not be returned."
+              },
+              "diagnostics": "User not authorized for Condition - Infection. Search results of this type have not been included."
+            },
+            {
+              "severity": "warning",
+              "code": "suppressed",
+              "details": {
+                "coding": [
+                  {
+                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                    "code": "59204",
+                    "display": "The authenticated client's search request applies to a sub-resource that the client is not authorized for. Results of this sub-type will not be returned."
+                  }
+                ],
+                "text": "The authenticated client's search request applies to a sub-resource that the client is not authorized for. Results of this sub-type will not be returned."
+              },
+              "diagnostics": "Client not authorized for Condition - Medical History. Search results of this type have not been included."
+            },
+            {
+              "severity": "warning",
+              "code": "processing",
+              "details": {
+                "coding": [
+                  {
+                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                    "code": "4119",
+                    "display": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
+                  }
+                ],
+                "text": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
+              }
+            }
+          ]
+        },
+        "search": {
+          "mode": "outcome"
+        }
+      }
+    ]
+}
