@@ -415,6 +415,7 @@ class FhirCondition extends FhirResource {
       this.date =
         typeof resource.onsetDateTime != 'undefined'
           ? resource.onsetDateTime.split('T')[0]
+          : resource.onsetPeriod ? JSON.stringify(resource.onsetPeriod, null, 4)
           : '';
       this.status = resource.clinicalStatus;
 
@@ -428,6 +429,7 @@ class FhirCondition extends FhirResource {
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
         Encounter: resource.encounter ? `${resource.encounter.display} @ ${resource.encounter.reference}` : '',
+        Subject: resource.subject ?  `${resource.subject.display} @ ${resource.subject.reference}` : '',
       };
     } catch (error) {
       console.log('Error loading resource: ', error);
