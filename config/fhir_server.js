@@ -60,6 +60,21 @@ export const fhir_server_list = {
         "https://sfd.overlakehospital.org/FHIRproxy/api/FHIR/R4/",
     },
     {
+      OrganizationName: "Providence Health & Services - Alaska",
+      FHIRPatientFacingURI:
+        "https://haikuak-staging.providence.org/fhirproxy/api/FHIR/DSTU2/",
+    },
+    {
+      OrganizationName: "Providence Health & Services - Oregon/California",
+      FHIRPatientFacingURI:
+        "https://haikuor-staging.providence.org/fhirproxy/api/FHIR/DSTU2/",
+    },
+    {
+      OrganizationName: "Providence Health & Services - Washington/Montana",
+      FHIRPatientFacingURI:
+        "https://haikuwa-staging.providence.org/fhirproxy/api/FHIR/DSTU2/",
+    },
+    {
       OrganizationName: "UW Medicine (Washington)",
       FHIRPatientFacingURI:
         "https://fhir.epic.medical.washington.edu/FHIR-Proxy/api/FHIR/DSTU2/",
