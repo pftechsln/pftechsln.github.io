@@ -418,6 +418,7 @@ class FhirCondition extends FhirResource {
           : resource.onsetPeriod ? JSON.stringify(resource.onsetPeriod, null, 4)
           : '';
       this.status = resource.clinicalStatus;
+      const patient = resource.subject || resource.patient;
 
       this.displayFields = {
         Condition: this.name,
@@ -429,7 +430,7 @@ class FhirCondition extends FhirResource {
         Serverity:
           typeof resource.severity != 'undefined' ? resource.severity.text : '',
         Encounter: resource.encounter ? `${resource.encounter.display} @ ${resource.encounter.reference}` : '',
-        Subject: resource.subject ?  `${resource.subject.display} @ ${resource.subject.reference}` : '',
+        Subject: patient ?  `${patient.display} @ ${patient.reference}` : '',
       };
     } catch (error) {
       console.log('Error loading resource: ', error);
