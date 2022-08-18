@@ -1,107 +1,107 @@
 {
-    "resourceType": "Bundle",
-    "type": "searchset",
-    "total": 1,
-    "link": [
-      {
-        "relation": "self",
-        "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter?patient=eq081-VQEgP8drUUqCWzHfw3"
-      }
-    ],
-    "entry": [
-      {
-        "link": [
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 1,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter?patient=eq081-VQEgP8drUUqCWzHfw3"
+    }
+  ],
+  "entry": [
+    {
+      "link": [
+        {
+          "relation": "self",
+          "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter/e6kBx6PwnxIv.5kCifScsWg3"
+        }
+      ],
+      "fullUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter/e6kBx6PwnxIv.5kCifScsWg3",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "e6kBx6PwnxIv.5kCifScsWg3",
+        "identifier": [
           {
-            "relation": "self",
-            "url": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter/e6kBx6PwnxIv.5kCifScsWg3"
+            "use": "usual",
+            "system": "urn:oid:1.2.840.114350.1.13.0.1.7.3.698084.8",
+            "value": "27556"
           }
         ],
-        "fullUrl": "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Encounter/e6kBx6PwnxIv.5kCifScsWg3",
-        "resource": {
-          "resourceType": "Encounter",
-          "id": "e6kBx6PwnxIv.5kCifScsWg3",
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:1.2.840.114350.1.13.0.1.7.3.698084.8",
-              "value": "27556"
-            }
-          ],
-          "status": "in-progress",
-          "class": {
-            "system": "urn:oid:1.2.840.114350.1.72.1.7.7.10.696784.13260",
-            "code": "13",
-            "display": "Support OP Encounter"
-          },
-          "type": [
-            {
-              "coding": [
-                {
-                  "system": "urn:oid:1.2.840.114350.1.13.0.1.7.10.698084.30",
-                  "code": "101",
-                  "display": "Office Visit"
-                }
-              ],
-              "text": "Office Visit"
-            }
-          ],
-          "subject": {
-            "reference": "Patient/eq081-VQEgP8drUUqCWzHfw3",
-            "display": "Lin, US"
-          },
-          "period": {
-            "start": "2019-05-28",
-            "end": "2019-05-28"
-          },
-          "reasonCode": [
-            {
-              "coding": [
-                {
-                  "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.728286",
-                  "code": "83",
-                  "display": "Annual Exam"
-                }
-              ],
-              "text": "Annual Exam"
-            }
-          ],
-          "location": [
-            {
-              "location": {
-                "reference": "Location/e4W4rmGe9QzuGm2Dy4NBqVc0KDe6yGld6HW95UuN-Qd03",
-                "display": "EMC Family Medicine"
-              }
-            }
-          ]
+        "status": "in-progress",
+        "class": {
+          "system": "urn:oid:1.2.840.114350.1.72.1.7.7.10.696784.13260",
+          "code": "13",
+          "display": "Support OP Encounter"
         },
-        "search": {
-          "mode": "match"
-        }
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:1.2.840.114350.1.13.0.1.7.10.698084.30",
+                "code": "101",
+                "display": "Office Visit"
+              }
+            ],
+            "text": "Office Visit"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/eq081-VQEgP8drUUqCWzHfw3",
+          "display": "Lin, US"
+        },
+        "period": {
+          "start": "2019-05-28",
+          "end": "2019-05-28"
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.728286",
+                "code": "83",
+                "display": "Annual Exam"
+              }
+            ],
+            "text": "Annual Exam"
+          }
+        ],
+        "location": [
+          {
+            "location": {
+              "reference": "Location/e4W4rmGe9QzuGm2Dy4NBqVc0KDe6yGld6HW95UuN-Qd03",
+              "display": "EMC Family Medicine"
+            }
+          }
+        ]
       },
-      {
-        "fullUrl": "urn:uuid:00000000-0013-10a3-fa6b-3087c6e56fa4",
-        "resource": {
-          "resourceType": "OperationOutcome",
-          "issue": [
-            {
-              "severity": "warning",
-              "code": "processing",
-              "details": {
-                "coding": [
-                  {
-                    "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
-                    "code": "4119",
-                    "display": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
-                  }
-                ],
-                "text": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
-              }
-            }
-          ]
-        },
-        "search": {
-          "mode": "outcome"
-        }
+      "search": {
+        "mode": "match"
       }
-    ]
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0013-10a3-fa6b-3087c6e56fa4",
+      "resource": {
+        "resourceType": "OperationOutcome",
+        "issue": [
+          {
+            "severity": "warning",
+            "code": "processing",
+            "details": {
+              "coding": [
+                {
+                  "system": "urn:oid:1.2.840.114350.1.13.0.1.7.2.657369",
+                  "code": "4119",
+                  "display": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
+                }
+              ],
+              "text": "This response includes information available to the authorized user at the time of the request. It may not contain the entire record available in the system."
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "outcome"
+      }
+    }
+  ]
 }
