@@ -26,9 +26,10 @@ export const sandboxClientR4 = {
   name: "Epic Client R4",
   //clientId: "6c12dff4-24e7-4475-a742-b08972c4ea27",
   //clientId: "4df31887-2fc7-45ba-95cf-668f3cd4d20b",
-  clientId: "47d7ece3-d14c-46d4-978c-312e7e52b225", // non-prod id
+  //clientId: "47d7ece3-d14c-46d4-978c-312e7e52b225", // non-prod id
   //clientId: "3977981c-e8d8-435f-9eed-5c381b26f963", // prod id
   //clientId: "682f041d-5ed1-4d1b-a8c4-08653678e7ca",
+  clientId: "e7e1065f-7c33-4634-b72c-4de441680a1d", // visit reconciliation
   redirectUri: "https://pftechsln.github.io/fhirData.html",
   scope: "*",
   appName: "Health on Fhir R4",
