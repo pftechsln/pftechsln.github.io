@@ -48,8 +48,8 @@ export class FhirControl {
         "&client_id=" + client.clientId +
         "&redirect_uri=" + encodeURI(client.redirectUri) +
         "&aud=" + encodeURI(endpointUrl) +
-        "&state=fhirtest"; //+
-        //"&scope=openid patient/Patient.* launch/patient";
+        "&state=fhirtest" +
+        "&scope=openid online_access patient/Patient.* launch/patient";
       fhirConfig.tokenUrl = baseUrl + "oauth2/token";
     }
 
