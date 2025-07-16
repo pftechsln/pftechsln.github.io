@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART Redirect Handler</title>
+  <script src="js/ehr-launch/launch.js" defer></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8fafc;
+      padding: 2rem;
+    }
+    #debug {
+      width: 100%;
+      padding: 1rem;
+      background-color: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      font-family: monospace;
+      font-size: 0.875rem;
+      white-space: pre;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Redirect URL – SMART Response</h1>
+  <p>This page displays the query parameters passed back from the EHR after authorization.</p>
+  <div id="debug" class="hidden"></div>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      startSmartRedirectFlow({ debug: true });
+    });
+  </script>
+</body>
+</html>
