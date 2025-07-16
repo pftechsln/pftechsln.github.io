@@ -318,7 +318,7 @@
 
     // Step 6: Redirect the browser to Atlas Health
     await sleep(3000);
-    window.location.href = 'http://127.0.0.1:5500/fhirData.html';
+    window.location.href = 'https://pftechsln.github.io/fhirData.html';
   }
 
   /* -------------------------------------------------- */
