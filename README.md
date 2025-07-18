@@ -12,7 +12,9 @@ This app currently only contains the front end client built with HTML/Bootstrap/
   
 * Launching from SMART Launch sandbox
   [Demo](assets/SMART%20Launcher.mov)
-  
+
+* Launch url: [https://pftechsln.github.io/ehr-launch.html](https://pftechsln.github.io/ehr-launch.html)
+* Redirect url: [https://pftechsln.github.io/ehr-redirect.html](https://pftechsln.github.io/ehr-redirect.html)
 
 ### Epic documentation for the EHR launch
 https://fhir.epic.com/Documentation?docId=oauth2tutorial&section=testing-an-ehr-launch
