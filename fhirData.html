@@ -22,6 +22,8 @@
       .risk-badge { font-size: 1.5rem; padding: 0.6rem 1.4rem; border-radius: 0.5rem; }
       .finding-card { margin-bottom: 0.75rem; }
       .pending-review-note { font-size: 0.8rem; color: #856404; }
+      /* site.css sets tbody { display: table } which breaks thead/tbody alignment */
+      #findingsTable > tbody { display: table-row-group; width: auto; }
     </style>
   </head>
 
