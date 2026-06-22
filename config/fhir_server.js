@@ -1,3 +1,11 @@
+// config/fhir_server.js
+export async function fetchEpicEndpoints() {
+  const resp = await fetch('https://open.epic.com/MyApps/EndpointsJson');
+  const data = await resp.json();
+  return data.Entries; // [{ OrganizationName, FHIRPatientFacingURI }]
+}
+
+// Legacy static list retained for health-on-fhir.html compatibility
 export const fhir_server_list = {
   Shortcuts: [
     // {
