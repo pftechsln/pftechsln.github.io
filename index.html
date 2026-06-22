@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SafeFlight — Flight Safety Assessment</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+      integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/library/jquery.min.js"></script>
+    <script src="/js/library/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+
+  <body id="pageTop">
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+    <script>
+      $(function () {
+        $('#nav-placeholder').load('include/nav.html');
+      });
+    </script>
+
+    <!-- Main container -->
+    <div class="container" style="max-width: 720px; padding-top: 2rem;">
+
+      <!-- Branding -->
+      <div class="text-center mb-4">
+        <h1 class="display-4 font-weight-bold">
+          <i class="fas fa-plane text-primary"></i> SafeFlight
+        </h1>
+        <p class="lead text-muted">Flight safety for your patients</p>
+        <p class="text-secondary">
+          SafeFlight connects to your EHR and evaluates your active diagnoses
+          and surgical history against aerospace medicine guidelines, returning
+          a color-coded flight safety assessment.
+        </p>
+      </div>
+
+      <!-- Error alert (hidden by default) -->
+      <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+        <strong>Error:</strong> <span id="errorMsg"></span>
+      </div>
+
+      <!-- Main form card -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4">
+
+          <!-- Organization selector -->
+          <div class="form-group">
+            <label for="orgFilter"><strong>Health Organization</strong></label>
+            <input
+              type="text"
+              id="orgFilter"
+              class="form-control mb-2"
+              placeholder="Type to search organizations..."
+              autocomplete="off"
+            />
+            <select id="orgSelect" class="custom-select" size="6" style="height: auto;">
+              <option value="" disabled>Loading organizations…</option>
+            </select>
+            <small class="form-text text-muted">Type at least 2 characters to filter the list.</small>
+          </div>
+
+          <!-- Trip details -->
+          <div class="form-row mt-3">
+            <div class="form-group col-md-6">
+              <label for="flightDuration"><strong>Flight Duration (hours)</strong></label>
+              <input
+                type="number"
+                id="flightDuration"
+                class="form-control"
+                min="0.5"
+                max="20"
+                step="0.5"
+                placeholder="e.g. 4"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="destAltitude">Destination Altitude (ft) <span class="text-muted font-weight-normal">optional</span></label>
+              <input
+                type="number"
+                id="destAltitude"
+                class="form-control"
+                min="0"
+                step="100"
+                placeholder="e.g. 5280"
+              />
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <button id="btnCheckSafety" class="btn btn-primary btn-lg btn-block mt-2" disabled>
+            <i class="fas fa-shield-alt"></i> Check Flight Safety
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Secondary link -->
+      <p class="text-center text-muted">
+        <a href="health-on-fhir.html">View original FHIR demo</a>
+      </p>
+
+      <!-- Debug panel (collapsible) -->
+      <div class="text-right mb-1">
+        <i
+          class="fa fa-bug text-secondary"
+          aria-hidden="true"
+          data-toggle="collapse"
+          data-target="#debugBox"
+          style="cursor: pointer;"
+          title="Debug info"
+        ></i>
+      </div>
+      <div id="debugBox" class="card collapse mb-4">
+        <div class="card-body p-3">
+          <dl class="dl-horizontal mb-0" style="font-size: 0.85rem;">
+            <dt>Client ID</dt>
+            <dd id="dbgClientId">—</dd>
+            <dt>Scope</dt>
+            <dd id="dbgScope">—</dd>
+            <dt>FHIR Base URL</dt>
+            <dd id="dbgFhirBase">—</dd>
+            <dt>Auth URL</dt>
+            <dd id="dbgAuthUrl">—</dd>
+            <dt>Token URL</dt>
+            <dd id="dbgTokenUrl">—</dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+    <!-- End main container -->
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script>
+      $(function () {
+        $('#footer-placeholder').load('include/footer.html');
+      });
+    </script>
+
+    <script type="module">
+      import { discoverOAuthEndpoints } from '/js/safeflight/fhirAdapter.js';
+      import { fetchEpicEndpoints } from '/config/fhir_server.js';
+
+      const CLIENT_ID   = '6c3586a3-a669-4944-aab1-ad5234348f56';
+      const SCOPE       = '*';
+      const REDIRECT_URI = 'https://pftechsln.github.io/fhirData.html';
+
+      let allOrgs = [];
+      let selectedOrg = null;
+
+      // ── Load organizations ────────────────────────────────────────
+      async function loadOrgs() {
+        try {
+          allOrgs = await fetchEpicEndpoints();
+          allOrgs.sort((a, b) =>
+            a.OrganizationName.localeCompare(b.OrganizationName)
+          );
+          renderOrgs(allOrgs);
+        } catch (err) {
+          showError('Failed to load organization list: ' + err.message);
+        }
+      }
+
+      function renderOrgs(orgs) {
+        const select = document.getElementById('orgSelect');
+        select.innerHTML = orgs.length
+          ? orgs.map(o =>
+              `<option value="${escapeAttr(o.FHIRPatientFacingURI)}">${escapeHtml(o.OrganizationName)}</option>`
+            ).join('')
+          : '<option disabled>No organizations match</option>';
+      }
+
+      // ── Filter ────────────────────────────────────────────────────
+      document.getElementById('orgFilter').addEventListener('input', function () {
+        const q = this.value.trim().toLowerCase();
+        if (q.length === 0) {
+          renderOrgs(allOrgs);
+          return;
+        }
+        if (q.length < 2) return;
+        renderOrgs(allOrgs.filter(o =>
+          o.OrganizationName.toLowerCase().includes(q)
+        ));
+      });
+
+      // ── Selection ────────────────────────────────────────────────
+      document.getElementById('orgSelect').addEventListener('change', function () {
+        selectedOrg = { FHIRPatientFacingURI: this.value };
+        document.getElementById('btnCheckSafety').disabled = false;
+        document.getElementById('dbgFhirBase').textContent = this.value;
+        document.getElementById('dbgClientId').textContent = CLIENT_ID;
+        document.getElementById('dbgScope').textContent = SCOPE;
+        document.getElementById('dbgAuthUrl').textContent = '(fetched on launch)';
+        document.getElementById('dbgTokenUrl').textContent = '(fetched on launch)';
+      });
+
+      // ── Launch OAuth ──────────────────────────────────────────────
+      document.getElementById('btnCheckSafety').addEventListener('click', async function () {
+        hideError();
+        if (!selectedOrg) {
+          showError('Please select a health organization.');
+          return;
+        }
+
+        const duration = document.getElementById('flightDuration').value;
+        const altitude = document.getElementById('destAltitude').value;
+
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting…';
+
+        try {
+          const { authUrl, tokenUrl } = await discoverOAuthEndpoints(selectedOrg.FHIRPatientFacingURI);
+
+          document.getElementById('dbgAuthUrl').textContent = authUrl;
+          document.getElementById('dbgTokenUrl').textContent = tokenUrl;
+
+          // Persist context for the callback page
+          const state = generateNonce();
+          sessionStorage.setItem('sf_state', state);
+          sessionStorage.setItem('sf_context', JSON.stringify({
+            fhirBaseUrl: selectedOrg.FHIRPatientFacingURI,
+            tokenUrl,
+            tripDetails: {
+              durationHours: duration ? parseFloat(duration) : null,
+              destAltitudeFt: altitude ? parseInt(altitude, 10) : null
+            }
+          }));
+
+          const params = new URLSearchParams({
+            response_type: 'code',
+            client_id:     CLIENT_ID,
+            redirect_uri:  REDIRECT_URI,
+            scope:         SCOPE,
+            state,
+            aud:           selectedOrg.FHIRPatientFacingURI
+          });
+
+          window.location.href = `${authUrl}?${params}`;
+        } catch (err) {
+          showError('Could not connect to organization: ' + err.message);
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-shield-alt"></i> Check Flight Safety';
+        }
+      });
+
+      // ── Helpers ───────────────────────────────────────────────────
+      function generateNonce() {
+        const arr = new Uint8Array(16);
+        crypto.getRandomValues(arr);
+        return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      function showError(msg) {
+        document.getElementById('errorMsg').textContent = msg;
+        document.getElementById('errorAlert').classList.remove('d-none');
+      }
+
+      function hideError() {
+        document.getElementById('errorAlert').classList.add('d-none');
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function escapeAttr(str) {
+        return str.replace(/"/g, '&quot;');
+      }
+
+      loadOrgs();
+    </script>
+  </body>
+</html>

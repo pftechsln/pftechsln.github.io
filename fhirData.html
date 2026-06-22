@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SafeFlight — Results</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+      integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/library/jquery.min.js"></script>
+    <script src="/js/library/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/site.css" />
+
+    <style>
+      .risk-badge { font-size: 1.5rem; padding: 0.6rem 1.4rem; border-radius: 0.5rem; }
+      .finding-card { margin-bottom: 0.75rem; }
+      .pending-review-note { font-size: 0.8rem; color: #856404; }
+    </style>
+  </head>
+
+  <body id="pageTop">
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+    <script>
+      $(function () {
+        $('#nav-placeholder').load('include/nav.html');
+      });
+    </script>
+
+    <!-- Main container -->
+    <div class="container" style="max-width: 760px; padding-top: 2rem; padding-bottom: 4rem;">
+
+      <!-- Loading state -->
+      <div id="loadingSection" class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status"></div>
+        <p id="loadingMsg" class="lead text-muted">Initializing…</p>
+        <div class="progress mt-3" style="height: 8px;">
+          <div id="progressBar" class="progress-bar bg-primary" style="width: 0%; transition: width 0.4s;"></div>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div id="errorSection" class="d-none">
+        <div class="alert alert-danger">
+          <h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Error</h4>
+          <p id="errorMsg" class="mb-3"></p>
+          <a href="index.html" class="btn btn-primary">Return to SafeFlight</a>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="resultsSection" class="d-none">
+
+        <!-- Overall risk badge -->
+        <div class="text-center mb-4">
+          <h1 class="h3 mb-3"><i class="fas fa-plane text-primary"></i> SafeFlight Results</h1>
+          <div id="overallBadge" class="risk-badge d-inline-block text-white mb-3"></div>
+          <p id="summaryMsg" class="lead mb-1"></p>
+          <div id="pendingReviewBanner" class="alert alert-warning d-none mt-3 text-left" role="alert">
+            <i class="fas fa-exclamation-circle"></i>
+            <strong>Note:</strong> Some surgical recovery windows are pending final clinical validation.
+            These results should be reviewed with a physician.
+          </div>
+        </div>
+
+        <!-- Matched findings accordion -->
+        <div id="findingsSection" class="mb-4">
+          <h5 class="mb-3">Relevant Findings</h5>
+          <div id="findingsAccordion"></div>
+          <p id="noFindings" class="text-muted d-none">No contraindication rules matched your medical records.</p>
+        </div>
+
+        <!-- Trip details -->
+        <div id="tripSection" class="card mb-4 d-none">
+          <div class="card-body">
+            <h6 class="card-title text-muted text-uppercase" style="font-size:0.75rem; letter-spacing:0.05em;">Trip Details</h6>
+            <p id="tripDuration" class="mb-1"></p>
+            <p id="tripAltitude" class="mb-0"></p>
+          </div>
+        </div>
+
+        <!-- Unmatched conditions (collapsible) -->
+        <div id="unmatchedSection" class="d-none mb-4">
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            data-toggle="collapse"
+            data-target="#unmatchedList"
+          >
+            <span id="unmatchedLabel"></span>
+            <i class="fas fa-chevron-down ml-1"></i>
+          </button>
+          <div id="unmatchedList" class="collapse mt-2">
+            <div id="unmatchedCodes" class="card card-body bg-light" style="font-size: 0.85rem;"></div>
+          </div>
+        </div>
+
+        <!-- Return link -->
+        <div class="text-center mt-4">
+          <a href="index.html" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> New Assessment
+          </a>
+        </div>
+
+      </div>
+      <!-- End results -->
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script>
+      $(function () {
+        $('#footer-placeholder').load('include/footer.html');
+      });
+    </script>
+
+    <script type="module">
+      import { exchangeCodeForToken, fetchPatientData } from '/js/safeflight/fhirAdapter.js';
+      import { runRiskEngine } from '/js/safeflight/riskEngine.js';
+
+      const CLIENT_ID    = '6c3586a3-a669-4944-aab1-ad5234348f56';
+      const REDIRECT_URI = 'https://pftechsln.github.io/fhirData.html';
+
+      const RISK_CONFIG = {
+        GREEN:             { cls: 'bg-success', label: 'No restriction' },
+        YELLOW:            { cls: 'bg-warning text-dark', label: 'Caution' },
+        RED:               { cls: 'bg-danger',  label: 'Do not fly' },
+        CONSULT_PHYSICIAN: { cls: 'bg-dark',    label: 'Physician review required' }
+      };
+
+      async function main() {
+        const params = new URLSearchParams(window.location.search);
+
+        // ── OAuth error in URL ──────────────────────────────────────
+        if (params.has('error')) {
+          showError(`OAuth error: ${params.get('error')} — ${params.get('error_description') || ''}`);
+          return;
+        }
+
+        const code  = params.get('code');
+        const state = params.get('state');
+
+        if (!code) {
+          showError('No authorization code received. Return to SafeFlight and try again.');
+          return;
+        }
+
+        // ── State validation ────────────────────────────────────────
+        const storedState = sessionStorage.getItem('sf_state');
+        if (!storedState || storedState !== state) {
+          showError('Security check failed: state mismatch. This may indicate a CSRF attempt. Please start over.');
+          return;
+        }
+
+        const contextRaw = sessionStorage.getItem('sf_context');
+        if (!contextRaw) {
+          showError('Session context not found. Please return to SafeFlight and try again.');
+          return;
+        }
+        const { fhirBaseUrl, tokenUrl, tripDetails } = JSON.parse(contextRaw);
+
+        // ── Step 1/3: Token exchange ────────────────────────────────
+        setProgress('Exchanging authorization token… (1/3)', 15);
+        let tokenResp;
+        try {
+          tokenResp = await exchangeCodeForToken(tokenUrl, code, CLIENT_ID, REDIRECT_URI);
+        } catch (err) {
+          showError('Token exchange failed: ' + err.message + '. <a href="index.html">Try again</a>');
+          return;
+        }
+
+        const accessToken = tokenResp.access_token;
+        const patientId   = tokenResp.patient;
+
+        if (!accessToken || !patientId) {
+          showError('Token response missing access_token or patient ID. Please try again.');
+          return;
+        }
+
+        // ── Step 2/3: Fetch FHIR data ───────────────────────────────
+        setProgress('Fetching medical records… (2/3)', 50);
+        let patientData;
+        try {
+          patientData = await fetchPatientData(fhirBaseUrl, patientId, accessToken);
+        } catch (err) {
+          showError('Failed to fetch medical records: ' + err.message);
+          return;
+        }
+
+        // ── Step 3/3: Run risk engine ───────────────────────────────
+        setProgress('Running flight safety analysis… (3/3)', 85);
+        const result = runRiskEngine(patientData);
+
+        setProgress('Complete', 100);
+
+        // Clean up session state
+        sessionStorage.removeItem('sf_state');
+        sessionStorage.removeItem('sf_context');
+
+        renderResults(result, tripDetails, patientData);
+      }
+
+      function renderResults(result, tripDetails, patientData) {
+        document.getElementById('loadingSection').classList.add('d-none');
+        document.getElementById('resultsSection').classList.remove('d-none');
+
+        // Overall badge
+        const cfg = RISK_CONFIG[result.overallRisk] || RISK_CONFIG.CONSULT_PHYSICIAN;
+        const badge = document.getElementById('overallBadge');
+        badge.className = `risk-badge d-inline-block ${cfg.cls}`;
+        badge.textContent = cfg.label;
+
+        document.getElementById('summaryMsg').textContent = result.summary;
+
+        if (result.hasPendingReview) {
+          document.getElementById('pendingReviewBanner').classList.remove('d-none');
+        }
+
+        // Matched findings
+        if (result.matchedFindings.length > 0) {
+          const accordion = document.getElementById('findingsAccordion');
+          result.matchedFindings.forEach((f, i) => {
+            const rCfg = RISK_CONFIG[f.risk] || RISK_CONFIG.CONSULT_PHYSICIAN;
+            const collapseId = `finding-${i}`;
+            accordion.insertAdjacentHTML('beforeend', `
+              <div class="card finding-card">
+                <div class="card-header d-flex justify-content-between align-items-center p-2"
+                     data-toggle="collapse" data-target="#${collapseId}"
+                     style="cursor:pointer;">
+                  <span>
+                    <code class="mr-2">${escapeHtml(f.code)}</code>
+                    ${escapeHtml(f.display || f.ruleLabel || f.code)}
+                  </span>
+                  <span class="badge ${rCfg.cls} ml-2">${rCfg.label}</span>
+                </div>
+                <div id="${collapseId}" class="collapse">
+                  <div class="card-body pt-2 pb-3">
+                    <p class="mb-1"><strong>Reason:</strong> ${escapeHtml(f.reason)}</p>
+                    <p class="mb-1"><strong>Recommendation:</strong> ${escapeHtml(f.recommendation)}</p>
+                    ${f.pendingClinicalReview
+                      ? '<p class="pending-review-note mb-0"><i class="fas fa-flask"></i> Recovery window pending clinical validation.</p>'
+                      : ''}
+                  </div>
+                </div>
+              </div>
+            `);
+          });
+        } else {
+          document.getElementById('noFindings').classList.remove('d-none');
+        }
+
+        // Trip details
+        if (tripDetails && (tripDetails.durationHours || tripDetails.destAltitudeFt)) {
+          document.getElementById('tripSection').classList.remove('d-none');
+          if (tripDetails.durationHours) {
+            document.getElementById('tripDuration').textContent =
+              `Flight duration: ${tripDetails.durationHours} hour(s)`;
+          }
+          if (tripDetails.destAltitudeFt) {
+            document.getElementById('tripAltitude').textContent =
+              `Destination altitude: ${tripDetails.destAltitudeFt.toLocaleString()} ft`;
+          }
+        }
+
+        // Unmatched
+        if (result.unmatchedCount > 0) {
+          document.getElementById('unmatchedSection').classList.remove('d-none');
+          document.getElementById('unmatchedLabel').textContent =
+            `${result.unmatchedCount} condition(s) with no flight rule`;
+          const unmatched = result.findings.filter(f => !f.matched);
+          document.getElementById('unmatchedCodes').innerHTML =
+            unmatched.map(f =>
+              `<span class="mr-3"><code>${escapeHtml(f.code)}</code> ${escapeHtml(f.display || '')}</span>`
+            ).join('<br>');
+        }
+      }
+
+      function setProgress(msg, pct) {
+        document.getElementById('loadingMsg').textContent = msg;
+        document.getElementById('progressBar').style.width = pct + '%';
+      }
+
+      function showError(html) {
+        document.getElementById('loadingSection').classList.add('d-none');
+        document.getElementById('errorSection').classList.remove('d-none');
+        document.getElementById('errorMsg').innerHTML = html;
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+          .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      main();
+    </script>
+  </body>
+</html>
