@@ -159,8 +159,10 @@
       const SCOPE        = '*';
       const REDIRECT_URI = 'https://pftechsln.github.io/fhirData.html';
 
-      function getClientId(fhirBaseUrl) {
-        return fhirBaseUrl.includes('fhir.epic.com/interconnect-fhir-oauth')
+      function getClientId(fhirBaseUrl, orgName) {
+        const isSandbox = fhirBaseUrl.includes('fhir.epic.com/interconnect-fhir-oauth')
+          || (orgName || '').toLowerCase().includes('sandbox');
+        return isSandbox
           ? '47d7ece3-d14c-46d4-978c-312e7e52b225'  // sandboxClient
           : '6c3586a3-a669-4944-aab1-ad5234348f56'; // productionClient
       }
@@ -210,7 +212,8 @@
         selectedOrg  = { FHIRPatientFacingURI: fhirBaseUrl };
         authorizeUrl = null;
 
-        const clientId = getClientId(fhirBaseUrl);
+        const orgName  = this.options[this.selectedIndex].text;
+        const clientId = getClientId(fhirBaseUrl, orgName);
 
         document.getElementById('btnCheckSafety').disabled = true;
         document.getElementById('btnCheckSafety').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting…';

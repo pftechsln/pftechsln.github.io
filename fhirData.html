@@ -162,7 +162,10 @@
           showError('Session context not found. Please return to SafeFlight and try again.');
           return;
         }
-        const { fhirBaseUrl, tokenUrl, clientId, redirectUri, tripDetails } = JSON.parse(contextRaw);
+        const ctx = JSON.parse(contextRaw);
+        const { fhirBaseUrl, tokenUrl, tripDetails } = ctx;
+        const clientId    = ctx.clientId    || '6c3586a3-a669-4944-aab1-ad5234348f56';
+        const redirectUri = ctx.redirectUri || 'https://pftechsln.github.io/fhirData.html';
 
         // ── Step 1/3: Token exchange ────────────────────────────────
         setProgress('Exchanging authorization token… (1/3)', 15);
