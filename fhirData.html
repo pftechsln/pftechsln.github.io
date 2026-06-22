@@ -127,10 +127,10 @@
       // so the token exchange always uses the exact values sent in the authorize request
 
       const RISK_CONFIG = {
-        GREEN:             { cls: 'bg-success', label: 'No restriction' },
-        YELLOW:            { cls: 'bg-warning text-dark', label: 'Caution' },
-        RED:               { cls: 'bg-danger',  label: 'Do not fly' },
-        CONSULT_PHYSICIAN: { cls: 'bg-dark',    label: 'Physician review required' }
+        GREEN:             { cls: 'bg-success text-white', badgeCls: 'badge-success', label: 'No restriction' },
+        YELLOW:            { cls: 'bg-warning text-dark',  badgeCls: 'badge-warning',  label: 'Caution' },
+        RED:               { cls: 'bg-danger text-white',  badgeCls: 'badge-danger',   label: 'Do not fly' },
+        CONSULT_PHYSICIAN: { cls: 'bg-dark text-white',    badgeCls: 'badge-dark',     label: 'Physician review required' }
       };
 
       async function main() {
@@ -232,28 +232,26 @@
         );
 
         if (sorted.length > 0) {
-          const tbody = document.getElementById('findingsTbody');
-          sorted.forEach(f => {
-            const rCfg       = RISK_CONFIG[f.risk] || RISK_CONFIG.CONSULT_PHYSICIAN;
+          const rows = sorted.map(f => {
+            const rCfg        = RISK_CONFIG[f.risk] || RISK_CONFIG.CONSULT_PHYSICIAN;
             const systemLabel = f.system === 'icd10' ? 'ICD-10' : 'SNOMED';
-            const reasonHtml  = f.matched
-              ? `<div class="mb-1">${escapeHtml(f.reason)}</div>
-                 <div class="text-muted small">${escapeHtml(f.recommendation)}</div>
-                 ${f.pendingClinicalReview
-                   ? '<div class="pending-review-note mt-1"><i class="fas fa-flask"></i> Recovery window pending validation</div>'
-                   : ''}`
+            const pendingHtml = f.pendingClinicalReview
+              ? '<div class="pending-review-note mt-1"><i class="fas fa-flask"></i> Recovery window pending validation</div>'
+              : '';
+            const reasonHtml = f.matched
+              ? '<div class="mb-1">' + escapeHtml(f.reason) + '</div>'
+                + '<div class="text-muted small">' + escapeHtml(f.recommendation) + '</div>'
+                + pendingHtml
               : '<span class="text-muted small">No contraindication identified</span>';
-
-            tbody.insertAdjacentHTML('beforeend', `
-              <tr>
-                <td><code>${escapeHtml(f.code)}</code></td>
-                <td><span class="badge badge-secondary">${systemLabel}</span></td>
-                <td>${escapeHtml(f.display || f.ruleLabel || f.code)}</td>
-                <td><span class="badge ${rCfg.cls}">${rCfg.label}</span></td>
-                <td>${reasonHtml}</td>
-              </tr>
-            `);
+            return '<tr>'
+              + '<td><code>' + escapeHtml(f.code) + '</code></td>'
+              + '<td><span class="badge badge-secondary">' + systemLabel + '</span></td>'
+              + '<td>' + escapeHtml(f.display || f.ruleLabel || f.code) + '</td>'
+              + '<td><span class="badge ' + rCfg.badgeCls + '">' + rCfg.label + '</span></td>'
+              + '<td>' + reasonHtml + '</td>'
+              + '</tr>';
           });
+          document.getElementById('findingsTbody').innerHTML = rows.join('');
         } else {
           document.getElementById('noFindings').classList.remove('d-none');
           document.getElementById('findingsTable').classList.add('d-none');
