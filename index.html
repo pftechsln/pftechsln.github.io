@@ -229,7 +229,7 @@
           const { authUrl, tokenUrl } = await discoverOAuthEndpoints(fhirBaseUrl);
 
           const state = generateNonce();
-          sessionStorage.setItem('sf_state', state);
+          localStorage.setItem('sf_state', state);
           selectedOrg.tokenUrl = tokenUrl;
           selectedOrg.clientId = clientId;
 
@@ -268,7 +268,7 @@
         const duration = document.getElementById('flightDuration').value;
         const altitude = document.getElementById('destAltitude').value;
 
-        sessionStorage.setItem('sf_context', JSON.stringify({
+        localStorage.setItem('sf_context', JSON.stringify({
           fhirBaseUrl:  selectedOrg.FHIRPatientFacingURI,
           tokenUrl:     selectedOrg.tokenUrl,
           clientId:     selectedOrg.clientId,

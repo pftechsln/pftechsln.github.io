@@ -151,13 +151,13 @@
         }
 
         // ── State validation ────────────────────────────────────────
-        const storedState = sessionStorage.getItem('sf_state');
+        const storedState = localStorage.getItem('sf_state');
         if (!storedState || storedState !== state) {
           showError('Security check failed: state mismatch. This may indicate a CSRF attempt. Please start over.');
           return;
         }
 
-        const contextRaw = sessionStorage.getItem('sf_context');
+        const contextRaw = localStorage.getItem('sf_context');
         if (!contextRaw) {
           showError('Session context not found. Please return to SafeFlight and try again.');
           return;
@@ -202,8 +202,8 @@
         setProgress('Complete', 100);
 
         // Clean up session state
-        sessionStorage.removeItem('sf_state');
-        sessionStorage.removeItem('sf_context');
+        localStorage.removeItem('sf_state');
+        localStorage.removeItem('sf_context');
 
         renderResults(result, tripDetails);
       }
