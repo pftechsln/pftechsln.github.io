@@ -1,11 +1,17 @@
 // config/fhir_server.js
 export async function fetchEpicEndpoints() {
-  const resp = await fetch('https://open.epic.com/MyApps/EndpointsJson');
-  const data = await resp.json();
-  return data.Entries; // [{ OrganizationName, FHIRPatientFacingURI }]
+  try {
+    const resp = await fetch('https://open.epic.com/MyApps/EndpointsJson');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    return data.Entries; // [{ OrganizationName, FHIRPatientFacingURI }]
+  } catch {
+    // CORS or network failure — fall back to bundled static list
+    return fhir_server_list.Entries;
+  }
 }
 
-// Legacy static list retained for health-on-fhir.html compatibility
+// Legacy static list retained for health-on-fhir.html compatibility and fallback
 export const fhir_server_list = {
   Shortcuts: [
     // {

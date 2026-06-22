@@ -125,8 +125,13 @@
       import { exchangeCodeForToken, fetchPatientData } from '/js/safeflight/fhirAdapter.js';
       import { runRiskEngine } from '/js/safeflight/riskEngine.js';
 
-      const CLIENT_ID    = '6c3586a3-a669-4944-aab1-ad5234348f56';
-      const REDIRECT_URI = 'https://pftechsln.github.io/fhirData.html';
+      const IS_LOCAL     = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
+      const CLIENT_ID    = IS_LOCAL
+        ? '47d7ece3-d14c-46d4-978c-312e7e52b225'   // sandboxClient
+        : '6c3586a3-a669-4944-aab1-ad5234348f56';  // productionClient
+      const REDIRECT_URI = IS_LOCAL
+        ? 'https://127.0.0.1:5500/fhirData.html'
+        : 'https://pftechsln.github.io/fhirData.html';
 
       const RISK_CONFIG = {
         GREEN:             { cls: 'bg-success', label: 'No restriction' },
