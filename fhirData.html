@@ -70,11 +70,24 @@
           </div>
         </div>
 
-        <!-- Matched findings accordion -->
+        <!-- All findings table -->
         <div id="findingsSection" class="mb-4">
-          <h5 class="mb-3">Relevant Findings</h5>
-          <div id="findingsAccordion"></div>
-          <p id="noFindings" class="text-muted d-none">No contraindication rules matched your medical records.</p>
+          <h5 class="mb-3">Medical Records Review</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm" id="findingsTable">
+              <thead class="thead-light">
+                <tr>
+                  <th style="width:9rem;">Code</th>
+                  <th style="width:5rem;">Type</th>
+                  <th>Description</th>
+                  <th style="width:10rem;">Risk</th>
+                  <th>Reason / Recommendation</th>
+                </tr>
+              </thead>
+              <tbody id="findingsTbody"></tbody>
+            </table>
+          </div>
+          <p id="noFindings" class="text-muted d-none">No medical records found.</p>
         </div>
 
         <!-- Trip details -->
@@ -83,21 +96,6 @@
             <h6 class="card-title text-muted text-uppercase" style="font-size:0.75rem; letter-spacing:0.05em;">Trip Details</h6>
             <p id="tripDuration" class="mb-1"></p>
             <p id="tripAltitude" class="mb-0"></p>
-          </div>
-        </div>
-
-        <!-- Unmatched conditions (collapsible) -->
-        <div id="unmatchedSection" class="d-none mb-4">
-          <button
-            class="btn btn-outline-secondary btn-sm"
-            data-toggle="collapse"
-            data-target="#unmatchedList"
-          >
-            <span id="unmatchedLabel"></span>
-            <i class="fas fa-chevron-down ml-1"></i>
-          </button>
-          <div id="unmatchedList" class="collapse mt-2">
-            <div id="unmatchedCodes" class="card card-body bg-light" style="font-size: 0.85rem;"></div>
           </div>
         </div>
 
@@ -125,13 +123,8 @@
       import { exchangeCodeForToken, fetchPatientData } from '/js/safeflight/fhirAdapter.js';
       import { runRiskEngine } from '/js/safeflight/riskEngine.js';
 
-      const IS_LOCAL     = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
-      const CLIENT_ID    = IS_LOCAL
-        ? '47d7ece3-d14c-46d4-978c-312e7e52b225'   // sandboxClient
-        : '6c3586a3-a669-4944-aab1-ad5234348f56';  // productionClient
-      const REDIRECT_URI = IS_LOCAL
-        ? 'https://127.0.0.1:5500/fhirData.html'
-        : 'https://pftechsln.github.io/fhirData.html';
+      // clientId and redirectUri are read from sf_context (set by index.html)
+      // so the token exchange always uses the exact values sent in the authorize request
 
       const RISK_CONFIG = {
         GREEN:             { cls: 'bg-success', label: 'No restriction' },
@@ -169,13 +162,13 @@
           showError('Session context not found. Please return to SafeFlight and try again.');
           return;
         }
-        const { fhirBaseUrl, tokenUrl, tripDetails } = JSON.parse(contextRaw);
+        const { fhirBaseUrl, tokenUrl, clientId, redirectUri, tripDetails } = JSON.parse(contextRaw);
 
         // ── Step 1/3: Token exchange ────────────────────────────────
         setProgress('Exchanging authorization token… (1/3)', 15);
         let tokenResp;
         try {
-          tokenResp = await exchangeCodeForToken(tokenUrl, code, CLIENT_ID, REDIRECT_URI);
+          tokenResp = await exchangeCodeForToken(tokenUrl, code, clientId, redirectUri);
         } catch (err) {
           showError('Token exchange failed: ' + err.message + '. <a href="index.html">Try again</a>');
           return;
@@ -209,10 +202,12 @@
         sessionStorage.removeItem('sf_state');
         sessionStorage.removeItem('sf_context');
 
-        renderResults(result, tripDetails, patientData);
+        renderResults(result, tripDetails);
       }
 
-      function renderResults(result, tripDetails, patientData) {
+      const RISK_ORDER = { CONSULT_PHYSICIAN: 3, RED: 2, YELLOW: 1, GREEN: 0 };
+
+      function renderResults(result, tripDetails) {
         document.getElementById('loadingSection').classList.add('d-none');
         document.getElementById('resultsSection').classList.remove('d-none');
 
@@ -228,37 +223,37 @@
           document.getElementById('pendingReviewBanner').classList.remove('d-none');
         }
 
-        // Matched findings
-        if (result.matchedFindings.length > 0) {
-          const accordion = document.getElementById('findingsAccordion');
-          result.matchedFindings.forEach((f, i) => {
-            const rCfg = RISK_CONFIG[f.risk] || RISK_CONFIG.CONSULT_PHYSICIAN;
-            const collapseId = `finding-${i}`;
-            accordion.insertAdjacentHTML('beforeend', `
-              <div class="card finding-card">
-                <div class="card-header d-flex justify-content-between align-items-center p-2"
-                     data-toggle="collapse" data-target="#${collapseId}"
-                     style="cursor:pointer;">
-                  <span>
-                    <code class="mr-2">${escapeHtml(f.code)}</code>
-                    ${escapeHtml(f.display || f.ruleLabel || f.code)}
-                  </span>
-                  <span class="badge ${rCfg.cls} ml-2">${rCfg.label}</span>
-                </div>
-                <div id="${collapseId}" class="collapse">
-                  <div class="card-body pt-2 pb-3">
-                    <p class="mb-1"><strong>Reason:</strong> ${escapeHtml(f.reason)}</p>
-                    <p class="mb-1"><strong>Recommendation:</strong> ${escapeHtml(f.recommendation)}</p>
-                    ${f.pendingClinicalReview
-                      ? '<p class="pending-review-note mb-0"><i class="fas fa-flask"></i> Recovery window pending clinical validation.</p>'
-                      : ''}
-                  </div>
-                </div>
-              </div>
+        // All findings table — sorted highest risk first
+        const sorted = [...result.findings].sort(
+          (a, b) => (RISK_ORDER[b.risk] || 0) - (RISK_ORDER[a.risk] || 0)
+        );
+
+        if (sorted.length > 0) {
+          const tbody = document.getElementById('findingsTbody');
+          sorted.forEach(f => {
+            const rCfg       = RISK_CONFIG[f.risk] || RISK_CONFIG.CONSULT_PHYSICIAN;
+            const systemLabel = f.system === 'icd10' ? 'ICD-10' : 'SNOMED';
+            const reasonHtml  = f.matched
+              ? `<div class="mb-1">${escapeHtml(f.reason)}</div>
+                 <div class="text-muted small">${escapeHtml(f.recommendation)}</div>
+                 ${f.pendingClinicalReview
+                   ? '<div class="pending-review-note mt-1"><i class="fas fa-flask"></i> Recovery window pending validation</div>'
+                   : ''}`
+              : '<span class="text-muted small">No contraindication identified</span>';
+
+            tbody.insertAdjacentHTML('beforeend', `
+              <tr>
+                <td><code>${escapeHtml(f.code)}</code></td>
+                <td><span class="badge badge-secondary">${systemLabel}</span></td>
+                <td>${escapeHtml(f.display || f.ruleLabel || f.code)}</td>
+                <td><span class="badge ${rCfg.cls}">${rCfg.label}</span></td>
+                <td>${reasonHtml}</td>
+              </tr>
             `);
           });
         } else {
           document.getElementById('noFindings').classList.remove('d-none');
+          document.getElementById('findingsTable').classList.add('d-none');
         }
 
         // Trip details
@@ -272,18 +267,6 @@
             document.getElementById('tripAltitude').textContent =
               `Destination altitude: ${tripDetails.destAltitudeFt.toLocaleString()} ft`;
           }
-        }
-
-        // Unmatched
-        if (result.unmatchedCount > 0) {
-          document.getElementById('unmatchedSection').classList.remove('d-none');
-          document.getElementById('unmatchedLabel').textContent =
-            `${result.unmatchedCount} condition(s) with no flight rule`;
-          const unmatched = result.findings.filter(f => !f.matched);
-          document.getElementById('unmatchedCodes').innerHTML =
-            unmatched.map(f =>
-              `<span class="mr-3"><code>${escapeHtml(f.code)}</code> ${escapeHtml(f.display || '')}</span>`
-            ).join('<br>');
         }
       }
 

@@ -156,12 +156,14 @@
       import { discoverOAuthEndpoints } from '/js/safeflight/fhirAdapter.js';
       import { fetchEpicEndpoints } from '/config/fhir_server.js';
 
-      const IS_LOCAL     = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
-      const CLIENT_ID    = IS_LOCAL
-        ? '47d7ece3-d14c-46d4-978c-312e7e52b225'   // sandboxClient
-        : '6c3586a3-a669-4944-aab1-ad5234348f56';  // productionClient
       const SCOPE        = '*';
       const REDIRECT_URI = 'https://pftechsln.github.io/fhirData.html';
+
+      function getClientId(fhirBaseUrl) {
+        return fhirBaseUrl.includes('fhir.epic.com/interconnect-fhir-oauth')
+          ? '47d7ece3-d14c-46d4-978c-312e7e52b225'  // sandboxClient
+          : '6c3586a3-a669-4944-aab1-ad5234348f56'; // productionClient
+      }
 
       let allOrgs = [];
       let selectedOrg  = null;
@@ -208,9 +210,11 @@
         selectedOrg  = { FHIRPatientFacingURI: fhirBaseUrl };
         authorizeUrl = null;
 
+        const clientId = getClientId(fhirBaseUrl);
+
         document.getElementById('btnCheckSafety').disabled = true;
         document.getElementById('btnCheckSafety').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting…';
-        document.getElementById('dbgClientId').textContent    = CLIENT_ID;
+        document.getElementById('dbgClientId').textContent    = clientId;
         document.getElementById('dbgRedirectUri').textContent = REDIRECT_URI;
         document.getElementById('dbgScope').textContent       = SCOPE;
         document.getElementById('dbgFhirBase').textContent    = fhirBaseUrl;
@@ -224,10 +228,11 @@
           const state = generateNonce();
           sessionStorage.setItem('sf_state', state);
           selectedOrg.tokenUrl = tokenUrl;
+          selectedOrg.clientId = clientId;
 
           const params = new URLSearchParams({
             response_type: 'code',
-            client_id:     CLIENT_ID,
+            client_id:     clientId,
             redirect_uri:  REDIRECT_URI,
             scope:         SCOPE,
             state,
@@ -261,8 +266,10 @@
         const altitude = document.getElementById('destAltitude').value;
 
         sessionStorage.setItem('sf_context', JSON.stringify({
-          fhirBaseUrl: selectedOrg.FHIRPatientFacingURI,
-          tokenUrl:    selectedOrg.tokenUrl,
+          fhirBaseUrl:  selectedOrg.FHIRPatientFacingURI,
+          tokenUrl:     selectedOrg.tokenUrl,
+          clientId:     selectedOrg.clientId,
+          redirectUri:  REDIRECT_URI,
           tripDetails: {
             durationHours:  duration ? parseFloat(duration)   : null,
             destAltitudeFt: altitude ? parseInt(altitude, 10) : null
